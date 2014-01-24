@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  23 JAN 2014 18:56
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  24 JAN 2014 08:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -295,12 +295,7 @@ LaTeX Warning: Citation `ripple' on page 1 undefined on input line 4.
 ap/pdftex.map}
 
 
-]
-
-LaTeX Warning: Reference `fig:transaction-create' on page 2 undefined on input 
-line 16.
-
-<./images/transaction_io.pdf, id=10, 416.55624pt x 385.44pt>
+] <./images/transaction_io.pdf, id=10, 416.55624pt x 385.44pt>
 File: ./images/transaction_io.pdf Graphic file (type pdf)
 
 <use ./images/transaction_io.pdf>
@@ -319,12 +314,27 @@ Overfull \hbox (5.11006pt too wide) in paragraph at lines 28--29
 [][] 
  []
 
+<./images/transaction_pow.pdf, id=12, 526.96875pt x 331.2375pt>
+File: ./images/transaction_pow.pdf Graphic file (type pdf)
 
-LaTeX Warning: Reference `fig:block' on page 2 undefined on input line 33.
+<use ./images/transaction_pow.pdf>
+Package pdftex.def Info: ./images/transaction_pow.pdf used on input line 38.
+(pdftex.def)             Requested size: 263.48372pt x 165.61833pt.
 
-) (./03-security.tex) (./04-attacks.tex [2 <./images/transaction_io.pdf> <./ima
-ges/transaction_create.pdf>]) (./05-problems.tex) (./06-related.tex)
-(./07-conclusion.tex)
+Overfull \hbox (10.43385pt too wide) in paragraph at lines 38--39
+[][] 
+ []
+
+<./images/transaction_block_pow.pdf, id=13, 499.8675pt x 167.62625pt>
+File: ./images/transaction_block_pow.pdf Graphic file (type pdf)
+
+<use ./images/transaction_block_pow.pdf>
+Package pdftex.def Info: ./images/transaction_block_pow.pdf used on input line 
+48.
+(pdftex.def)             Requested size: 249.93314pt x 83.81291pt.
+) (./03-security.tex [2 <./images/transaction_io.pdf> <./images/transaction_cre
+ate.pdf>]) (./04-attacks.tex)
+(./05-problems.tex) (./06-related.tex) (./07-conclusion.tex)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -336,18 +346,17 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3
-
-] (./WoodVu_BitcoinPrivacy_Survey.aux)
+[3 <./images/transaction_pow.pdf> <./images/transaction_block_pow.pdf>]
+(./WoodVu_BitcoinPrivacy_Survey.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2822 strings out of 493488
- 42611 string characters out of 3141326
- 107881 words of memory out of 3000000
- 6086 multiletter control sequences out of 15000+200000
+ 2833 strings out of 493488
+ 42950 string characters out of 3141326
+ 107905 words of memory out of 3000000
+ 6095 multiletter control sequences out of 15000+200000
  40560 words of font info for 80 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,8n,23p,1537b,270s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -366,10 +375,10 @@ ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/
 type1/urw/times/utmbi8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on WoodVu_BitcoinPrivacy_Survey.pdf (3 pages, 222096 bytes).
+Output written on WoodVu_BitcoinPrivacy_Survey.pdf (3 pages, 301449 bytes).
 PDF statistics:
- 176 PDF objects out of 1000 (max. 8388607)
- 113 compressed objects within 2 object streams
+ 357 PDF objects out of 1000 (max. 8388607)
+ 213 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

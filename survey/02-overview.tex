@@ -27,12 +27,29 @@ where $\sigma = \mathsf{Sign}_{\mathsf{sk_A}}({\mathsf{source}, \mathsf{pk}_B, N
 \begin{figure}
 \includegraphics[scale=0.4]{./images/transaction_create.pdf}
 \caption{Visual depction of the steps to create a transaction $T_3$ from user $A$ to user $B$ using two input transactions, $T_1$ and $T_2$.}
+\label{fig:transaction-create}
 \end{figure}
 \end{center}
 
-After a transaction has been created, it is broadcasted in the network. In order to prevent double spending, nodes must confirm this transaction and append it to the chain of accepted transactions in the system's history. This procedure is based on the aforementioned proof-of-work, which works as follows. Bitcoin miners will collect unconfirmed transactions into a buffer, along with the longest chain of system-wide accepted transactions, and compute a Merkle hash of the transactions and digest of the chain. The output digest of this Merkle hash, referred to as the challenge $c$ in the proof-of-work protocol, is then used to find the proof $p$. Together, $c$ and $p$ have the property that, when concatenated and hashed using a cryptographically strong collision-resistant hash function $H$, the leading $B$ bits of the output $x = H(c || p)$ are all $0$. That is, $x = \{0,1\}^B\{0,1\}^{256-B}$. Given the collision resistant properties of $H$, finding a valid proof $p$ for the challenge $c$ is comptuationally difficult. Figure \ref{fig:block} illustrates the construction of $c$ and $p$ using a previously confirmed block chain $B$.
+After a transaction has been created, it is broadcasted in the network. In order to prevent double spending, nodes must confirm this transaction and append it to the chain of accepted transactions in the system's history. This procedure is based on the aforementioned proof-of-work, which works as follows. Bitcoin miners will collect unconfirmed transactions into a buffer, along with the longest chain of system-wide accepted transactions, and compute a Merkle hash of the transactions and digest of the chain. The output digest of this Merkle hash, referred to as the challenge $c$ in the proof-of-work protocol, is then used to find the proof $p$. Together, $c$ and $p$ have the property that, when concatenated and hashed using a cryptographically strong collision-resistant hash function $H$, the leading $B$ bits of the output $x = H(c || p)$ are all $0$. That is, $x = \{0,1\}^B\{0,1\}^{256-B}$. Given the collision resistant properties of $H$, finding a valid proof $p$ for the challenge $c$ is comptuationally difficult. Figure \ref{fig:pow} illustrates the construction of $c$ and $p$ using a previously confirmed block chain $B$.
 
-Once a miner finds a proof, it is broadcasted to the other nodes in the network along with the input transactions used by the miner, who can then easily recompute the challenge $c$ and verify the correctness of $p$. Once verified, this new transaction ``block'' is appended to the block chain which the miner used in finding the proof. Miners will continually use the longest block chain to gather and verify transaction blocks. Since there is a particular subset of BTCs in each transaction that are paid to the miner who provides the proof-of-work for a block containing that transaction, referred to as the transaction fee, miners are financially incentivized to collect more transactions into a block and continually ``mine'' for valid proofs-of-work. 
+\begin{center}
+\begin{figure}
+\includegraphics[scale=0.5]{./images/transaction_pow.pdf}
+\caption{Proof-of-work computational procedure using the transactions of a block, the digest of the previous block, and the sampled proof $p$.}
+\label{fig:pow}
+\end{figure}
+\end{center}
+
+Once a miner finds a proof, it is broadcasted to the other nodes in the network along with the input transactions used by the miner, who can then easily recompute the challenge $c$ and verify the correctness of $p$. Once verified, this new transaction ``block'' is appended to the block chain which the miner used in finding the proof. Figure \ref{fig:block} illustrates a snippet of the block chain, where the challenge $c$ is the digest of the previous block and the proof $p$ are embedded in each block. Miners will continually use the longest block chain to gather and verify transaction blocks. Since there is a particular subset of BTCs in each transaction that are paid to the miner who provides the proof-of-work for a block containing that transaction, referred to as the transaction fee, miners are financially incentivized to collect more transactions into a block and continually ``mine'' for valid proofs-of-work. 
+
+\begin{center}
+\begin{figure}
+\includegraphics[scale=0.5]{./images/transaction_block_pow.pdf}
+\caption{A snippet of a Bitcoin transaction block chain, illustrating the groupings of transactions into a blocks, the declaration of the proof of the work $p$, and the digest of the previous block linking the blocks together.}
+\label{fig:block}
+\end{figure}
+\end{center}
 
 \subsection{Privacy Limitations}
 TODO
