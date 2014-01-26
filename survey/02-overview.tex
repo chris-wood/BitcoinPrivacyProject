@@ -1,11 +1,14 @@
-\section{Bitcoin Overview and Privacy Limitations}
+\section{Preliminaries}
 % TODO: specific discussion of aspects of bitcoin that pertain to privacy/anonymity
 
-TODO: intro
+In this section we introduce some common notation used in the literature involving security, privacy, and anonymity, and then present an overview of the Bitcoin system and underlying protocol for making payments (transactions). 
+
+\subsection{Security Definitions and Adversarial Models}
+
 
 \subsection{Bitcoin Basics}
 
-Bitcoin is a distributed, decentralized form of cryptocurrency. Accordingly, this enables all (digitally signed) transactions between two parties to be conducted in a peer-to-peer fashion without the inclusion of a trusted third party, such as a bank or other financial institution. This form of decentralized exchange comes at a price, however, as there must be some way to prevent users from \emph{double spending}, or using the same funds to simultaneously pay multiple parties. Bitcoin achieves this property by relying on its users to construct a history for every transaction that takes place in the system. If a majority of the users accept the validity of a particular transaction, or a set of transactions, the global history of the system is affirmatively updated and ``confirmed'' via a cryptographic hash digest that all users agree upon. This hash digest, referred to as a hash-based proof-of-work, is what constitutes the validity of the system. By the properties of the underlying hash function, the history of the system cannot be changed without breaking the function (i.e., finding collisions) or re-doing the proof-of-work, which is computationally infeasible for small groups of nodes. Therefore, so long as a majority of the Bitcoin users are honest, the system history is deemed correct and thus all signed transactions are verified, preventing double spending by potentially malicious users participating in direct, peer-to-peer transactions. 
+In what follows we distill a description of the Bitcoin system and underlying protocol from \cite{bitcoin}; interested readers may acquire more specific details therein if required. To begin, Bitcoin is a distributed, decentralized form of cryptocurrency. Accordingly, this enables all (digitally signed) transactions between two parties to be conducted in a peer-to-peer fashion without the inclusion of a trusted third party, such as a bank or other financial institution. This form of decentralized exchange comes at a price, however, as there must be some way to prevent users from \emph{double spending}, or using the same funds to simultaneously pay multiple parties. Bitcoin achieves this property by relying on its users to construct a history for every transaction that takes place in the system. If a majority of the users accept the validity of a particular transaction, or a set of transactions, the global history of the system is affirmatively updated and ``confirmed'' via a cryptographic hash digest that all users agree upon. This hash digest, referred to as a hash-based proof-of-work, is what constitutes the validity of the system. By the properties of the underlying hash function, the history of the system cannot be changed without breaking the function (i.e., finding collisions) or re-doing the proof-of-work, which is computationally infeasible for small groups of nodes. Therefore, so long as a majority of the Bitcoin users are honest, the system history is deemed correct and thus all signed transactions are verified, preventing double spending by potentially malicious users participating in direct, peer-to-peer transactions. 
 
 Unfortunately, while the above scheme is semantically correct and provides strong guarantees that all financial transactions are valid, there are inherent limitations in the amount of user privacy and anonymity that can be achieved in Bitcoin. In order to adequately define these limitations, we first describe how Bitcoin transactions are generated and how the system history is maintained. For simplicity, consider the scenario in which user $A$ wants to send $N$ BTCs (Bitcoins) to user $B$. Rather than identify users by name, Bitcoin uses \emph{addresses} that are tied to specific users to use in such transactions. Denote $\mathsf{addr}_A$ and $\mathsf{addr}_B$ as the addresses of users $A$ and user $B$ used in this transaction. It is often convenient to think of Bitcoin addresses as public keys $\mathsf{pk}_A$ and $\mathsf{sf}_B$, and as such there are corresponding private keys, which we denote as $\mathsf{sk}_A$, and $\mathsf{sk}_B$, respectively.
 
@@ -51,7 +54,8 @@ Once a miner finds a proof, it is broadcasted to the other nodes in the network 
 \end{figure}
 \end{center}
 
-\subsection{Privacy Limitations}
-% What Privacy is achievable
+\subsection{Bitcoin Privacy Measures}
+As the topic of the survey indicates, Bitcoin has serious privacy flaws. However, there are several standard practices that users are suggested to follow in order to improve their overall privacy and decrease the likelihood of becoming the target of privacy- or anonymity-based attacks. 
 
-Bitcoin provides privacy through the separation between users and the addresses they control. In this way, any address can belong to any user and any transactions could have been created by any user. As discussed below, the ability to link users to addresses is highly dependent on the behavior of users.
+TODO
+

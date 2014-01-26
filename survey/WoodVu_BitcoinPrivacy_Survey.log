@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  24 JAN 2014 08:59
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  26 JAN 2014 14:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -299,18 +299,18 @@ ap/pdftex.map}
 File: ./images/transaction_io.pdf Graphic file (type pdf)
 
 <use ./images/transaction_io.pdf>
-Package pdftex.def Info: ./images/transaction_io.pdf used on input line 20.
+Package pdftex.def Info: ./images/transaction_io.pdf used on input line 23.
 (pdftex.def)             Requested size: 208.2776pt x 192.71953pt.
 
 <./images/transaction_create.pdf, id=11, 645.41125pt x 398.48875pt>
 File: ./images/transaction_create.pdf Graphic file (type pdf)
 
 <use ./images/transaction_create.pdf>
-Package pdftex.def Info: ./images/transaction_create.pdf used on input line 28.
+Package pdftex.def Info: ./images/transaction_create.pdf used on input line 31.
 
 (pdftex.def)             Requested size: 258.15993pt x 159.39267pt.
 
-Overfull \hbox (5.11006pt too wide) in paragraph at lines 28--29
+Overfull \hbox (5.11006pt too wide) in paragraph at lines 31--32
 [][] 
  []
 
@@ -318,22 +318,23 @@ Overfull \hbox (5.11006pt too wide) in paragraph at lines 28--29
 File: ./images/transaction_pow.pdf Graphic file (type pdf)
 
 <use ./images/transaction_pow.pdf>
-Package pdftex.def Info: ./images/transaction_pow.pdf used on input line 38.
+Package pdftex.def Info: ./images/transaction_pow.pdf used on input line 41.
 (pdftex.def)             Requested size: 263.48372pt x 165.61833pt.
 
-Overfull \hbox (10.43385pt too wide) in paragraph at lines 38--39
+Overfull \hbox (10.43385pt too wide) in paragraph at lines 41--42
 [][] 
  []
 
-<./images/transaction_block_pow.pdf, id=13, 499.8675pt x 167.62625pt>
+[2 <./images/transaction_io.pdf> <./images/transaction_create.pdf>]
+<./images/transaction_block_pow.pdf, id=128, 499.8675pt x 167.62625pt>
 File: ./images/transaction_block_pow.pdf Graphic file (type pdf)
 
 <use ./images/transaction_block_pow.pdf>
 Package pdftex.def Info: ./images/transaction_block_pow.pdf used on input line 
-48.
+51.
 (pdftex.def)             Requested size: 249.93314pt x 83.81291pt.
-) (./03-security.tex [2 <./images/transaction_io.pdf> <./images/transaction_cre
-ate.pdf>]) (./04-attacks.tex)
+) (./03-security.tex) (./04-attacks.tex [3 <./images/transaction_pow.pdf> <./im
+ages/transaction_block_pow.pdf>])
 (./05-problems.tex) (./06-related.tex) (./07-conclusion.tex)
 
 ** Conference Paper **
@@ -346,8 +347,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3 <./images/transaction_pow.pdf> <./images/transaction_block_pow.pdf>]
-(./WoodVu_BitcoinPrivacy_Survey.aux)
+[4
+
+] (./WoodVu_BitcoinPrivacy_Survey.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -355,11 +357,11 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  2833 strings out of 493488
  42950 string characters out of 3141326
- 107905 words of memory out of 3000000
+ 106905 words of memory out of 3000000
  6095 multiletter control sequences out of 15000+200000
  40560 words of font info for 80 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,8n,23p,1537b,270s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,8n,23p,1728b,270s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texl
@@ -375,10 +377,10 @@ ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/
 type1/urw/times/utmbi8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on WoodVu_BitcoinPrivacy_Survey.pdf (3 pages, 301449 bytes).
+Output written on WoodVu_BitcoinPrivacy_Survey.pdf (4 pages, 308880 bytes).
 PDF statistics:
- 357 PDF objects out of 1000 (max. 8388607)
- 213 compressed objects within 3 object streams
+ 360 PDF objects out of 1000 (max. 8388607)
+ 215 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
