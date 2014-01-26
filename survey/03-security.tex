@@ -14,21 +14,22 @@ In both cases, attacks attempt to group addresses together. In the case of priva
 
 In contrast to privacy is \emph{anonymity}, which refers to the fact that adversary $A$ should not be able to link any set of transactions to any user. Given a record of all transactions, such as the Bitcoin block chain, $A$ should not be able to identify any user. This is a much stronger security notion as it protects all users from being identified from any set of transactions. Since transactions are linked to addresses, $A$ should not be able to identify any user from a given set of addresses.  Corollary to that, given two addresses, $A$ should not be able to determine if they have a common owner.  This property is defined as \emph{address indistinguishability}.
 
-%Vu - I may switch attack on privacy with anonymity and have anonymity first
+%Vu - I may switch attack on privacy with anonymity and have anonymity first.  Need to reconcile user-network graphs and transaction-network graphs with attacks on privacy and anonymity.
 
 \subsection{Attacks on Privacy}
-%Current loss of privacy through voluntary identification, flow analysis, IP tracking. Needs more info
-As a currency system, Bitcoin cannot have perfect privacy. Some address ownership information must be public knowledge. For instances, a store needs to have a publicly identifiable address in order to accept payment for goods or services.
-
-As previously mentioned, Bitcoin uses a peer-to-peer network to transmit transactions. Transactions and addresses can be linked to the IP address that first transmits the transaction. A TCP/IP layer attack would include malicious nodes looking for clients listening to port TCP/8333 [6]. While proxy services like Tor can hide outbound connections, an inbound connection will be able to log a users IP address.
+%Current loss of privacy through voluntary identification/off network information, flow analysis, IP tracking. Needs more info
+As a currency system, Bitcoin cannot have perfect privacy. Although the information originates outside the Bitcoin network, some address ownership information are public knowledge. For instances, a store needs to have a publicly identifiable address in order to accept payment for goods or services.  Users may also disclose address ownership when asking for donations or posting on Bitcoin forums [6]. Large centralized Bitcoin services such as the Mt. Gox exchange service are also able to associate users with addresses as part of their service.
+%current location: group addresses by user.  Use analysis on user preferences and out of band information to identify user.
+User network graphs, which attempt to 
+As previously mentioned, Bitcoin uses a peer-to-peer network to transmit transactions. Transactions and addresses can be linked to the IP address that first transmits the transaction. A TCP/IP layer attack would include malicious nodes looking for clients listening to port TCP/8333 [7]. While proxy services like Tor can hide outbound connections, an inbound connection will be able to log a users IP address.
 
 \subsection{Attacks on Anonymity}
 %attacks on address indistinguishabiilty include multi-address transactions and shadow/change accounts
-Researchers attempt to break the anonymity of Bitcoins in an attempt to study stolen Bitcoins [7][8] 
+Researchers attempt to break the anonymity of Bitcoins in an attempt to study stolen Bitcoins [6][8] 
 The two major heuristics for breaking address indistinguishabiilty are multi-address transactions and shadow or change accounts.
 Multi-address transactions are transactions with more than one source. Currently, Bitcoin allows for users to use more than one source address in a transaction, but does not allow multiple users to pay for one transaction. For example, suppose $\mathsf{addr}_A$ has 3 Bitcoins (BTC) and $\mathsf{addr}_B$ has 2 BTC. The user uses both addresses to pay 4 BTC to $\mathsf{addr}_C$ and puts the remainder of 1 BTC to $\mathsf{addr}_D$. Only one user can be the input to any transaction, therefore in this example, $\mathsf{addr}_A$ and $\mathsf{addr}_B$ belong to the same user.
 
 Shadow or change accounts are accounts created for change from a transaction. In the transaction above, $\mathsf{addr}_D$ is the shadow account that belongs to the same user that controls $\mathsf{addr}_A$ and $\mathsf{addr}_B$. Although not directly related to the Bitcoin system, the way Bitcoin clients handle shadow accounts can break address indistinguishability [4]. However, because shadow accounts rely on user behavior instead of an inherent property of the Bitcoin system, the shadow account heuristic is not as robust [6]. New clients obfuscate shadow accounts by issuing transactions to multiple users as well as creating multiple shadow addresses that look similar to legitimate transactions.
-%[6] 6.	Dan Kaminsky. 2011. Black Ops of TCP/IP 2011. Black Hat USA 2011. http://www.slideshare.net/dakami/black-ops-of-tcpip-2011-black-hat-usa-2011
-%[7] is 3.	Sarah Meiklejohn, Marjori Pomarole, Grant Jordan, Kirill Levchenko, Damon McCoy, Geoffrey M. Voelker, and Stefan Savage. 2013. A fistful of bitcoins: characterizing payments among men with no names. In Proceedings of the 2013 conference on Internet measurement conference(IMC '13). ACM, New York, NY, USA, 127-140
+%[6] is 3.	Sarah Meiklejohn, Marjori Pomarole, Grant Jordan, Kirill Levchenko, Damon McCoy, Geoffrey M. Voelker, and Stefan Savage. 2013. A fistful of bitcoins: characterizing payments among men with no names. In Proceedings of the 2013 conference on Internet measurement conference(IMC '13). ACM, New York, NY, USA, 127-140
+%[7] 6.	Dan Kaminsky. 2011. Black Ops of TCP/IP 2011. Black Hat USA 2011. http://www.slideshare.net/dakami/black-ops-of-tcpip-2011-black-hat-usa-2011
 %[8] is 1.	Fergal Reid and Martin Harrigan. 2013. An Analysis of Anonymity in the Bitcoin System. Security and Privacy in Social Networks. Springer, New York, NY, USA, 197-223
