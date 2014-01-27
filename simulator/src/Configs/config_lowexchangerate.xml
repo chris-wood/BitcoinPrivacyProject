@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Config>
+	
+	<Parameter name="model" value="UniversityModel" />			<!-- FriendModel, UniversityModel, ... -->
+	<Parameter name="startTime" value="2012-06-20-02:54:25" />	<!-- when does the network start -->
+	<Parameter name="endTime" value="2012-12-20-02:54:25" />	<!-- i.e. run for half a year -->
+	<Parameter name="transactionInclusionProb" value="0.8" /> 	<!-- probability that a transaction is included in a newly generated block -->
+	<Parameter name="blocksNeeded" value="6" />					<!-- transactions must lie 6 blocks in the past -->
+	<Parameter name="minerReward" value="5000" />				<!-- reward for signing a new block (in CENTs) -->
+	<Parameter name="blockCreationInterarrivalTimeInMin" value="24" />  <!-- avg time until next block generation happens -->
+	<Parameter name="maxClients" value="200" />			<!-- maximum number of clients interacting with the network -->
+	<Parameter name="maxTransactions" value="0" />			<!-- maximum number of transactions that are allowed to happen, unlimited if set to zero or commented out -->
+	<Parameter name="maxBlocks" value="0" />			<!-- maximum number of generated blocks, unlimited if set to zero or commented out -->
+	<Parameter name="exchangeRate" value="0.5" />			<!-- 1 BTC = ? CHF, the prices are multiplied by the exchange rate -->
+	<Parameter name="maxNumCoinsPerAddress" value="5" />	<!-- max number of initial coins assigned to an address -->
+
+	<UniversityModel>
+		<!-- Event section ============================================ -->
+		<Event id="0" name="lunch" startTime="11:30" endTime="14:00" >
+			<Store id="0" name="mensa1" maxPrice="10" minPrice="5" availableDaysOfWeek="1,2,3,4,5" />
+			<Store id="1" name="mensa2" maxPrice="13" minPrice="7" availableDaysOfWeek="1,2,3,4,5" />
+			<Store id="2" name="mensa3" maxPrice="15" minPrice="9" availableDaysOfWeek="1,2,3,4,5" />
+			<Store id="3" name="mensa4" maxPrice="25.0" minPrice="15.00" availableDaysOfWeek="1,2,3,4,5" />
+			<Store id="4" name="hotpasta" maxPrice="20" minPrice="9" availableDaysOfWeek="1,2,3,4,5,6" />
+			<Store id="5" name="Curry" maxPrice="17" minPrice="8" availableDaysOfWeek="1,2,3,4,5,6" />
+			<Store id="6" name="Kebap" maxPrice="20" minPrice="8" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="7" name="Sandwidth" maxPrice="10" minPrice="7.5" availableDaysOfWeek="1,2,3,4,5,6" />
+			<Store id="8" name="Pizza" maxPrice="25" minPrice="15" availableDaysOfWeek="1,2,3,4,5,6" />
+			<Store id="9" name="Station" maxPrice="25" minPrice="7" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="10" name="Burger" maxPrice="10" minPrice="5" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="11" name="Hospital" maxPrice="12" minPrice="6.5" availableDaysOfWeek="1,2,3,4,5,6,7" />
+		</Event>
+		<Event id="1" name="vendingmachines" startTime="00:00" endTime="23:59" >
+			<Store id="12" name="vendingmachine1" maxPrice="4.5" minPrice="1.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="13" name="vendingmachine2" maxPrice="4.5" minPrice="1.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="14" name="vendingmachine3" maxPrice="4.5" minPrice="1.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="15" name="vendingmachine4" maxPrice="4.5" minPrice="1.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+		</Event>
+		<Event id="2" name="groceries" startTime="09:00" endTime="22:00" >
+			<Store id="16" name="migros" maxPrice="60.0" minPrice="2.5" availableDaysOfWeek="1,2,3,4,5,6" />
+			<Store id="17" name="coop" maxPrice="80.0" minPrice="2.5" availableDaysOfWeek="1,2,3,4,5,6,7" />
+		</Event>
+		<Event id="3" name="books" startTime="16:00" endTime="20:00" >
+			<Store id="18" name="bookstore1" maxPrice="300.0" minPrice="20.0" availableDaysOfWeek="1,2,3,4,5" />
+			<Store id="19" name="bookstore2" maxPrice="300.0" minPrice="20.0" availableDaysOfWeek="1,2,3,4,5,6" />
+		</Event>
+		<Event id="4" name="onlineshopping" startTime="08:30" endTime="23:00" >
+			<Store id="20" name="amazon" maxPrice="500.0" minPrice="20.0" availableDaysOfWeek="1,2,3,4,5,6,7" /> <!-- online shopping is always possible -->
+			<Store id="21" name="ebay" maxPrice="250.0" minPrice="20.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="22" name="ricardo" maxPrice="200.0" minPrice="10.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="23" name="digitec" maxPrice="500.0" minPrice="30.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+			<Store id="24" name="groupon" maxPrice="100.0" minPrice="10.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+		</Event>
+		
+	
+		<!-- Global non availability times ============================ -->
+		<Nonavailability startTime="2009-01-20-00:00:00" endTime="2009-01-21-00:00:00" />
+		<Nonavailability startTime="2009-02-20-00:00:00" endTime="2009-02-21-00:00:00" />
+	
+	
+		<!-- Profile section ========================================== -->
+		<!-- percentages according to the assumption: 278 MSc students, 217 Ph.D.s, 27 Professors, 522 people in total  -->
+		<!-- professors -->
+		<Profile name="professor" id="0" isSeller="0" percentage="0.052" privacyAwareUsers="0.7" miners="0.3" minInitialAmount="10" maxInitialAmount="100" maxInitialAddressCount="6" minInitialAddressCount="1" >
+			<Nonavailability startTime="2009-01-20-00:00:00" endTime="2009-01-21-00:00:00" /> <!-- e.g. professors are absent for one day -->
+			<Nonavailability startTime="2009-02-20-00:00:00" endTime="2009-02-21-00:00:00" /> <!-- As many non-availability times as needed can be listed -->
+
+			<!-- lunch, eventid="0" refers to event with id="0" from above -->
+			<ProfileEvent eventid="0" minFreqPerWeek="5" maxFreqPerWeek="5" >		
+				<Store storeid="0" maxProb="1" minProb="0" maxPrice="10.0" minPrice="8.0" /> <!-- e.g. professors eat at mensa1 with prob 0.7-0.9 -->
+				<Store storeid="1" maxProb="1" minProb="0" maxPrice="13.0" minPrice="10.0" />
+				<Store storeid="2" maxProb="1" minProb="0" maxPrice="15.0" minPrice="13.0" />
+				<Store storeid="3" maxProb="4" minProb="2" maxPrice="25.0" minPrice="15" />
+				<Store storeid="4" maxProb="2" minProb="0" maxPrice="20.0" minPrice="15.0" />
+				<Store storeid="5" maxProb="2" minProb="0" maxPrice="17.0" minPrice="12.0" />
+				<Store storeid="6" maxProb="0.5" minProb="0" maxPrice="20.0" minPrice="8.0" />
+				<Store storeid="7" maxProb="0.5" minProb="0" maxPrice="10.0" minPrice="7.5" />
+				<Store storeid="8" maxProb="4" minProb="2" maxPrice="25.0" minPrice="15" />
+				<Store storeid="9" maxProb="0.5" minProb="0" maxPrice="25.0" minPrice="10" />
+				<Store storeid="10" maxProb="0.5" minProb="0" maxPrice="10.0" minPrice="5.0" />
+				<Store storeid="11" maxProb="3" minProb="1" maxPrice="12.0" minPrice="9.0" />
+			</ProfileEvent>
+	
+			<!-- vending machines -->
+			<ProfileEvent eventid="1" minFreqPerWeek="1" maxFreqPerWeek="5" >
+				<Store storeid="12" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="13" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="14" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="15" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+			</ProfileEvent>
+	
+			<!-- groceries -->
+			<ProfileEvent eventid="2" minFreqPerWeek="2" maxFreqPerWeek="6" >
+				<Store storeid="16" maxProb="4" minProb="1" maxPrice="60.0" minPrice="2.5" />
+				<Store storeid="17" maxProb="6" minProb="2" maxPrice="80" minPrice="2.5" />
+			</ProfileEvent>
+	
+			<!-- books -->
+			<ProfileEvent eventid="3" minFreqPerWeek="1" maxFreqPerWeek="2" >
+				<Store storeid="18" maxProb="5" minProb="5" maxPrice="300" minPrice="20.0" />
+				<Store storeid="19" maxProb="5" minProb="5" maxPrice="300.0" minPrice="20.0" />
+			</ProfileEvent>
+	
+			<!-- online shopping -->
+			<ProfileEvent eventid="4" minFreqPerWeek="0" maxFreqPerWeek="3" >		
+				<Store storeid="20" maxProb="4" minProb="2" maxPrice="500.0" minPrice="20" />
+				<Store storeid="21" maxProb="0.5" minProb="0" maxPrice="250.0" minPrice="20.0" />
+				<Store storeid="22" maxProb="0.5" minProb="0" maxPrice="200.0" minPrice="10.0" />
+				<Store storeid="23" maxProb="4" minProb="2" maxPrice="500.0" minPrice="30.0" />
+				<Store storeid="24" maxProb="1" minProb="0" maxPrice="100.0" minPrice="10.0" />
+			</ProfileEvent>
+		</Profile>
+	
+		<!-- phd students -->
+		<Profile name="phdstudent" id="1" isSeller="0" percentage="0.42" privacyAwareUsers="0.5" miners="0.5" minInitialAmount="10" maxInitialAmount="70"  maxInitialAddressCount="6" minInitialAddressCount="1" >
+	
+			<!-- lunch, eventid="0" refers to event with id="0" from above -->
+			<ProfileEvent eventid="0" minFreqPerWeek="5" maxFreqPerWeek="5" >		
+				<Store storeid="0" maxProb="3" minProb="0.5" maxPrice="10.0" minPrice="6.0" /> 			
+				<Store storeid="1" maxProb="3" minProb="0.5" maxPrice="13.0" minPrice="8.0" />
+				<Store storeid="2" maxProb="3" minProb="0.5" maxPrice="15.0" minPrice="10.0" />
+				<Store storeid="3" maxProb="0.5" minProb="0" maxPrice="25.0" minPrice="15" />
+				<Store storeid="4" maxProb="4" minProb="1" maxPrice="20.0" minPrice="9.0" />
+				<Store storeid="5" maxProb="4" minProb="1" maxPrice="15.0" minPrice="8.0" />
+				<Store storeid="6" maxProb="4" minProb="1" maxPrice="20.0" minPrice="8.0" />
+				<Store storeid="7" maxProb="4" minProb="1" maxPrice="10.0" minPrice="7.5" />
+				<Store storeid="8" maxProb="1" minProb="0" maxPrice="25.0" minPrice="15" />
+				<Store storeid="9" maxProb="1" minProb="0" maxPrice="25.0" minPrice="10" />
+				<Store storeid="10" maxProb="1.5" minProb="0.5" maxPrice="10.0" minPrice="5.0" />
+				<Store storeid="11" maxProb="1.5" minProb="0.5" maxPrice="12.0" minPrice="9.0" />
+			</ProfileEvent>
+	
+			<!-- vending machines -->
+			<ProfileEvent eventid="1" minFreqPerWeek="3" maxFreqPerWeek="7" >
+				<Store storeid="12" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="13" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="14" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="15" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+			</ProfileEvent>
+	
+			<!-- groceries -->
+			<ProfileEvent eventid="2" minFreqPerWeek="2" maxFreqPerWeek="6" >
+				<Store storeid="16" maxProb="5" minProb="1" maxPrice="40.0" minPrice="2.5" />
+				<Store storeid="17" maxProb="5" minProb="1" maxPrice="60" minPrice="2.5" />
+			</ProfileEvent>
+	
+			<!-- books -->
+			<ProfileEvent eventid="3" minFreqPerWeek="0" maxFreqPerWeek="1" >
+				<Store storeid="18" maxProb="5" minProb="5" maxPrice="300" minPrice="20.0" />
+				<Store storeid="19" maxProb="5" minProb="5" maxPrice="300.0" minPrice="20.0" />
+			</ProfileEvent>
+	
+			<!-- online shopping -->
+			<ProfileEvent eventid="4" minFreqPerWeek="0" maxFreqPerWeek="3" >		
+				<Store storeid="20" maxProb="4" minProb="2" maxPrice="300.0" minPrice="20" />
+				<Store storeid="21" maxProb="4" minProb="2" maxPrice="100.0" minPrice="20.0" />
+				<Store storeid="22" maxProb="4" minProb="2" maxPrice="100.0" minPrice="10.0" />
+				<Store storeid="23" maxProb="4" minProb="2" maxPrice="500.0" minPrice="30.0" />
+				<Store storeid="24" maxProb="4" minProb="2" maxPrice="100.0" minPrice="10.0" />
+			</ProfileEvent>
+		</Profile>
+	
+		<!-- students -->
+		<Profile name="student" id="2" isSeller="0" percentage="0.528" privacyAwareUsers="0.3" miners="0.3" minInitialAmount="5" maxInitialAmount="50"  maxInitialAddressCount="6" minInitialAddressCount="1" >
+			<Nonavailability startTime="2009-06-01-00:00:00" endTime="2009-09-02-00:00:00" /> <!-- e.g. semester break -->
+	
+			<InterExchange startTime="00:00" endTime="23:59" minFreqPerWeek="5" maxFreqPerWeek="5" maxPrice="8.0" minPrice="5.0" availableDaysOfWeek="1,2,3,4,5,6,7" />
+	
+			<!-- lunch, eventid="0" refers to event with id="0" from above -->
+			<ProfileEvent eventid="0" minFreqPerWeek="5" maxFreqPerWeek="10" >		
+				<Store storeid="0" maxProb="10" minProb="2" maxPrice="8.0" minPrice="5.0" /> 			
+				<Store storeid="1" maxProb="10" minProb="2" maxPrice="10.0" minPrice="7.0" />
+				<Store storeid="2" maxProb="5" minProb="2" maxPrice="12.0" minPrice="9.0" />
+				<Store storeid="3" maxProb="0.5" minProb="0" maxPrice="25.0" minPrice="15" />
+				<Store storeid="4" maxProb="2" minProb="0" maxPrice="15.0" minPrice="9.0" />
+				<Store storeid="5" maxProb="2" minProb="1" maxPrice="15.0" minPrice="8.0" />
+				<Store storeid="6" maxProb="2" minProb="1" maxPrice="15.0" minPrice="8.0" />
+				<Store storeid="7" maxProb="2" minProb="1" maxPrice="10.0" minPrice="7.5" />
+				<Store storeid="8" maxProb="0.5" minProb="0" maxPrice="25.0" minPrice="15" />
+				<Store storeid="9" maxProb="0.5" minProb="0" maxPrice="25.0" minPrice="10" />
+				<Store storeid="10" maxProb="5" minProb="2" maxPrice="10.0" minPrice="5.0" />
+				<Store storeid="11" maxProb="0.5" minProb="0" maxPrice="12.0" minPrice="6.5" />
+			</ProfileEvent>
+	
+			<!-- vending machines -->
+			<ProfileEvent eventid="1" minFreqPerWeek="5" maxFreqPerWeek="12" >
+				<Store storeid="12" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="13" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="14" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+				<Store storeid="15" maxProb="7" minProb="1" maxPrice="4.5" minPrice="1.0" />
+			</ProfileEvent>
+	
+			<!-- groceries -->
+			<ProfileEvent eventid="2" minFreqPerWeek="2" maxFreqPerWeek="6" >
+				<Store storeid="16" maxProb="6" minProb="2" maxPrice="30.0" minPrice="2.5" />
+				<Store storeid="17" maxProb="4" minProb="1" maxPrice="50" minPrice="2.5" />
+			</ProfileEvent>
+	
+			<!-- books -->
+			<ProfileEvent eventid="3" minFreqPerWeek="0" maxFreqPerWeek="1" >
+				<Store storeid="18" maxProb="5" minProb="5" maxPrice="300" minPrice="20.0" />
+				<Store storeid="19" maxProb="5" minProb="5" maxPrice="300.0" minPrice="20.0" />
+			</ProfileEvent>
+	
+			<!-- online shopping -->
+			<ProfileEvent eventid="4" minFreqPerWeek="0" maxFreqPerWeek="3" >		
+				<Store storeid="20" maxProb="2" minProb="1" maxPrice="50.0" minPrice="20" />
+				<Store storeid="21" maxProb="3" minProb="1" maxPrice="75.0" minPrice="20.0" />
+				<Store storeid="22" maxProb="4" minProb="2" maxPrice="75.0" minPrice="10.0" />
+				<Store storeid="23" maxProb="3" minProb="1" maxPrice="75.0" minPrice="30.0" />
+				<Store storeid="24" maxProb="4" minProb="2" maxPrice="75" minPrice="10.0" />
+			</ProfileEvent>
+		</Profile>
+		
+		<!-- seller types -->
+		<Profile name="sellertype1" id="999" isSeller="1" percentage="1.0" privacyAwareUsers="0.3" miners="0.0" minInitialAmount="5" maxInitialAmount="50"  maxInitialAddressCount="3" minInitialAddressCount="1" >
+		</Profile>
+	</UniversityModel>
+
+</Config>
