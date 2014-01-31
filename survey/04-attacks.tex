@@ -1,27 +1,29 @@
 \section{Attacks, Implications, and Proposed Solutions}
-\begin{itemize}
-	\item transaction graph attacks
-	\item passive network-layer attacks
-	\item statistical attacks
-\end{itemize}
+In this section we survey anonymity attacks on Bitcoin 
 
-\section{Attack Vectors}
+% \begin{itemize}
+% 	\item transaction graph attacks
+% 	\item passive network-layer attacks
+% 	\item statistical attacks
+% \end{itemize}
+
+\section{Attack Vectors} \label{sec:vectors}
 Given the design of the Bitcoin system, it may seem surprising that the surface for privacy- and anonymity-targeting attacks is quite large. In fact, there is a large amount of information available to attackers that may be, and has been, exploited to carry out such attacks. Perhaps most fruitful are the \emph{transaction} and \emph{user} graphs that can be constructed via network and transaction analysis. The transaction graph is a directed graph $\mathcal{T}$ with a vertex set $V(\mathcal{T})$ containing all transactions in the Bitcoin history and edge set $E(\mathcal{T})$ containing directed edges between the source (sender) and target (recipient) for each transaction. An example transaction graph is illustrated in Figure \ref{fig:transaction-graph}. The user graph is yet another directed graph $\mathcal{U}$ with a vertex set $V(\mathcal{U})$ corresponding to physical users, or entities, partaking in the Bitcoin system and edge set $E(\mathcal{U})$ corresponding to the flow of Bitcoins or funds between two users. An example user graph is illustrated in Figure \ref{fig:user-graph}. With sufficient network analysis (i.e., eavesdropping on Bitcoin traffic in the network), one may also construct a \emph{network address} graph, which is similar to the user graph with the exception that vertices represent physical IPs instead of particular users. 
 
 %Vu - I may switch attack on privacy with anonymity and have anonymity first.  Need to reconcile user-network graphs and transaction-network graphs with attacks on privacy and anonymity.
 
 \begin{figure}
 \begin{center}
-% \includegraphics[scale=0.5]{images/transaction_graph.png}
-\label{A sample transaction graph CITE.}
+\includegraphics[scale=0.35]{images/transaction_graph.png}
+% \label{A sample transaction graph \protect\cite{ReidHarrigan13}.}
 \caption{fig:transaction-graph}
 \end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
-% \includegraphics[scale=0.5]{images/user_graph.png}
-\label{A sample user graph CITE.}
+\includegraphics[scale=0.45]{images/transaction_user_graph.png}
+% \label{A sample user graph \protect\cite{ReidHarrigan13}.}
 \caption{fig:user-graph}
 \end{center}
 \end{figure}
@@ -48,13 +50,31 @@ Researchers attempt to break the anonymity of Bitcoins in an attempt to study st
 
 Intuitively, a successful attack on the anonymity of Bitcoin yields a mapping between Bitcoin addresses, or public keys, to their respective owners. Depending on the success criteria for such an attack, the attacker may seek to find a single mapping for a particular user or, quite oppositely, a mapping for as many users as possible. Accordingly, there has been substantial research investigating the degree to which anonymity is achieved \cite{ReidHarrigan13,BetterToBitter,Fistful12,Shamir13-bitcoingraph,Androulaki12-privacy}; proposed solutions presented in the literature are discussed in the following section.
 
-KAMINSKY STARTED IT ALL!
+Although the original Bitcoin proposal suggests that anonymity, or rather pseudonominity, is possible due to the expected difficulty of associating Bitcoin addresses with their physical owners, there have been ample works attempting to disprove this claim. In fact, one of the earliest anonymity analyses was done by Dan Kaminsky in 2011, a well-known security consultant and researcher. He assessed the anonymity claims of Bitcoin by performing the following experiment: He began by opening up a connection to a large set of peers in the Bitcoin network. Under the assumption that the first appearance of a transaction stems from the original sender (unless an anonymizing layer such as Tor is used to obscure the source), it became fairly easy to combine the peer connections with some elementary traffic analysis to derive a mapping between Bitcoin addresses and IP-layer addresses \cite{kaminsky}. While IPs are rarely static due to DHCP and mobile devices, it is not a significant leap to suspect that such knowledge could reveal the underlying user's identity, especially if offline information is used (e.g., if the attacker is able to correlate the IP addresses to users using public forums or other applications). 
 
-Reid and Harrigan were the catalysis that started the research on Bitcoin anonymity. Using network analysis techniques on the Bitcoin transaction and user graphs
+While using Tor enables one to obfuscate the source of a transaction, it does not solve the problem entirely for several reasons. First, Tor does not provide perfect source secrecy. Tor is inherently susceptible to \emph{end-to-end correlation attacks} in which the attacker controls both ends of a Tor circuit used to send data. Second, Tor was designed for low-latency, high throughput anonymous traffic. As such, it is susceptible to side channel timing attacks \cite{bitcoin-tor-wiki}.
+
+TODO: insert picture of Tor timing attack here 
+
+In an attempt to leverage readily accessible information in the Bitcoin system, i.e., not information acquired via traffic analysis or eavesdropping, Reid and Harrigen \cite{ReidHarrigan13} followed up on Kaminsky's work with an analysis of Bitcoin anonymity. To do so, they constructed the Bitcoin transaction and user graphs (see Section \ref{sec:vectors}) as an alternative representation of the flow of information in Bitcoin, and use \emph{passive} analysis techniques to derive user-to-address mappings. 
+
+%%% TODO: SHAMIR PAPER
+
+%%% EVALUATING USER PRIVACY PAPER
 
 % Another highly debated topic is the anonymity of Bitcoin transactions. The fact that all transactions are tracked in a replicated ledger and that the details of the transactions are therefore accessible by any participant in the network would suggest that privacy is not possible. However, Nakamoto claims that, since the identities of the owner of an account and the identity of the account are kept separate, the privacy can be said to be pseudonymous. Reid et al. [15] analyze this claim and point out that by colluding the information of multiple accounts that participated in a transaction details about the owner can in fact be recovered. Shamir et al [17] analyzed the transaction graph, deriving some global statistics, including an estimate that 78% of the issued bitcoins are not circulating, and an in depth analysis of a highly active region in the transaction graph. Elias [8] discussed some legal, and moral, aspects of the anonymity, or lack thereof, in Bitcoin.
 
 \subsection{Current and Proposed Solutions}
+
+%%% BETTER TO BITTER
+
+%%% ZEROCOIN
+
+%%% MIXCOIN
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %Centralized mixes similar to Chaums anonymous email (BitFog, BitLaundry, Blockchain.info) and decentralized mixes (Zerocoin).
 
 % The anonymity problem in Bitcoin was later addressed by ZeroCoin [13] which allows the implementation of a Zero- Knowledge based decentralized coin mixing service. Earlier Hanke et al. [10] presented a Pay-to-Contract Protocol that is built on top of Bitcoin and secures transactions between
