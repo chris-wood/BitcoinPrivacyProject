@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  30 JAN 2014 23:50
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  1 FEB 2014 13:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -361,8 +361,8 @@ Underfull \hbox (badness 1824) in paragraph at lines 53--54
 []\OT1/ptm/m/n/10 Although the orig-i-nal Bit-coin pro-posal sug-gests that
  []
 
-[4 <./images/transaction_graph.png> <./images/transaction_user_graph.png>])
-(./05-problems.tex) (./06-related.tex) (./07-conclusion.tex)
+[4 <./images/transaction_graph.png> <./images/transaction_user_graph.png>]
+[5]) (./05-problems.tex) (./06-related.tex) (./07-conclusion.tex)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -374,16 +374,16 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[5] (./WoodVu_BitcoinPrivacy_Survey.aux)
+[6] (./WoodVu_BitcoinPrivacy_Survey.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2931 strings out of 493315
- 44402 string characters out of 6137904
- 111632 words of memory out of 5000000
- 6330 multiletter control sequences out of 15000+600000
+ 2932 strings out of 493315
+ 44412 string characters out of 6137904
+ 113636 words of memory out of 5000000
+ 6331 multiletter control sequences out of 15000+600000
  40560 words of font info for 80 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  38i,8n,23p,1728b,286s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -402,10 +402,10 @@ ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/
 type1/urw/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utm
 ri8a.pfb>
-Output written on WoodVu_BitcoinPrivacy_Survey.pdf (5 pages, 395422 bytes).
+Output written on WoodVu_BitcoinPrivacy_Survey.pdf (6 pages, 404695 bytes).
 PDF statistics:
- 368 PDF objects out of 1000 (max. 8388607)
- 218 compressed objects within 3 object streams
+ 371 PDF objects out of 1000 (max. 8388607)
+ 220 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
