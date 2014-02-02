@@ -13,9 +13,8 @@
 \citation{Androulaki12-privacy}
 \citation{bitcoin}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}}
-\@writefile{toc}{\contentsline {section}{\numberline {II}Preliminaries}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-A}}Security Definitions and Adversarial Models}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-B}}Bitcoin Basics}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Bitcoin Preliminaries}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-A}}Bitcoin Basics}{1}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Visual depiction of the input and output elements of a transaction from user $A$ to user $B$.}}{2}}
 \newlabel{fig:transaction-io}{{1}{2}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Visual depction of the steps to create a transaction $T_3$ from user $A$ to user $B$ using two input transactions, $T_1$ and $T_2$.}}{2}}
@@ -26,17 +25,10 @@
 \newlabel{fig:pow}{{3}{3}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces A snippet of a Bitcoin transaction block chain, illustrating the groupings of transactions into a blocks, the declaration of the proof of the work $p$, and the digest of the previous block linking the blocks together.}}{3}}
 \newlabel{fig:block}{{4}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-C}}Bitcoin Privacy Measures}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {III}Privacy and Anonymity}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-A}}Definitions and Adversarial Models}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Attacks, Implications, and Proposed Solutions}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Attack Vectors}{3}}
-\newlabel{sec:vectors}{{V}{3}}
-\citation{Fistful12}
-\citation{Fistful12}
-\citation{Shamir13-bitcoingraph}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-B}}Bitcoin Privacy Measures}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Definitions and Adversarial Models}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Deanonymization Attacks and Their Implications}{3}}
 \citation{ReidHarrigan13}
-\citation{Fistful12}
 \citation{ReidHarrigan13}
 \citation{ReidHarrigan13}
 \citation{BetterToBitter}
@@ -44,25 +36,46 @@
 \citation{Shamir13-bitcoingraph}
 \citation{Androulaki12-privacy}
 \citation{kaminsky}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces fig:transaction-graph}}{4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces fig:user-graph}}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}Attacks on Privacy}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}Attacks on Anonymity}{4}}
-\citation{bitcoin-tor-wiki}
+\citation{kaminsky}
 \citation{ReidHarrigan13}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-C}}Current and Proposed Solutions}{5}}
+\citation{bitcoin-tor-wiki}
+\citation{Fistful12}
+\citation{Shamir13-bitcoingraph}
+\citation{ReidHarrigan13}
+\citation{Fistful12}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces A sample transaction graph \cite {ReidHarrigan13}.}}{4}}
+\newlabel{fig:transaction-graph}{{5}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-A}}Attack Vectors}{4}}
+\newlabel{sec:vectors}{{\unhbox \voidb@x \hbox {IV-A}}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}Detailed Anonymization Attacks and Analysis Techniques}{4}}
+\newlabel{sec:attacks}{{\unhbox \voidb@x \hbox {IV-B}}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces A sample user graph \cite {ReidHarrigan13}.}}{4}}
+\newlabel{fig:user-graph}{{6}{4}}
+\citation{ReidHarrigan13}
+\citation{Fistful12}
+\citation{Androulaki12-privacy}
+\citation{Chaum81-Mix}
+\newlabel{TODO.}{{\unhbox \voidb@x \hbox {IV-B}}{5}}
+\newlabel{fig:tor-end-to-end}{{\unhbox \voidb@x \hbox {IV-B}}{5}}
+\newlabel{TODO.}{{\unhbox \voidb@x \hbox {V-B}}{5}}
+\newlabel{fig:mix-design}{{\unhbox \voidb@x \hbox {V-B}}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Proposed Solutions}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}Anonymity Layers}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}Mixing Services}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-C}}Cryptographic Enhancements and Protocol Modifications}{5}}
 \citation{coinjoin}
-\bibcite{bitcoin}{1}
-\bibcite{chaumain}{2}
-\bibcite{zerocoin}{3}
-\bibcite{Androulaki12-privacy}{4}
-\bibcite{Shamir13-bitcoingraph}{5}
-\bibcite{ReidHarrigan13}{6}
-\bibcite{BetterToBitter}{7}
-\bibcite{Fistful12}{8}
-\bibcite{kaminsky}{9}
-\bibcite{bitcoin-tor-wiki}{10}
-\bibcite{coinjoin}{11}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Open Problems}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Privacy-Preserving Alternatives}{6}}
-\@writefile{toc}{\contentsline {section}{References}{6}}
+\bibcite{bitcoin}{1}
+\bibcite{Chaum81-Mix}{2}
+\bibcite{chaumain}{3}
+\bibcite{zerocoin}{4}
+\bibcite{Androulaki12-privacy}{5}
+\bibcite{Shamir13-bitcoingraph}{6}
+\bibcite{ReidHarrigan13}{7}
+\bibcite{BetterToBitter}{8}
+\bibcite{Fistful12}{9}
+\bibcite{kaminsky}{10}
+\bibcite{bitcoin-tor-wiki}{11}
+\bibcite{coinjoin}{12}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Privacy-Preserving Alternatives}{7}}
+\@writefile{toc}{\contentsline {section}{References}{7}}
