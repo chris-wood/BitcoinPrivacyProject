@@ -9,23 +9,23 @@ In this section we survey deanonymization attacks on Bitcoin, which can roughly 
 Our analysis is based on the small body of work primarily analyzing the first three classes of attacks. The last class is generally not discussed in scholarly work, but rather in popular media. Before discussing such attacks, we first describe the attack vectors leveraged by researchers and malicious users while forming such attacks.
 
 \subsection{Attack Vectors} \label{sec:vectors}
-Given the design of the Bitcoin system, it may seem surprising that the surface for privacy- and anonymity-targeting attacks is quite large. In fact, there is a large amount of information available to attackers that may be, and has been, exploited to carry out such attacks. Perhaps most fruitful are the \emph{transaction} and \emph{user} graphs that can be constructed via network and transaction analysis. The transaction graph is a directed graph $\mathcal{T}$ with a vertex set $V(\mathcal{T})$ containing all transactions in the Bitcoin history and edge set $E(\mathcal{T})$ containing directed edges between the source (sender) and target (recipient) for each transaction. An example transaction graph is illustrated in Figure \ref{fig:transaction-graph}. The user graph is yet another directed graph $\mathcal{U}$ with a vertex set $V(\mathcal{U})$ corresponding to physical users, or entities, partaking in the Bitcoin system and edge set $E(\mathcal{U})$ corresponding to the flow of Bitcoins or funds between two users. An example user graph is illustrated in Figure \ref{fig:user-graph}. With sufficient network analysis (i.e., eavesdropping on Bitcoin traffic in the network), one may also construct a \emph{network address} graph, which is similar to the user graph with the exception that vertices represent physical IPs instead of particular users. 
+Given the design of the Bitcoin system, it may seem surprising that the surface for privacy- and anonymity-targeting attacks is quite large. In fact, there is a large amount of information available to attackers that may be, and has been, exploited to carry out such attacks. Perhaps most fruitful are the \emph{transaction} and \emph{user} graphs that can be constructed via network and transaction analysis. The transaction graph is a directed graph $\mathcal{T}$ with a vertex set $V(\mathcal{T})$ containing all transactions in the Bitcoin history and edge set $E(\mathcal{T})$ containing directed edges between the source (sender) and target (recipient) for each transaction. The user graph is yet another directed graph $\mathcal{U}$ with a vertex set $V(\mathcal{U})$ corresponding to physical users, or entities, partaking in the Bitcoin system and edge set $E(\mathcal{U})$ corresponding to the flow of Bitcoins or funds between two users. With sufficient network analysis (i.e., eavesdropping on Bitcoin traffic in the network), one may also construct a \emph{network address} graph, which is similar to the user graph with the exception that vertices represent physical IPs instead of particular users. 
 
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.35]{images/transaction_graph.png}
-\caption{A sample transaction graph \protect\cite{ReidHarrigan13}.}
-\label{fig:transaction-graph}
-\end{center}
-\end{figure}
+% \begin{figure}
+% \begin{center}
+% \includegraphics[scale=0.35]{images/transaction_graph.png}
+% \caption{A sample transaction graph \protect\cite{ReidHarrigan13}.}
+% \label{fig:transaction-graph}
+% \end{center}
+% \end{figure}
 
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.45]{images/transaction_user_graph.png}
-\caption{A sample user graph \protect\cite{ReidHarrigan13}.}
-\label{fig:user-graph}
-\end{center}
-\end{figure}
+% \begin{figure}
+% \begin{center}
+% \includegraphics[scale=0.45]{images/transaction_user_graph.png}
+% \caption{A sample user graph \protect\cite{ReidHarrigan13}.}
+% \label{fig:user-graph}
+% \end{center}
+% \end{figure}
 
 \subsection{Detailed Anonymization Attacks and Analysis Techniques} \label{sec:attacks}
 %Current loss of privacy through voluntary identification/off network information, flow analysis, IP tracking. Needs more info
@@ -52,9 +52,6 @@ Motivated by this observation, and relying on the accessibility of publicly acce
 
 As a currency system, Bitcoin cannot have perfect privacy nor anonymity. Although the information originates outside the Bitcoin network, some address ownership information are public knowledge. For instances, a store needs to have a publicly identifiable address in order to accept payment for goods or services. Users may also disclose address ownership when asking for donations or posting on Bitcoin forums \cite{Fistful12}. Large centralized Bitcoin services such as the Mt. Gox exchange service are also able to associate users with addresses as part of their service.
 
-%%% SHAMIR PAPER
-%TODO
-
 %%% EVALUATING USER PRIVACY PAPER
 %TODO
 
@@ -74,7 +71,7 @@ Generally speaking, solutions to address the anonymity issues in Bitcoin roughyl
 %TODO: Tor discussion
 
 \subsection{Mixing Services}
-The basic design and use of mix networks is credited to Chaum and dates back to more than three decades \cite{Chaum81-Mix}. The essential idea of a mix network is illustrated in Figure \ref{fig:mix-design}. Senders wrap their message in layers of encryption using the public keys of randomly selected mixing service nodes (mix node), who then receive a set of encrypted messages, decrypt and shuffle the messages, and then send them to another mix node or the intended recipient. Clearly, the role of each mix node is to hide the source of original messages by obfuscating their flow through the network.
+The basic design and use of mix networks is credited to Chaum and dates back to more than three decades \cite{Chaum81-Mix}. The essential idea of a mix network is illustrated in Figure \ref{fig:mix-design}. Senders wrap their message in layers of encryption using the public keys of randomly selected mixing service nodes (mix node), who then receive a set of encrypted messages, decrypt and shuffle the messages, and then send them to another mix node or the intended recipient. Clearly, the role of each mix node is to hide the source of original messages by obfuscating their flow through the network. With respect to Bitcoin, mixers are used to anonymously aggregate coins from clients, mix them internally (i.e., among several different Bitcoin addresses), and then redistribute coins back to the sources in equal denominations. This conceptual distinction is illustrated in Figure \ref{fig:mix-bitcoin}. 
 
 \begin{figure}
 \begin{center}
@@ -84,10 +81,36 @@ The basic design and use of mix networks is credited to Chaum and dates back to 
 \end{center}
 \end{figure}
 
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.35]{images/mix_bitcoin.pdf}
+\label{TODO.}
+\label{fig:mix-design}
+\end{center}
+\end{figure}
+
+Unfortunately, mixing services naturally require a certain level of trust on behalf of the user. In particular, there is nothing in the current Bitcoin system that prevents a malicious mixing service from aggregating a large collection of coins and then abandoning their duty as a mixing service, thereby stealing all of its user's coins. Of course, such financial losses can be minimized if the user only sends funds to the mixing services in small amounts, but it does not eliminate the problem (users would then need to sequentially small small amounts to the mixer, thus drastically increasing the payout time). 
+
 %%% BETTER TO BITTER
+Without an underlying trust architecture, the only feasible alternative is to use a \emph{fair exchange protocol} between the users and mixing service to ensure that all input coins are eventually paid back. Barber et al. \cite{BetterToBitter} proposed such a protocol that could be integrated with the existing Bitcoin protocol - it is not natively supported. For brefity, we highlight the main features of their approach here. The fair exchange protocol between a sender and mixing service, denoted as parties $A$ and $B$, respectively, requires three types of transactions:
+\begin{enumerate}
+	\item Commitment transaction to commit a party to a coin exchange.
+	\item Refund transaction to refund a party's committed coins at a future date in case the other party aborts the protocol.
+	\item Claim transaction to claim the other party's committed money. 
+\end{enumerate}
+After establishing a set of shared secrets, $A$ and $B$ then begin the fair exchange protocol, which proceeds as follows:
+\begin{enumerate}
+	\item $B$ generates a committment and refund transaction, with the help of $A$, and broadcasts both transactions. The committment transaction is constructed such that its respective funds can be redeemed using either the corresponding refund transaction (after the protocol ``times out'', or one party fails to complete their duties within a pre-defined ) or a to-be-generated claim transaction. \footnote{The refund transactions are constructed with the output coins being redirected back to their original owner so that the coins are not lost in the event that the protocol does not complete.}
+	\item Simultaneously, $A$ generates a committment and refund transaction, also with the help of $B$, and broadcasts both to the network. 
+	\item After both parties are committed to the exchange, they must claim their coins. In order to do so fairly, $B$ first claims $A$'s coins using $A$'s refund transaction, and by doing so, enables $A$ to claim $B$'s coins through $B$'s refund transaction. This refund process works as follows: $B$ modifies the output of $A$'s refund script to be redirected to $B$'s recently generated address, and also modifies the input of the script to reveal the ``secret'' values that enable $A$ to modify her refund transcation. Once $B$ publishes his claim transaction, thus taking $A$'s funds, $A$ can then receive the secret values from $B$'s claim transaction to modify $B$'s refund transaction output to point to her own recently generated address. $A$ then broadcasts her claim transaction to claim $B$'s coins, thus completing the exchange.
+	\item If a protocol ``timeout'' occurs, then the refund transactions were never properly modified by both parties to steal the other party's coins, and no exchange took place. 
+\end{enumerate}
+With an existing public key infrastructure and means to securely transfer the secrets used in the transaction generation, this protocol will prevent malicious mixing services from stealing user's coins. However, it requires modifications to the underlying Bitcoin protocol that aren't readily supported. Namely, it requires that transactions support the notion of timelock (i.e., points in time when they can no longer be changed). 
+
+%%% MIXCOIN
 %TODO
 
-\subsection{Cryptographic Enhancements and Protocol Modifications}
+\subsection{Cryptographically-Enhanced Protocols for Anonymity on Top of Bitcoin}
 
 %%% ZEROCOIN
 The underlying idea behind the Zerocoin protocol is amazingly simple and intuitive, and it stems from the fact that Bitcoin transactions are publicly linked together and therefore susceptible to passive network analysis techniques (as previously discussed above). Zerocoin breaks the links between transactions using cryptographic techniques that yield the same property of Bitcoin transaction chains (namely, the flow of coins and current value of a transaction). Specifically, Zerocoin leverages accumulators, or primitives that enable a party to sign a collection of objects as opposed to a single object and accumulate the result into a single signature digest (in this case, the collection would be the set of previous transactions), and zero-knowledge proofs. The use of these cryptographic techniques is as follows. Whenever a user wants to spend Zerocoins they receive, they accumulate the results of all transactions used to finance the transaction into an accumulator, produce an accumulator witness $w$ (the accumulated total of all bitcons in the transaction minus the value of the Zerocoins to be spent), and finally, generates (zero-knowledge) signature of knowledge $\pi$ that enables other entities to \emph{publicly} verify that the value in the accumulator was generated by the entity who derived this proof and ``owned'' the Zerocoins to spend. Zerocoin peers can then verify an accumulated value, representing virtually the same information as a Bitcoin transaction graph, using $\pi$.
@@ -100,6 +123,13 @@ The mathematical details of accumulation and witness verification are not discus
 
 Secondly, the authors discuss methods in which the zero-knowledge proof scheme can be improved. Their preliminary experiments revealed that the size of proofs often exceeded the MTU of Bitcoin transactions, which prohibits its immediate use since Zerocoin relies on Bitcoin for the initial source of Zerocoin funds (i.e., Bitcoins are used to mint Zerocoins) and transaction block graphs to timestamp the state of the system. Rather than modify this MUT limitation so that proofs can be stored alongside accumulator checkpoints in the transaction block chain, the authors propose to store and access proofs using a distributed hash table or non block-chained storage mechanism in Bitcoin. With respect to the computational cost of proofs, the authors propose a distribtued verification strategy so as to not make every node verify the proof of every new transaction block. Doing so would be a large computational burden on verifiers, which should be quick, as opposed to miners, whose efforts are justified via transaction fees. Internally, the chosen zero-knowledge signature of knowledge scheme consists of $n$ repetitions of the same proof to reduce the probability of forgery to $\mathcal{O}(2^{-n})$, and so by requiring that each node \emph{randomly} selecting a subset of these $n$ proofs to compute and it is possible to achieve the same proof security guarantee with a significantly reduced amount of duplicated effort.
 
+%% TODO: issues of incremental deployment
+
+%%% Pinocchio Coin
+Pinocchio Coin \cite{pinocchio} is an attempt at optimizing the Zerocoin protocol. Whereas Zerocoin uses the Strong RSA assumptions with double discrete logarithm proofs, Pinocchio Coin uses elliptic curves and bilinear pairings. Pinocchio Coin follows the same process as Zerocoin.  Initial parameters for the elliptic curve are set up. Pinocchio Coin also has users secretly committing Bitcoins. When the user wants to spend Bitcoins, the user creates a Pinocchio proof of work using quadratic programs.
+
+The Pinocchio proof of work was originally designed as a generic proof of work to be used in applications such as cloud computing. The system takes a set of operations and converts them into proof of work that can be seen as a zero knowledge proof. The advantages of using Pinocchio Coin over Zerocoin is that the size of the proof is much smaller. The Pinocchio proofs are less than 400 bytes as opposed to Zerocoin's 50kB proofs. The potential disadvantages of using Pinocchio Coin is that there is no security analysis as of yet. Futhermore, although Pinocchio serves as an efficient general proof compiler, it is unknown if specialized systems, such as ZKPDL, would exhibit better performance in the Zerocoin framework.
+
 %%% COINJOIN
 CoinJoin \cite{coinjoin} is a method to have multi-user inputs in a Bitcoin transaction. Users agree on a common output size and then combine all their transactions of that size into one big transaction. The aim of this method is to obfuscate which user is the input to an output and prevent the association of multiple addresses in a transaction to one user.
 
@@ -110,9 +140,6 @@ CoinJoin allows for multiple inputs per user and combines them all into one tran
 The simplest implementation of CoinJoin can be done with a ``meet-up'' server to coordinate transactions. A decentralized version can be used, but the issues with coordinating transactions cause complexity.
 
 The most notable feature of CoinJoin, aside from privacy, is that it works today \emph{without} any modification to the Bitocoin protocol, which is untrue for solutions akin to Zerocoin. The transactions from CoinJoin are identical to normal Bitcoin transactions. A potential development involves moving away from a centralized server that knows all the mappings to one that doesn't and eventually a de-centralized system. It is also unknown how many sessions does the protection of privacy extends. Finally, CoinJoin similar to other financial systems, CoinJoin does not hide the user's IP address; an anonymity layer such as Tor is needed to obfuscate this information from a sender's peers.
-
-%%% MIXCOIN
-%TODO
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
