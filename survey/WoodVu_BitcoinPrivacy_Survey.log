@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  2 FEB 2014 16:21
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  5 FEB 2014 20:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -196,6 +196,18 @@ LaTeX Warning: Label `TODO.' multiply defined.
 
 LaTeX Warning: Label `fig:mix-design' multiply defined.
 
+
+LaTeX Warning: Label `TODO.' multiply defined.
+
+
+LaTeX Warning: Label `fig:mix-design' multiply defined.
+
+
+LaTeX Warning: Label `TODO.' multiply defined.
+
+
+LaTeX Warning: Label `fig:mix-design' multiply defined.
+
 )
 \openout1 = `WoodVu_BitcoinPrivacy_Survey.aux'.
 
@@ -363,17 +375,17 @@ Package pdftex.def Info: images/tor_attack.pdf used on input line 41.
 (pdftex.def)             Requested size: 231.66139pt x 138.91653pt.
  [4 <./images/tor_attack.pdf>]
 
-LaTeX Warning: Reference `fig:mix-bitcoin' on page 5 undefined on input line 74
+LaTeX Warning: Reference `fig:mix-bitcoin' on page 5 undefined on input line 88
 .
 
 <images/mix_design.pdf, id=341, 748.7975pt x 490.83376pt>
 File: images/mix_design.pdf Graphic file (type pdf)
 
 <use images/mix_design.pdf>
-Package pdftex.def Info: images/mix_design.pdf used on input line 78.
+Package pdftex.def Info: images/mix_design.pdf used on input line 92.
 (pdftex.def)             Requested size: 262.08305pt x 171.79439pt.
 
-Overfull \hbox (9.03319pt too wide) in paragraph at lines 78--81
+Overfull \hbox (9.03319pt too wide) in paragraph at lines 92--95
  [] 
  []
 
@@ -381,10 +393,49 @@ Overfull \hbox (9.03319pt too wide) in paragraph at lines 78--81
 File: images/mix_bitcoin.pdf Graphic file (type pdf)
 
 <use images/mix_bitcoin.pdf>
-Package pdftex.def Info: images/mix_bitcoin.pdf used on input line 86.
+Package pdftex.def Info: images/mix_bitcoin.pdf used on input line 100.
 (pdftex.def)             Requested size: 190.76555pt x 187.60368pt.
- [5 <./images/mix_design.pdf> <./images/mix_bitcoin.pdf>] [6]) (./05-problems.t
-ex) (./06-related.tex) (./07-conclusion.tex)
+ [5 <./images/mix_design.pdf> <./images/mix_bitcoin.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
+[]\OT1/ptm/m/n/10 A client $\OML/cmm/m/it/10 A$ \OT1/ptm/m/n/10 gen-er-ates a t
+u-ple $\OML/cmm/m/it/10 T \OT1/cmr/m/n/10 =
+ []
+
+
+Underfull \hbox (badness 5607) in paragraph at lines 132--133
+\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 v; [][]; [][]; t[]; n\OT1/cmr/m/n/10 )$\OT1/p
+tm/m/n/10 , where $\OML/cmm/m/it/10 v$ \OT1/ptm/m/n/10 is the BTC
+ []
+
+[6]
+
+LaTeX Warning: Reference `fig:mixcoin-delay-plot' on page 7 undefined on input 
+line 149.
+
+<images/mixcoin-delay_plot.pdf, id=464, 301.125pt x 177.66376pt>
+File: images/mixcoin-delay_plot.pdf Graphic file (type pdf)
+
+<use images/mixcoin-delay_plot.pdf>
+Package pdftex.def Info: images/mixcoin-delay_plot.pdf used on input line 153.
+(pdftex.def)             Requested size: 225.84319pt x 133.24748pt.
+
+<images/mixcoin_deanon.pdf, id=465, 490.83376pt x 326.21875pt>
+File: images/mixcoin_deanon.pdf Graphic file (type pdf)
+
+<use images/mixcoin_deanon.pdf>
+Package pdftex.def Info: images/mixcoin_deanon.pdf used on input line 163.
+(pdftex.def)             Requested size: 220.87314pt x 146.79707pt.
+
+Underfull \vbox (badness 1496) has occurred while \output is active []
+
+ [7 <./images/mixcoin-delay_plot.pdf> <./images/mixcoin_deanon.pdf>]
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 187.
+
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1phv.fd
+File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
+) [8])
+(./05-problems.tex) (./06-related.tex) (./07-conclusion.tex)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -396,7 +447,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[7] (./WoodVu_BitcoinPrivacy_Survey.aux)
+[9
+
+] (./WoodVu_BitcoinPrivacy_Survey.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -405,32 +458,36 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2945 strings out of 493315
- 44526 string characters out of 6137904
- 114753 words of memory out of 5000000
- 6342 multiletter control sequences out of 15000+600000
- 43223 words of font info for 83 fonts, out of 8000000 for 9000
+ 3012 strings out of 493315
+ 45610 string characters out of 6137904
+ 113761 words of memory out of 5000000
+ 6402 multiletter control sequences out of 15000+600000
+ 44983 words of font info for 85 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,8n,23p,2022b,286s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,8n,23p,2022b,306s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
-xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texl
-ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texliv
-e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/
-2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/201
-3/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2013/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2013/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-d
-ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/
-type1/urw/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw
-/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utm
-ri8a.pfb>
-Output written on WoodVu_BitcoinPrivacy_Survey.pdf (7 pages, 403580 bytes).
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texliv
+e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/
+2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2013/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2013/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2013/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2013/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/fonts
+/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/
+urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/
+utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pf
+b></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on WoodVu_BitcoinPrivacy_Survey.pdf (9 pages, 505078 bytes).
 PDF statistics:
- 515 PDF objects out of 1000 (max. 8388607)
- 312 compressed objects within 4 object streams
+ 584 PDF objects out of 1000 (max. 8388607)
+ 361 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

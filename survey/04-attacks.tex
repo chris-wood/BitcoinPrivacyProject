@@ -70,7 +70,7 @@ Generally speaking, solutions to address the anonymity issues in Bitcoin roughyl
 \subsection{Anonymity Layers}
 %TODO: Tor discussion
 
-%Mixnet
+%Mixnets... for general communication
 
 The basic design and use of mix networks is credited to Chaum and dates back to more than three decades \cite{Chaum81-Mix}. The essential idea of a mix network is illustrated in Figure \ref{fig:mix-design}. Senders wrap their message in layers of encryption using the public keys of randomly selected mixing service nodes (mix node), who then receive a set of encrypted messages, decrypt and shuffle the messages, and then send them to another mix node or the intended recipient. Clearly, the role of each mix node is to hide the source of original messages by obfuscating their flow through the network. 
 
@@ -121,7 +121,50 @@ After establishing a set of shared secrets, $A$ and $B$ then begin the fair exch
 With an existing public key infrastructure and means to securely transfer the secrets used in the transaction generation, this protocol will prevent malicious mixing services from stealing user's coins. However, it requires modifications to the underlying Bitcoin protocol that aren't readily supported. Namely, it requires that transactions support the notion of timelock (i.e., points in time when they can no longer be changed). 
 
 %%% MIXCOIN
-%TODO
+Motivated by the desire to achieve the same level of trust without modifying the underlying Bitcoin protocol, Bonneau et el. \cite{mixcoin} recently proposed Mixcoin, a natively-supported protocol for building accountability into mixing services. The principal idea used to achieve mixing accountability is to rely on simple economics, rather than cryptographic solutions, to ensure that mixing services will benefit more from honest participation in mixing rather than from theft. The authors are primarily interested in two main malicious mixing service threats: theft and client deanonymization. Properly aligned financial incentives ensure that theft is not likely to happen (else the mixing service's reputation is permanently destoryed). However, as the authors note, there is not (protocol-level) mechanism that can be used to gaurantee that a mixing service is not linking client input and output addresses; software implementations of mixing services may (purposefully or accidentally) store this information and thus render it susceptible to exposure if compromised. 
+
+%Accordingly, while client deanonymization through mixing services is recognized, it is not solved by Mixcoin. 
+
+The key to achieving accountability through financial incentives is that mixing nodes will provide warranties stating that they claim to complete a mixing operation prior to some agreed-upon deadline. If the mixing node operates dishonestly or steals the client's funds, the client then simply broadcasts the warranty to the network, which is signed by the mixing node using a long-term private key, which can then be verified by all nodes in the network using the corresponding mixing node's public key. The net effect is that no more (intelligent) clients will do business with the mixing node. Since mixing nodes are paid for their efforts through a mixing fee, with an appropriate fee selection it is therefore economically sensible to behave honestly rather than attempt to steal funds. 
+
+The fundamental protocol used to achieve this accountability operates as follows:
+\begin{enumerate}
+	\item A client $A$ generates a tuple $T = (v, \mathsf{addr}_{\mathsf{in}}, \mathsf{addr}_{\mathsf{out}}, t_1, n)$, where $v$ is the BTC amount to send, $t_1$ is a time by which $A$ will transfer the $v$ funds, and $n$ is a random nonce. This tuple is then sent to the mixing node $M$.
+	\item If $M$ accepts the parameters, a fresh escrow address $\mathsf{addr}_{\mathsf{escrow}}$ is generated at which the funds can be acquired by $M$, a deadline $t_2$ by which the funds will be transferred, and a mixing fee rate $p$. These parameters are then signed using the long-term key $K_M$ to generate a warranty, and both are then sent to $A$.
+	\item If $A$ accepts $t_2$ and $p$, $A$ transfers the funds to $\mathsf{addr}_{\mathsf{escrow}}$.
+	\item After receipt of the funds at $\mathsf{addr}_{\mathsf{escrow}}$, $M$ will return the same amount of funds, minus the agreed-upon transaction fee, to $\mathsf{addr}_{\mathsf{out}}$.
+	\item Both parties delete the parameters used in the transaction.
+\end{enumerate}
+
+Observe that a client may choose to opt out of the protocol at any point prior to the transfer of the funds by $A$. If $M$ does not act honestly, $A$ simply broadcasts the signed warranty to other nodes so that they may see $A$ was cheated. It is also important to note that, just as in traditional mixing schemes, these mixing nodes may be used sequentially to increase anonymity through multiple mixing rounds. This is done by using the output address of the $i$-th round of mixing as the input address of the $(i+1)$-th round, thereby creating a chain through which the client's funds flow through potentially separate mixes. 
+
+While simple, there are several underlying issues that must be addressed in practice to ensure anonymity:
+\begin{itemize}
+	\item All Bitcoin chunk sizes should be uniform;
+	\item Transaction fees should be randomized (from an appropriate source of randomness, such as a Beacon \cite{nist-beacon} or some PRG computed based on the transaction block chain);
+	\item There should never be two outstanding warranties for the same input address issues at the same time;
+	\item Clients should not publicize their freshly created input addresses until mixing has initiated, else a malicious party could perform a DoS attack (due to the above requirement) by requesting a warranty for some observed or predicted input address;
+\end{itemize}
+
+A brief analysis of the anonymity properties provided by Mixcoin was also presented. Of the most trivial observations are that mixing message replay is impossible due to the single-warranty issuance property stated above, and also that blocking client-to-mix or mix-to-client transactions is not feasible under the standard assumption that the majority of Bitcoin users and miners are not malicious. They also derived a value for the maximum mix delay $\delta_{max}$ (i.e., the time between receiving input funds and transferring output funds) to optimize the client's anonymity set. If a mix receives a input transactions at a stable rate where $Q$ chunks are mixed in a single round (i.e., the total number of funds mixed is equal to $Q \times v$, where $v$ is the uniform mixing input), then the anonymity set of each client is roughly $Q(\delta_{max} - w + 1)$, since fresh input and output keys are used for each of the $Q$ chunks for a particular user, and where $w$ is the minimum difference between $t_2$ and $t_1$ (observe that the final mix delay, uniformly generated, thus falls in the interval $[w, \delta_{max}]$). For $98 \leq Q \leq 4096$, it was found that $\delta_{max} = 7$ since the anonymity set grows by $1 + \frac{\log_2Q(\delta_{max} - w + 1)}{1 + w + \frac{\delta_{max} - w}{2}}$; see Figure \ref{fig:mixcoin-delay-plot}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.75]{images/mixcoin-delay_plot.pdf}
+\label{TODO.}
+\label{fig:mix-design}
+\end{center}
+\end{figure}
+
+%% TODO: mixcoin section 5.4 finish up
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.45]{images/mixcoin_deanon.pdf}
+\label{TODO.}
+\label{fig:mix-design}
+\end{center}
+\end{figure}
 
 \subsection{Cryptographically-Enhanced Protocols for Anonymity on Top of Bitcoin}
 
