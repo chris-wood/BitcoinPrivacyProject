@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  5 FEB 2014 20:24
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  7 FEB 2014 09:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -410,32 +410,29 @@ tm/m/n/10 , where $\OML/cmm/m/it/10 v$ \OT1/ptm/m/n/10 is the BTC
 [6]
 
 LaTeX Warning: Reference `fig:mixcoin-delay-plot' on page 7 undefined on input 
-line 149.
+line 151.
 
 <images/mixcoin-delay_plot.pdf, id=464, 301.125pt x 177.66376pt>
 File: images/mixcoin-delay_plot.pdf Graphic file (type pdf)
 
 <use images/mixcoin-delay_plot.pdf>
-Package pdftex.def Info: images/mixcoin-delay_plot.pdf used on input line 153.
+Package pdftex.def Info: images/mixcoin-delay_plot.pdf used on input line 157.
 (pdftex.def)             Requested size: 225.84319pt x 133.24748pt.
 
 <images/mixcoin_deanon.pdf, id=465, 490.83376pt x 326.21875pt>
 File: images/mixcoin_deanon.pdf Graphic file (type pdf)
 
 <use images/mixcoin_deanon.pdf>
-Package pdftex.def Info: images/mixcoin_deanon.pdf used on input line 163.
+Package pdftex.def Info: images/mixcoin_deanon.pdf used on input line 168.
 (pdftex.def)             Requested size: 220.87314pt x 146.79707pt.
-
-Underfull \vbox (badness 1496) has occurred while \output is active []
-
- [7 <./images/mixcoin-delay_plot.pdf> <./images/mixcoin_deanon.pdf>]
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 187.
+ [7 <./images/mixcoin-delay_plot.pdf> <./images/mixcoin_deanon.pdf>] [8]
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 198.
 
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
-) [8])
-(./05-problems.tex) (./06-related.tex) (./07-conclusion.tex)
+))
+(./05-problems.tex) (./06-related.tex) (./07-conclusion.tex) [9]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -447,7 +444,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[9
+[10
 
 ] (./WoodVu_BitcoinPrivacy_Survey.aux)
 
@@ -460,7 +457,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  3012 strings out of 493315
  45610 string characters out of 6137904
- 113761 words of memory out of 5000000
+ 114761 words of memory out of 5000000
  6402 multiletter control sequences out of 15000+600000
  44983 words of font info for 85 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
@@ -484,10 +481,10 @@ ts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/fonts
 urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/
 utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pf
 b></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on WoodVu_BitcoinPrivacy_Survey.pdf (9 pages, 505078 bytes).
+Output written on WoodVu_BitcoinPrivacy_Survey.pdf (10 pages, 508871 bytes).
 PDF statistics:
- 584 PDF objects out of 1000 (max. 8388607)
- 361 compressed objects within 4 object streams
+ 587 PDF objects out of 1000 (max. 8388607)
+ 363 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
  46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
