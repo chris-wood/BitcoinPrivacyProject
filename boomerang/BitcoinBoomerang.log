@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  6 FEB 2014 11:14
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  7 FEB 2014 21:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -186,7 +186,7 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
-No file BitcoinBoomerang.aux.
+(./BitcoinBoomerang.aux)
 \openout1 = `BitcoinBoomerang.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
@@ -201,6 +201,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
+
 (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count104
@@ -262,6 +263,26 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+(./01-introduction.tex) (./02-overview.tex
+<./images/boomerang_net.pdf, id=1, 659.46375pt x 650.43pt>
+File: ./images/boomerang_net.pdf Graphic file (type pdf)
+
+<use ./images/boomerang_net.pdf>
+Package pdftex.def Info: ./images/boomerang_net.pdf used on input line 6.
+(pdftex.def)             Requested size: 164.86552pt x 162.6071pt.
+
+<./images/boomerang_clusters.pdf, id=2, 618.31pt x 744.7825pt>
+File: ./images/boomerang_clusters.pdf Graphic file (type pdf)
+
+<use ./images/boomerang_clusters.pdf>
+Package pdftex.def Info: ./images/boomerang_clusters.pdf used on input line 12.
+
+(pdftex.def)             Requested size: 154.57712pt x 186.19516pt.
+) (./03-security.tex) (./04-design.tex)
+(./05-performance.tex)
+Underfull \vbox (badness 4608) has occurred while \output is active []
+
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -276,30 +297,25 @@ Before submitting the final camera ready copy, remember to:
 [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-
-]
-(./BitcoinBoomerang.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+ <./images/boomerang_net.pdf> <./images/boomerang_clusters.pdf>]
+(./BitcoinBoomerang.aux) ) 
 Here is how much of TeX's memory you used:
- 2823 strings out of 493315
- 42330 string characters out of 6137904
- 103561 words of memory out of 5000000
- 6266 multiletter control sequences out of 15000+600000
- 34085 words of font info for 63 fonts, out of 8000000 for 9000
+ 2852 strings out of 493315
+ 42923 string characters out of 6137904
+ 104564 words of memory out of 5000000
+ 6274 multiletter control sequences out of 15000+600000
+ 35221 words of font info for 64 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,6n,23p,332b,194s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/201
-3/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-d
-ist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/
-type1/urw/times/utmri8a.pfb>
-Output written on BitcoinBoomerang.pdf (1 page, 34111 bytes).
+ 38i,6n,23p,332b,240s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/b
+ase/8r.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
+></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/lo
+cal/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texliv
+e/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on BitcoinBoomerang.pdf (1 page, 83470 bytes).
 PDF statistics:
- 25 PDF objects out of 1000 (max. 8388607)
- 17 compressed objects within 1 object stream
+ 136 PDF objects out of 1000 (max. 8388607)
+ 86 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
