@@ -1,7 +1,70 @@
 \section{Boomerang Design}
 
-\subsection{Protocol}
+TODO: discussion outline
 
-\subsection{Message Encoding}
+\subsection{Broadcast Protocol}
+
+The heart of the Bitcoin protocol is transaction message encoding. We describe the complete procedure for this particular operation in Algorithm \ref{alg:encode}, where the notation contained therein is defined in Table \ref{tab:notation}.
+
+\begin{algorithm*}[t!]
+\caption{{\sf EncodeTransaction}($T$)}
+\label{alg:encode}
+\begin{algorithmic}[1]
+
+\For{$m = 1$ to $M$}
+	\State $\bar{T} := T$
+	\State $s \gets \{0,1\}^{\tau}$
+	\For{$n = 1$ \textbf{to} $N_m$}
+		\State $p := \mathsf{PRG}(s)$
+		\State $\bar{T} := \bar{T} \oplus p$
+		\State $s \gets E_{pk_{m,n}}(s)$
+	\EndFor
+
+	% populate the address vector
+	\State $\mathsf{index} \gets \{0,\dots,2N_m\}$ % random address vector index
+	\State $\mathsf{AV} := [2N_m]$ % address vector
+	\For{$n = N_m$ \textbf{downto} $2$}
+		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{m,n}}(\mathsf{addr}_{N_n})$
+		\State $\mathsf{index} := \mathsf{index} + 1 (\mod N_m)$
+		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{m,n}}(\mathsf{addr}_{N_{n-1}})$
+		\State $\mathsf{index} := \gets \{0,\dots,2N_m\}$
+		\While {$\mathsf{AV}[\mathsf{index}] \not= \bot \land \mathsf{AV}[\mathsf{index + 1 (\mod N_m)}] \not= \bot$}
+			\State $\mathsf{index} := \gets \{0,\dots,2N_m\}$
+		\EndWhile
+	\EndFor
+
+	\State $m := \mathsf{Pack}(s, \mathsf{AV}, \bar{T})$
+	\State $\mathsf{Transmit}(m)$
+\EndFor
+
+\end{algorithmic}
+\end{algorithm*}
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.5]{./images/boomerang_message.pdf}
+\caption{TODO}
+\label{fig:boomerang_message}
+\end{center}
+\end{figure}
+
+\subsection{Gossip Protocol}
+TODO: borrow from tarzan
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.25]{./images/boomerang_clusters.pdf}
+\caption{TODO}
+\label{fig:boomerang_clusters}
+\end{center}
+\end{figure}
 
 \subsection{Parameter Convergence}
+
+% cover traffic generation rate (random variable)
+% mix buffer delay (random variable)
+% cluster size (random variable)
+% number of clusters (=1 for simplified analysis)
+% circuit length (fixed)
+% mix buffer size (fixed)
+% encoded transaction size

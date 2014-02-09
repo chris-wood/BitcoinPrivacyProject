@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  7 FEB 2014 21:34
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  8 FEB 2014 19:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -128,9 +128,46 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen117
 \Gin@req@width=\dimen118
 )
-(/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsmath.sty
+(/usr/local/texlive/2013/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count92
+\float@exts=\toks16
+\float@box=\box27
+\@float@everytoks=\toks17
+\@floatcapt=\box28
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks18
+\c@algorithm=\count93
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count94
+\c@ALG@rem=\count95
+\c@ALG@nested=\count96
+\ALG@tlm=\skip44
+\ALG@thistlm=\skip45
+\c@ALG@Lnr=\count97
+\c@ALG@blocknr=\count98
+\c@ALG@storecount=\count99
+\c@ALG@tmpcounter=\count100
+\ALG@tmplength=\skip46
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2013/01/14 v2.14 AMS math features
-\@mathmargin=\skip44
+\@mathmargin=\skip47
 
 For additional information on amsmath, use the `?' option.
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -138,7 +175,7 @@ Package: amstext 2000/06/29 v2.01
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks16
+\@emptytoks=\toks19
 \ex@=\dimen119
 ))
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsbsy.sty
@@ -148,73 +185,95 @@ Package: amsbsy 1999/11/29 v1.2d
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count92
+\inf@bad=\count101
 LaTeX Info: Redefining \frac on input line 210.
-\uproot@=\count93
-\leftroot@=\count94
+\uproot@=\count102
+\leftroot@=\count103
 LaTeX Info: Redefining \overline on input line 306.
-\classnum@=\count95
-\DOTSCASE@=\count96
+\classnum@=\count104
+\DOTSCASE@=\count105
 LaTeX Info: Redefining \ldots on input line 378.
 LaTeX Info: Redefining \dots on input line 381.
 LaTeX Info: Redefining \cdots on input line 466.
-\Mathstrutbox@=\box27
-\strutbox@=\box28
+\Mathstrutbox@=\box29
+\strutbox@=\box30
 \big@size=\dimen121
 LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
-\macc@depth=\count97
-\c@MaxMatrixCols=\count98
+\macc@depth=\count106
+\c@MaxMatrixCols=\count107
 \dotsspace@=\muskip11
-\c@parentequation=\count99
-\dspbrk@lvl=\count100
-\tag@help=\toks17
-\row@=\count101
-\column@=\count102
-\maxfields@=\count103
-\andhelp@=\toks18
+\c@parentequation=\count108
+\dspbrk@lvl=\count109
+\tag@help=\toks20
+\row@=\count110
+\column@=\count111
+\maxfields@=\count112
+\andhelp@=\toks21
 \eqnshift@=\dimen122
 \alignsep@=\dimen123
 \tagshift@=\dimen124
 \tagwidth@=\dimen125
 \totwidth@=\dimen126
 \lineht@=\dimen127
-\@envbody=\toks19
-\multlinegap=\skip45
-\multlinetaggap=\skip46
-\mathdisplay@stack=\toks20
+\@envbody=\toks22
+\multlinegap=\skip48
+\multlinetaggap=\skip49
+\mathdisplay@stack=\toks23
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2004/08/06 v2.20
+\thm@style=\toks24
+\thm@bodyfont=\toks25
+\thm@headfont=\toks26
+\thm@notefont=\toks27
+\thm@headpunct=\toks28
+\thm@preskip=\skip50
+\thm@postskip=\skip51
+\thm@headsep=\skip52
+\dth@everypar=\toks29
 )
 (./BitcoinBoomerang.aux)
 \openout1 = `BitcoinBoomerang.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
 
 (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count104
+\scratchcounter=\count113
 \scratchdimen=\dimen128
-\scratchbox=\box29
-\nofMPsegments=\count105
-\nofMParguments=\count106
-\everyMPshowfont=\toks21
-\MPscratchCnt=\count107
+\scratchbox=\box31
+\nofMPsegments=\count114
+\nofMParguments=\count115
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count116
 \MPscratchDim=\dimen129
-\MPnumerator=\count108
-\makeMPintoPDFobject=\count109
-\everyMPtoPDFconversion=\toks22
+\MPnumerator=\count117
+\makeMPintoPDFobject=\count118
+\everyMPtoPDFconversion=\toks31
 ) (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -263,26 +322,83 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-(./01-introduction.tex) (./02-overview.tex
-<./images/boomerang_net.pdf, id=1, 659.46375pt x 650.43pt>
+(./01-introduction.tex
+
+LaTeX Warning: Citation `kaminsky' on page 1 undefined on input line 2.
+
+
+LaTeX Warning: Citation `BitterToBetter' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation `mixcoin' on page 1 undefined on input line 4.
+
+
+LaTeX Warning: Citation `zerocoin' on page 1 undefined on input line 8.
+
+
+LaTeX Warning: Citation `pinocchio' on page 1 undefined on input line 8.
+
+
+Underfull \hbox (badness 2253) in paragraph at lines 10--11
+[]\OT1/ptm/m/n/10 Based on these ob-ser-va-tions, it is clear that client
+ []
+
+) (./02-overview.tex [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updm
+ap/pdftex.map}
+
+
+]
+LaTeX Font Info:    Try loading font information for U+msa on input line 9.
+ (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 9.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+<./images/boomerang_net.pdf, id=10, 659.46375pt x 650.43pt>
 File: ./images/boomerang_net.pdf Graphic file (type pdf)
 
 <use ./images/boomerang_net.pdf>
-Package pdftex.def Info: ./images/boomerang_net.pdf used on input line 6.
+Package pdftex.def Info: ./images/boomerang_net.pdf used on input line 15.
 (pdftex.def)             Requested size: 164.86552pt x 162.6071pt.
+) (./03-security.tex) (./04-design.tex
 
-<./images/boomerang_clusters.pdf, id=2, 618.31pt x 744.7825pt>
+LaTeX Warning: Reference `alg:encode' on page 2 undefined on input line 7.
+
+
+LaTeX Warning: Reference `tab:notation' on page 2 undefined on input line 7.
+
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 10.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1phv.fd
+File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
+)
+<./images/boomerang_message.pdf, id=11, 555.07375pt x 97.36375pt>
+File: ./images/boomerang_message.pdf Graphic file (type pdf)
+
+<use ./images/boomerang_message.pdf>
+Package pdftex.def Info: ./images/boomerang_message.pdf used on input line 45.
+(pdftex.def)             Requested size: 277.53618pt x 48.68175pt.
+
+Overfull \hbox (24.48631pt too wide) in paragraph at lines 45--46
+ [] 
+ []
+
+<./images/boomerang_clusters.pdf, id=12, 618.31pt x 744.7825pt>
 File: ./images/boomerang_clusters.pdf Graphic file (type pdf)
 
 <use ./images/boomerang_clusters.pdf>
-Package pdftex.def Info: ./images/boomerang_clusters.pdf used on input line 12.
+Package pdftex.def Info: ./images/boomerang_clusters.pdf used on input line 56.
 
 (pdftex.def)             Requested size: 154.57712pt x 186.19516pt.
-) (./03-security.tex) (./04-design.tex)
-(./05-performance.tex)
-Underfull \vbox (badness 4608) has occurred while \output is active []
+) (./05-performance.tex)
+Underfull \hbox (badness 1466) in paragraph at lines 47--48
+[]\OT1/ptm/m/n/8 Michael J. Freed-man and Robert Mor-ris. Tarzan: A Peer-to-Pee
+r
+ []
 
-
+[2 <./images/boomerang_net.pdf> <./images/boomerang_message.pdf> <./images/boom
+erang_clusters.pdf>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -294,28 +410,45 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+[3
+
+] (./BitcoinBoomerang.aux)
+
+LaTeX Warning: There were undefined references.
 
 
- <./images/boomerang_net.pdf> <./images/boomerang_clusters.pdf>]
-(./BitcoinBoomerang.aux) ) 
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2852 strings out of 493315
- 42923 string characters out of 6137904
- 104564 words of memory out of 5000000
- 6274 multiletter control sequences out of 15000+600000
- 35221 words of font info for 64 fonts, out of 8000000 for 9000
+ 3908 strings out of 493315
+ 57102 string characters out of 6137904
+ 126040 words of memory out of 5000000
+ 7279 multiletter control sequences out of 15000+600000
+ 40692 words of font info for 78 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,6n,23p,332b,240s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/b
-ase/8r.enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
-></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/lo
-cal/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texliv
-e/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on BitcoinBoomerang.pdf (1 page, 83470 bytes).
+ 38i,6n,26p,1239b,268s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texli
+ve/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2013
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2013/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/font
+s/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/ur
+w/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/u
+tmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
+>
+Output written on BitcoinBoomerang.pdf (3 pages, 210103 bytes).
 PDF statistics:
- 136 PDF objects out of 1000 (max. 8388607)
- 86 compressed objects within 1 object stream
+ 208 PDF objects out of 1000 (max. 8388607)
+ 139 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
