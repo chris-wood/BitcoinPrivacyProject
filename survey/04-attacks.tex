@@ -65,8 +65,17 @@ The metrics used to quantify profile indistinguishability are related to those u
 
 Given these privacy measurements and supporting metrics, the authors then assessed user privacy in a simulation of Bitcoin transactions in a university setting. This experiment used the simulator to gather the ``ground truth'' information about users and their addresses in a system, performed various machine learning behavior-based analysis techniques such as k-means clustering (KMC) and Hierarchichal Agglomerative Clustering (HAC) to formulate an adversary's guess in deanonymizing clients, and then calculated the resulting success (adversarial advantage) in the address unlinkability and profile indistinguishability games. The results for these calculations after varying the fraction of ``privacy-aware'' users, i.e., those that avoid multi-input transactions and use fresh shadow addresses, and the total number of users in the simulation are shown in Table \ref{tab:eval-privacy-results}.
 
-
-\cite{Androulaki12-privacy}
+\begin{table*}
+\begin{center}
+\caption{TODO}
+\label{tab:eval-privacy-results}
+    \begin{tabular}{|l||ccccc|}\hline
+    ~                   & 100 (50\%) & 200 (0\%) & 200 (50\%) & 200 (100\%) & 400 (50\%) \\ \hline
+    $\mathbf{Link}_A$   & $0.91 \pm 0.01$ & $0.90 \pm 0.01$ & $0.91 \pm 0.01$ & $0.92 \pm 0.01$ & $0.93 \pm 0.01$ \\
+    $\mathbf{Prof}_A^a$ & $0.76 \pm 0.01$ & $0.87 \pm 0.01$ & $0.79 \pm 0.01$ & $0.70 \pm 0.01$ & $0.80 \pm 0.01$ \\ \hline
+    \end{tabular}
+\end{center}
+\end{table*}
 
 % Another highly debated topic is the anonymity of Bitcoin transactions. The fact that all transactions are tracked in a replicated ledger and that the details of the transactions are therefore accessible by any participant in the network would suggest that privacy is not possible. However, Nakamoto claims that, since the identities of the owner of an account and the identity of the account are kept separate, the privacy can be said to be pseudonymous. Reid et al. [15] analyze this claim and point out that by colluding the information of multiple accounts that participated in a transaction details about the owner can in fact be recovered. Shamir et al [17] analyzed the transaction graph, deriving some global statistics, including an estimate that 78% of the issued bitcoins are not circulating, and an in depth analysis of a highly active region in the transaction graph. Elias [8] discussed some legal, and moral, aspects of the anonymity, or lack thereof, in Bitcoin.
 
@@ -206,7 +215,9 @@ Secondly, the authors discuss methods in which the zero-knowledge proof scheme c
 %% TODO: issues of incremental deployment
 
 %%% Pinocchio Coin
-Pinocchio Coin \cite{pinocchio} is an attempt at optimizing the Zerocoin protocol. Whereas Zerocoin uses an accumulator based on the Strong RSA assumption and proofs founded on double discrete logarithms, Pinocchio Coin uses elliptic curves and bilinear pairings to achieve virtually the same behavior with significantly less overhead. As such, Pinocchio Coin follows the same process as Zerocoin for {\sf setup}, {\sf mint}, {\sf spend}, and {\sf verify} coins: The setup phase involves creating a suitable pairing-friendly elliptic curve in the security parameter and then configuring the parameters for the Pinocchio proof system. As previously stated, minting, spending, and verification are analogous to the Zerocoin protocol with the exception that proofs are generated without the need to accumulate past commitments (though the proof generation still requires all commitments $C_0,\dots,C_{n-1}$ as input to ensure correctness). The output of the spend procedure 
+Pinocchio Coin \cite{pinocchio} is an attempt at optimizing the Zerocoin protocol. Whereas Zerocoin uses an accumulator based on the Strong RSA assumption and proofs founded on double discrete logarithms, Pinocchio Coin uses elliptic curves and bilinear pairings to achieve virtually the same behavior with significantly less overhead. As such, Pinocchio Coin follows the same process as Zerocoin for {\sf setup}, {\sf mint}, {\sf spend}, and {\sf verify} coins: The setup phase involves creating a suitable pairing-friendly elliptic curve in the security parameter and then configuring the parameters for the Pinocchio proof system. As previously stated, minting, spending, and verification are analogous to the Zerocoin protocol with the exception that proofs are generated without the need to accumulate past commitments (though the proof generation still requires all commitments $C_0,\dots,C_{n-1}$ as input to ensure correctness). 
+
+%%%The output of the spend procedure 
 
 The Pinocchio proof of work was originally designed as a generic proof of work to be used in applications such as cloud computing. The system takes a set of operations and converts them into proof of work that can be seen as a zero knowledge proof. The primary advantage of using Pinocchio Coin over Zerocoin is that the size of each proof is significantly smaller; Pinocchio proofs are less than 400 bytes as opposed to Zerocoin's 50kB proofs, which are well within the Bitcoin transaction size limits. One potential disadvantage of using Pinocchio Coin are that there is no security analysis as of yet \cite{pinocchio}. Futhermore, although Pinocchio serves as an efficient general proof compiler, it is unknown if specialized systems, such as ZKPDL, would exhibit better performance in the Zerocoin framework.
 
