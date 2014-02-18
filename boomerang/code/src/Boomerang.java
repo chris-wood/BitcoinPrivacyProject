@@ -11,6 +11,7 @@ public class Boomerang implements Runnable
 	public int m; 
 	public int n;
 	public int buffSize;
+	public int mixDelay;
 	public int pktSize;
 	
 	// Network information
@@ -19,13 +20,14 @@ public class Boomerang implements Runnable
 	// Main simulation thread control
 	private volatile boolean running = true;
 	
-	public Boomerang(long st, int num, int tgr, int mm, int nn, int bs, int ps)
+	public Boomerang(long st, int num, int tgr, int mm, int nn, int bs, int md, int ps)
 	{
 		this.simTime = st;
 		this.trafficGenRate = tgr;
 		this.m = mm;
 		this.n = nn;
 		this.buffSize = bs;
+		this.mixDelay = md;
 		this.pktSize = ps;
 		
 		// Create all of the nodes
@@ -42,7 +44,7 @@ public class Boomerang implements Runnable
 		long current = System.currentTimeMillis() / 1000;
 		
 		// Start every node
-		System.out.println("Simulation starting.");
+		System.out.println("Simulation starting...");
 		for (Node n : nodes)
 		{
 			n.start();
@@ -51,9 +53,14 @@ public class Boomerang implements Runnable
 		// Run the simulation for the specified amount of time
 		while ((current - start) < simTime)
 		{
-			// let everything advance...
-			
-			// Update the simulation time
+			try
+			{
+				Thread.sleep(1000); // sleep for a second
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 			current = System.currentTimeMillis() / 1000;
 		}
 		
@@ -83,10 +90,23 @@ public class Boomerang implements Runnable
 			int m = Integer.parseInt(reader.readLine());
 			int n = Integer.parseInt(reader.readLine());
 			int buffSize = Integer.parseInt(reader.readLine());
+			int mixDelay = Integer.parseInt(reader.readLine());
 			int pktSize = Integer.parseInt(reader.readLine());
 			
-			// Create the simulator
-			Boomerang boom = new Boomerang(simTime, numNodes, trafficGenRate, m, n, buffSize, pktSize);
+			// Debug
+			System.out.println("Starting simulation with parameters:");
+			System.out.println("  Time: " + simTime);
+			System.out.println("  Nodes: " + numNodes);
+			System.out.println("  Traffic generation rate: " + trafficGenRate);
+			System.out.println("  Circuit width: " + m);
+			System.out.println("  Circuit length: " + n);
+			System.out.println("  Mix buffer size: " + buffSize);
+			System.out.println("  Mix delay: " + mixDelay);
+			System.out.println("  Mix message size: " + pktSize);
+			System.out.println();
+			
+			// Run the simulator
+			Boomerang boom = new Boomerang(simTime, numNodes, trafficGenRate, m, n, buffSize, mixDelay, pktSize);
 			boom.run();
 		}
 		catch (FileNotFoundException e)

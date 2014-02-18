@@ -1,8 +1,8 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -27,14 +27,15 @@ public class Node
 		this.boom = boomerang;
 		this.rng = new Random(System.currentTimeMillis());
 		this.msgQueue = new LinkedBlockingQueue<Message>();
-		this.forwarder = new NodeForwarder();
-		this.generator = new NodeGenerator();
 	}
 	
 	public void start()
 	{
+		this.forwarder = new NodeForwarder();
 		Thread t1 = new Thread(forwarder);
 		t1.start();
+		
+		this.generator = new NodeGenerator();
 		Thread t2 = new Thread(generator);
 		t2.start();
 	}
@@ -61,7 +62,7 @@ public class Node
 		}
 
 		@Override
-		public void run()
+		public void run() 
 		{
 			while (running)
 			{
@@ -79,7 +80,23 @@ public class Node
 						System.exit(-1);
 					}
 				}
+				
 				System.out.println("Node " + id + " mixing and forwarding");
+				Collections.shuffle(bucket);
+				for (Message m : bucket)
+				{
+					Node nextHop = m.hops.remove(0);
+					try
+					{
+						nextHop.acceptMessage(m);
+					}
+					catch (InterruptedException e)
+					{
+						System.err.println(nextHop + " failed to accept new message");
+						e.printStackTrace();
+					}
+				}
+				
 			}
 		}
 	}
@@ -101,11 +118,13 @@ public class Node
 			{		
 				try
 				{
-					int sleep = rng.nextInt() % boom.trafficGenRate;
+					double sleep = rng.nextDouble() * boom.trafficGenRate;
 					sleep = sleep < 0 ? (sleep * -1) % boom.trafficGenRate : sleep;
-					Thread.sleep(sleep * 1000);
+//					System.err.println(this + " sleeping for " + sleep + " seconds");
+					Thread.sleep((long)sleep * 1000);
 					
 					// Build the m circuits of length n each
+//					System.err.println("Creating circuit");
 					ArrayList<Message> messages = new ArrayList<Message>();
 					for (int m = 0; m < boom.m; m++)
 					{
@@ -114,10 +133,10 @@ public class Node
 						for (int n = 0; n < boom.n; n++)
 						{
 							// Pick a new node not already in this circuit
-							int nIndex = rng.nextInt() % boom.nodes.size();
-							while (seen.contains(nIndex) == false)
+							int nIndex = rng.nextInt(boom.nodes.size());
+							while (seen.contains(nIndex) == true)
 							{
-								nIndex = rng.nextInt() % boom.nodes.size();
+								nIndex = rng.nextInt(boom.nodes.size());
 							}
 							
 							circuit.add(boom.nodes.get(nIndex));
@@ -127,13 +146,17 @@ public class Node
 						// New message to send
 						Message newMsg = new Message(id + "-" + msgIndex++);
 						newMsg.setHops(circuit);
+						messages.add(newMsg);
 					}
+					
+//					System.err.println("Circuit creation complete");
 					
 					// Blast out each message at the same time
 					for (Message m : messages)
 					{
-						m.hopIndex++;
-						m.hops.get(0).acceptMessage(m);
+						System.err.println(m.toString() + ": " + m.hops);
+						Node nextHop = m.hops.remove(0);
+						nextHop.acceptMessage(m);
 					}
 				}
 				catch (InterruptedException e)
@@ -143,6 +166,12 @@ public class Node
 				}
 			}
 		}
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "Node-" + id;
 	}
 
 }
