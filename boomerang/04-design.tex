@@ -116,6 +116,10 @@ Based on the {\sf EncodeTransaction} and {\sf BoomerangMessageHandler} procedure
 	\item Deterministic PRG whose input is an element in the range specified by the public-key encryption scheme.
 \end{enumerate}
 
+To satisfy the first primitive, we chose the standard RSA cryptosystem. While ElGamal has the ideal property that plaintext and ciphertext elements are members of the same group $\mathbb{Z}_p$ for some sufficiently large prime $p$, the ciphertext actually consists of a pair of group elements, and thus does not satisfy the ciphertext expansion property. Also, while RSA-OAEP is the only known CCA-secure variant of RSA (in the Random Oracle model), the input plaintext is strictly less than the output ciphertext due to the applied padding. Therefore, this does not achieve the first property that function domain and range are equivalent. 
+
+
+
 % TODO: rsa & prg
 
 % \begin{figure}[ht!]
@@ -125,4 +129,7 @@ Based on the {\sf EncodeTransaction} and {\sf BoomerangMessageHandler} procedure
 % \label{fig:boomerang_clusters}
 % \end{center}
 % \end{figure}
+
+\subsection{Peer Discovery}
+TODO: gossip protocol, duration of Boomerang public/private key pairs, what else?
 

@@ -1,7 +1,12 @@
-\section{Anonymity Claims}
+\section{Design Goals}
+2. Anonymity against malicious nodes: Tarzan should pro- vide sender or recipient anonymity against colluding nodes. That is, a particular host should not be uniquely linkable as the sender (recipient) of any message, or that a message should not be linkable to any sender (recipient) [20]. We consider these properties in terms of an anonymity set: the set of possible senders of a message. The larger this set, the “more” anonymous an initiator remains. These properties implies the weaker relationship anonymity: an adversary should not be able to identify a pair of hosts as communicating with each other, irrespective of which host is running Tarzan.
 
+3. Fault-tolerance and availability: Tarzan should resist an adversary’s attempts to overload the entire system or to block system entry or exit points. Tarzan should minimize the dam- age any one adversary can cause by running a few compro- mised machines.
 
+4. Performance: Tarzan should maximize the performance of tunnel transmission, subject to our anonymity requirements, to make Tarzan a viable IP-level communication channel.
 
-% 1. anonymity set size = exponential in path length
-% 2. cover traffic indistinguishable from real encrypted transaction traffic
+5. Anonymity against a global eavesdropper: An adversary observing the entire network should be unable to determine which Tarzan relay initiates a particular message. Therefore, a node’s traffic patterns should be statistically independent of it originating data traffic.
+
+% 1. anonymity set size = exponential in path length?
+% 2. cover traffic indistinguishable from real encrypted transaction traffic?
 
