@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  11 FEB 2014 20:47
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  17 FEB 2014 21:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -375,17 +375,21 @@ LaTeX Warning: Reference `tab:notation' on page 2 undefined on input line 9.
 File: ./images/boomerang_message.pdf Graphic file (type pdf)
 
 <use ./images/boomerang_message.pdf>
-Package pdftex.def Info: ./images/boomerang_message.pdf used on input line 18.
+Package pdftex.def Info: ./images/boomerang_message.pdf used on input line 30.
 (pdftex.def)             Requested size: 222.02556pt x 38.9448pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 24--25
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
 []\OT1/ptm/m/n/10 The pro-ce-dure to han-dle Boomerang mes-sages,
  []
 
-) (./05-performance.tex) [2 <./images/boomerang_net.pdf>]
-Overfull \vbox (4.97278pt too high) has occurred while \output is active []
+[2 <./images/boomerang_net.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3])
+(./05-performance.tex)
 Underfull \hbox (badness 1466) in paragraph at lines 47--48
 []\OT1/ptm/m/n/8 Michael J. Freed-man and Robert Mor-ris. Tarzan: A Peer-to-Pee
 r
@@ -402,19 +406,21 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3 <./images/boomerang_message.pdf>] (./BitcoinBoomerang.aux)
+[4
+
+ <./images/boomerang_message.pdf>] (./BitcoinBoomerang.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 3914 strings out of 493315
- 57083 string characters out of 6137904
- 132048 words of memory out of 5000000
- 7286 multiletter control sequences out of 15000+600000
- 40692 words of font info for 78 fonts, out of 8000000 for 9000
+ 3923 strings out of 493315
+ 57189 string characters out of 6137904
+ 134048 words of memory out of 5000000
+ 7293 multiletter control sequences out of 15000+600000
+ 43523 words of font info for 81 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,6n,26p,1239b,269s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,7n,26p,1239b,273s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
@@ -432,10 +438,10 @@ s/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/ur
 w/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb
 >
-Output written on BitcoinBoomerang.pdf (3 pages, 203231 bytes).
+Output written on BitcoinBoomerang.pdf (4 pages, 207631 bytes).
 PDF statistics:
- 165 PDF objects out of 1000 (max. 8388607)
- 109 compressed objects within 2 object streams
+ 168 PDF objects out of 1000 (max. 8388607)
+ 111 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

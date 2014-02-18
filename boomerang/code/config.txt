@@ -1,0 +1,15 @@
+30
+100
+10
+5
+5
+4
+1024
+
+% time
+% number of nodes
+% cover traffic generation rate (random variable)
+% circuit length (fixed)
+% # circuits per transaction
+% mix buffer size (fixed)
+% encoded transaction size
