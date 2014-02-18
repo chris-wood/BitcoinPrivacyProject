@@ -66,6 +66,7 @@ public class Node
 			while (running)
 			{
 				ArrayList<Message> bucket = new ArrayList<Message>();
+				System.out.println("Node " + id + " waiting for messages");
 				for (int i = 0; i < boom.buffSize; i++)
 				{
 					try
@@ -78,6 +79,7 @@ public class Node
 						System.exit(-1);
 					}
 				}
+				System.out.println("Node " + id + " mixing and forwarding");
 			}
 		}
 	}
