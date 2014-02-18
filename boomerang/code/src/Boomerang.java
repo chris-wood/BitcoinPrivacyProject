@@ -45,8 +45,7 @@ public class Boomerang implements Runnable
 		System.out.println("Simulation starting.");
 		for (Node n : nodes)
 		{
-			Thread t = new Thread(n);
-			t.start();
+			n.start();
 		}
 		
 		// Run the simulation for the specified amount of time
@@ -62,7 +61,7 @@ public class Boomerang implements Runnable
 		System.out.println("Simulation complete. Killing every node.");
 		for (Node n : nodes)
 		{
-			n.kill();
+			n.stop();
 		}
 	}
 	
