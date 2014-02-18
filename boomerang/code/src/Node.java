@@ -58,6 +58,14 @@ public class Node
 		
 		public void kill()
 		{
+			try
+			{
+				msgQueue.put(null); // poison pill
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 			running = false;
 		}
 
@@ -72,7 +80,16 @@ public class Node
 				{
 					try
 					{
-						bucket.add(msgQueue.take());
+						Message m = msgQueue.take();
+						if (m != null)
+						{
+							bucket.add(m);
+						}
+						else
+						{
+							running = false; // redundant
+							break;
+						}
 					}
 					catch (InterruptedException e)
 					{
@@ -81,22 +98,24 @@ public class Node
 					}
 				}
 				
-				System.out.println("Node " + id + " mixing and forwarding");
-				Collections.shuffle(bucket);
-				for (Message m : bucket)
+				if (running)
 				{
-					Node nextHop = m.hops.remove(0);
-					try
+					System.out.println("Node " + id + " mixing and forwarding");
+					Collections.shuffle(bucket);
+					for (Message m : bucket)
 					{
-						nextHop.acceptMessage(m);
-					}
-					catch (InterruptedException e)
-					{
-						System.err.println(nextHop + " failed to accept new message");
-						e.printStackTrace();
+						Node nextHop = m.hops.remove(0);
+						try
+						{
+							nextHop.acceptMessage(m);
+						}
+						catch (InterruptedException e)
+						{
+							System.err.println(nextHop + " failed to accept new message");
+							e.printStackTrace();
+						}
 					}
 				}
-				
 			}
 		}
 	}
