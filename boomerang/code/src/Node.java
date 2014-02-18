@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -42,6 +43,11 @@ public class Node
 	{
 		forwarder.kill();
 		generator.kill();
+	}
+	
+	public void acceptMessage(Message m) throws InterruptedException
+	{
+		msgQueue.put(m);
 	}
 	
 	class NodeForwarder implements Runnable
@@ -96,7 +102,37 @@ public class Node
 					int sleep = rng.nextInt() % boom.trafficGenRate;
 					sleep = sleep < 0 ? (sleep * -1) % boom.trafficGenRate : sleep;
 					Thread.sleep(sleep * 1000);
-					System.out.println(id + " generating...");
+					
+					// Build the m circuits of length n each
+					ArrayList<Message> messages = new ArrayList<Message>();
+					for (int m = 0; m < boom.m; m++)
+					{
+						ArrayList<Node> circuit = new ArrayList<Node>();
+						HashSet<Integer> seen = new HashSet<Integer>();
+						for (int n = 0; n < boom.n; n++)
+						{
+							// Pick a new node not already in this circuit
+							int nIndex = rng.nextInt() % boom.nodes.size();
+							while (seen.contains(nIndex) == false)
+							{
+								nIndex = rng.nextInt() % boom.nodes.size();
+							}
+							
+							circuit.add(boom.nodes.get(nIndex));
+							seen.add(nIndex);
+						}
+						
+						// New message to send
+						Message newMsg = new Message(id + "-" + msgIndex++);
+						newMsg.setHops(circuit);
+					}
+					
+					// Blast out each message at the same time
+					for (Message m : messages)
+					{
+						m.hopIndex++;
+						m.hops.get(0).acceptMessage(m);
+					}
 				}
 				catch (InterruptedException e)
 				{
