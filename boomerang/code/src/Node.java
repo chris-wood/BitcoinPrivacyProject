@@ -48,7 +48,14 @@ public class Node
 	
 	public void acceptMessage(Message m) throws InterruptedException
 	{
-		msgQueue.put(m);
+		if (m.hops.size() > 0)
+		{
+			msgQueue.put(m);
+		}
+		else
+		{
+			// reached the end of the circuit, broadcast the transaction here
+		}
 	}
 	
 	class NodeForwarder implements Runnable
@@ -60,7 +67,7 @@ public class Node
 		{
 			try
 			{
-				msgQueue.put(null); // poison pill
+				msgQueue.put(new EndMessage("PP" + id)); // poison pill
 			}
 			catch (InterruptedException e)
 			{
@@ -75,13 +82,12 @@ public class Node
 			while (running)
 			{
 				ArrayList<Message> bucket = new ArrayList<Message>();
-				System.out.println("Node " + id + " waiting for messages");
 				for (int i = 0; i < boom.buffSize; i++)
 				{
 					try
 					{
 						Message m = msgQueue.take();
-						if (m != null)
+						if (!(m instanceof EndMessage))
 						{
 							bucket.add(m);
 						}
@@ -100,7 +106,7 @@ public class Node
 				
 				if (running)
 				{
-					System.out.println("Node " + id + " mixing and forwarding");
+//					System.out.println("Node " + id + " mixing and forwarding");
 					Collections.shuffle(bucket);
 					for (Message m : bucket)
 					{
@@ -139,11 +145,9 @@ public class Node
 				{
 					double sleep = rng.nextDouble() * boom.trafficGenRate;
 					sleep = sleep < 0 ? (sleep * -1) % boom.trafficGenRate : sleep;
-//					System.err.println(this + " sleeping for " + sleep + " seconds");
 					Thread.sleep((long)sleep * 1000);
 					
 					// Build the m circuits of length n each
-//					System.err.println("Creating circuit");
 					ArrayList<Message> messages = new ArrayList<Message>();
 					for (int m = 0; m < boom.m; m++)
 					{
@@ -168,12 +172,10 @@ public class Node
 						messages.add(newMsg);
 					}
 					
-//					System.err.println("Circuit creation complete");
-					
 					// Blast out each message at the same time
 					for (Message m : messages)
 					{
-						System.err.println(m.toString() + ": " + m.hops);
+//						System.err.println(m.toString() + ": " + m.hops);
 						Node nextHop = m.hops.remove(0);
 						nextHop.acceptMessage(m);
 					}
