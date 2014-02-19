@@ -1,5 +1,7 @@
 5
-4
+100
+2
+0
 100
 100
 2
@@ -12,7 +14,9 @@
 
 
 % time
-% number of nodes
+% initial number of nodes
+% node enter rate (time range in which nodes enter the network)
+% node exit rate (time range in which nodes leave the network)
 % grid height
 % grid width
 % cover traffic generation rate (random variable)

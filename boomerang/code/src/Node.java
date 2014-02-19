@@ -6,7 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
-public class Node 
+public class Node
 {
 	// Behavior parameters
 	public Boomerang boom;
@@ -22,9 +22,11 @@ public class Node
 	public BlockingQueue<Message> msgQueue;
 	public int msgIndex = 0;
 	
-	public Node(int id, Location loc, Boomerang boomerang, long seed)
+	public static int globalNodeId;
+	
+	public Node(Location loc, Boomerang boomerang, long seed)
 	{
-		this.id = id;
+		this.id = globalNodeId++;
 		this.boom = boomerang;
 		this.loc = loc;
 		this.rng = new Random(seed);
@@ -58,8 +60,14 @@ public class Node
 		else
 		{
 			// reached the end of the circuit, broadcast the transaction here
-			System.err.println(m + " reached the end of the circuit");
+//			System.err.println(m + " reached the end of the circuit");
 		}
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "Node-" + id;
 	}
 	
 	class NodeForwarder implements Runnable
@@ -104,6 +112,7 @@ public class Node
 						}
 						else
 						{
+							System.err.println("Killing forwarder " + id);
 							running = false; // redundant
 							break;
 						}
@@ -167,13 +176,14 @@ public class Node
 						for (int n = 0; n < boom.n; n++)
 						{
 							// Pick a new node not already in this circuit
-							int nIndex = rng.nextInt(boom.nodes.size());
+							int nIndex = rng.nextInt(boom.getNumberOfNodes());
 							while (seen.contains(nIndex) == true)
 							{
-								nIndex = rng.nextInt(boom.nodes.size());
+								nIndex = rng.nextInt(boom.getNumberOfNodes());
 							}
 							
-							circuit.add(boom.nodes.get(nIndex));
+							Node node = boom.getNode(nIndex);
+							circuit.add(node);
 							seen.add(nIndex);
 						}
 						
@@ -203,11 +213,4 @@ public class Node
 			}
 		}
 	}
-	
-	@Override
-	public String toString()
-	{
-		return "Node-" + id;
-	}
-
 }
