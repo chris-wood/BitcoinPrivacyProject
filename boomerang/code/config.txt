@@ -1,12 +1,13 @@
 5
-100
-2
+5
+0
 0
 100
 100
 2
 2
 2
+1
 1
 1
 1024
@@ -22,6 +23,7 @@
 % cover traffic generation rate (random variable)
 % circuit width
 % circuit length (fixed)
+% message retry limit
 % mix buffer size (fixed)
 % mix buffer message delay
 % encoded transaction size

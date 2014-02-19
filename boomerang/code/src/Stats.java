@@ -4,6 +4,7 @@
 //3. Total message latency (from start to end of a circuit)
 //4. Per-hop latency 
 //5. Node forwarding throughput (messages/s)
+//6. #retries
 
 public class Stats
 {

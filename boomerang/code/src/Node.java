@@ -4,7 +4,8 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 public class Node
 {
@@ -14,14 +15,21 @@ public class Node
 	public Random rng;
 	public Location loc;
 	
+	// Statistics
+	public int numRetries;
+	
 	// Inner processes
 	NodeForwarder forwarder;
-	NodeGenerator generator;
+	NodeCoverGenerator coverGenerator;
+	NodeTxGenerator txGenerator;
 	
-	// Buff node things
+	// Buffer things
 	public BlockingQueue<Message> msgQueue;
+	
+	// Local message identifier
 	public int msgIndex = 0;
 	
+	// For uniquely identifying nodes
 	public static int globalNodeId;
 	
 	public Node(Location loc, Boomerang boomerang, long seed)
@@ -31,6 +39,7 @@ public class Node
 		this.loc = loc;
 		this.rng = new Random(seed);
 		this.msgQueue = new LinkedBlockingQueue<Message>();
+		this.numRetries = 0;
 	}
 	
 	public void start()
@@ -39,28 +48,42 @@ public class Node
 		Thread t1 = new Thread(forwarder);
 		t1.start();
 		
-		this.generator = new NodeGenerator(this);
-		Thread t2 = new Thread(generator);
+		this.coverGenerator = new NodeCoverGenerator(this);
+		Thread t2 = new Thread(coverGenerator);
 		t2.start();
+		
+		this.txGenerator = new NodeTxGenerator(this);
+		Thread t3 = new Thread(txGenerator);
+		t3.start();
 	}
 	
 	public void stop()
 	{
 		forwarder.kill();
-		generator.kill();
+		coverGenerator.kill();
+		txGenerator.kill();
 	}
 	
 	public void acceptMessage(Message m) throws InterruptedException
 	{
 		if (m.hops.size() > 1)
 		{
+			System.err.println(this + ": retrieved message - " + m);
 			m.arriveTime.add(System.currentTimeMillis());
 			msgQueue.put(m);
 		}
 		else
 		{
 			// reached the end of the circuit, broadcast the transaction here
-//			System.err.println(m + " reached the end of the circuit");
+			if (m.type == MessageType.TX)
+			{
+				m.markAsBroadcasted();
+				System.err.println("Transaction broadcasted: " + m);
+			}
+			else
+			{
+				System.err.println("End of life: " + m);
+			}
 		}
 	}
 	
@@ -84,9 +107,10 @@ public class Node
 		
 		public void kill()
 		{
+			System.err.println(host + ": killing forwarder");
 			try
 			{
-				msgQueue.put(new EndMessage("PP" + id)); // poison pill
+				msgQueue.put(new Message("PP" + id, MessageType.POISON)); // poison pill
 			}
 			catch (InterruptedException e)
 			{
@@ -106,7 +130,7 @@ public class Node
 					try
 					{
 						Message m = msgQueue.take();
-						if (!(m instanceof EndMessage))
+						if (m.type != MessageType.POISON)
 						{
 							bucket.add(m);
 						}
@@ -136,10 +160,12 @@ public class Node
 					}
 				}
 			}
+			
+			System.err.println(host + ": forwarder going down.");
 		}
 	}
 	
-	class NodeGenerator implements Runnable
+	class NodeCoverGenerator implements Runnable
 	{
 		private Node host;
 		
@@ -148,10 +174,89 @@ public class Node
 		
 		public void kill()
 		{
+			System.err.println(host + ": killing chaff generator");
 			running = false;
 		}
 		
-		public NodeGenerator(Node host)
+		public NodeCoverGenerator(Node host)
+		{
+			this.host = host;
+		}
+		
+		@Override
+		public void run()
+		{
+			while (running)
+			{		
+				try
+				{
+					double sleep = rng.nextDouble() * boom.trafficGenRate;
+					sleep = sleep < 0 ? (sleep * -1) % boom.trafficGenRate : sleep;
+					System.err.println(host + ": chaff generator sleeping for: " + sleep);
+					Thread.sleep((long)sleep * 1000);
+					
+					// Build the m circuits of length n each
+					ArrayList<Message> messages = new ArrayList<Message>();
+					for (int m = 0; m < boom.m; m++)
+					{
+						ArrayList<Node> circuit = new ArrayList<Node>();
+						HashSet<Integer> seen = new HashSet<Integer>();
+						seen.add(host.id);
+						for (int n = 0; n < boom.n - 1; n++)
+						{
+							// Pick a new node not already in this circuit
+							int nIndex = rng.nextInt(boom.getNumberOfNodes());
+							while (seen.contains(nIndex) == true)
+							{
+								nIndex = rng.nextInt(boom.getNumberOfNodes());
+							}
+							
+							Node node = boom.getNode(nIndex);
+							circuit.add(node);
+							seen.add(nIndex);
+						}
+						
+						// New message to send
+						Message newMsg = new Message(id + "-" + msgIndex++, MessageType.COVER);
+						circuit.add(host);
+						newMsg.setHops(host, circuit);
+						messages.add(newMsg);
+					}
+					
+					// Blast out each message at the same time
+					for (Message m : messages)
+					{
+//						m.hops.add(0, host);
+						m.sendTime.add(System.currentTimeMillis());
+						Thread mThread = new Thread(m);
+						mThread.run();
+					}
+				}
+				catch (InterruptedException e)
+				{
+					e.printStackTrace();
+					running = false;
+				}
+			}
+			
+			System.err.println(host + ": chaff generator going down.");
+		}
+	}
+	
+	class NodeTxGenerator implements Runnable
+	{
+		private Node host;
+		
+		// Node thread control
+		private volatile boolean running = true;
+		
+		public void kill()
+		{
+			System.err.println(host + ": killing transaction generator");
+			running = false;
+		}
+		
+		public NodeTxGenerator(Node host)
 		{
 			this.host = host;
 		}
@@ -167,42 +272,59 @@ public class Node
 					sleep = sleep < 0 ? (sleep * -1) % boom.trafficGenRate : sleep;
 					Thread.sleep((long)sleep * 1000);
 					
-					// Build the m circuits of length n each
-					ArrayList<Message> messages = new ArrayList<Message>();
-					for (int m = 0; m < boom.m; m++)
+					// Continue to send out the new transaction until it is observed in the network
+					boolean timeout = true;
+					while (timeout)
 					{
-						ArrayList<Node> circuit = new ArrayList<Node>();
-						HashSet<Integer> seen = new HashSet<Integer>();
-						for (int n = 0; n < boom.n; n++)
+						// Build the m circuits of length n each
+						Semaphore blockSem = new Semaphore(0); // binary sem
+						ArrayList<Message> messages = new ArrayList<Message>();
+						for (int m = 0; m < boom.m; m++)
 						{
-							// Pick a new node not already in this circuit
-							int nIndex = rng.nextInt(boom.getNumberOfNodes());
-							while (seen.contains(nIndex) == true)
+							ArrayList<Node> circuit = new ArrayList<Node>();
+							HashSet<Integer> seen = new HashSet<Integer>();
+							for (int n = 0; n < boom.n; n++)
 							{
-								nIndex = rng.nextInt(boom.getNumberOfNodes());
+								// Pick a new node not already in this circuit
+								int nIndex = rng.nextInt(boom.getNumberOfNodes());
+								while (seen.contains(nIndex) == true)
+								{
+									nIndex = rng.nextInt(boom.getNumberOfNodes());
+								}
+								
+								Node node = boom.getNode(nIndex);
+								circuit.add(node);
+								seen.add(nIndex);
 							}
 							
-							Node node = boom.getNode(nIndex);
-							circuit.add(node);
-							seen.add(nIndex);
+							// New message to send
+							Message newMsg = new Message(id + "-" + msgIndex++, MessageType.TX, blockSem);
+							newMsg.setHops(host, circuit);
+							messages.add(newMsg);
 						}
 						
-						// New message to send
-						Message newMsg = new Message(id + "-" + msgIndex++);
-						newMsg.setHops(circuit);
-						messages.add(newMsg);
-					}
-					
-					// Blast out each message at the same time
-					for (Message m : messages)
-					{
-//						System.err.println(m.toString() + ": " + m.hops);
-//						Node nextHop = m.hops.remove(0);
-//						nextHop.acceptMessage(m);
-						m.hops.add(0, host);
-						m.sendTime.add(System.currentTimeMillis());
-						Thread mThread = new Thread(m);
-						mThread.run();
+						// Blast out each message at the same time
+						for (Message m : messages)
+						{
+							m.sendTime.add(System.currentTimeMillis());
+							Thread mThread = new Thread(m);
+							mThread.run();
+						}
+						
+						// Wait until at least one has gone through to the end of a circuit
+						timeout = blockSem.tryAcquire(boom.retryLimit, TimeUnit.SECONDS);
+						if (!timeout)
+						{
+							numRetries++;
+							System.err.println("Reblasting transaction for " + host);
+						}
+						
+						// Short circuit if the simulation ended while we were waiting
+						if (!running)
+						{
+							System.err.println("Shortcircuiting, simuatlion done: " + host);
+							timeout = false;
+						}
 					}
 				}
 				catch (InterruptedException e)
@@ -211,6 +333,8 @@ public class Node
 					running = false;
 				}
 			}
+			
+			System.err.println(host + ": transaction generator going down.");
 		}
 	}
 }

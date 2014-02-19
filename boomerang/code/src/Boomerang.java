@@ -20,6 +20,7 @@ public class Boomerang implements Runnable
 	public int mixDelay;
 	public int pktSize;
 	public long seed;
+	public int retryLimit;
 	
 	// Node maintenance threads
 	public BoomerangNodeGenerator generator;
@@ -28,7 +29,7 @@ public class Boomerang implements Runnable
 	// Network information
 	public ArrayList<Node> nodes;
 	
-	public Boomerang(long seed, long st, int num, int enterRate, int exitRate, int height, int width, int tgr, int mm, int nn, int bs, int md, int ps)
+	public Boomerang(long seed, long st, int num, int enterRate, int exitRate, int height, int width, int tgr, int mm, int nn, int bs, int md, int ps, int retryLimit)
 	{
 		this.seed = seed;
 		this.simTime = st;
@@ -42,6 +43,7 @@ public class Boomerang implements Runnable
 		this.buffSize = bs;
 		this.mixDelay = md;
 		this.pktSize = ps;
+		this.retryLimit = retryLimit;
 		
 		// RNG for random node locations
 		Random rng = new Random(seed);
@@ -280,6 +282,7 @@ public class Boomerang implements Runnable
 			int trafficGenRate = Integer.parseInt(reader.readLine());
 			int m = Integer.parseInt(reader.readLine());
 			int n = Integer.parseInt(reader.readLine());
+			int retryLimit = Integer.parseInt(reader.readLine());
 			int buffSize = Integer.parseInt(reader.readLine());
 			int mixDelay = Integer.parseInt(reader.readLine());
 			int pktSize = Integer.parseInt(reader.readLine());
@@ -299,7 +302,9 @@ public class Boomerang implements Runnable
 			System.out.println();
 			
 			// Run the simulator
-			Boomerang boom = new Boomerang(seed, simTime, numNodes, enterRate, exitRate, gridHeight, gridWidth, trafficGenRate, m, n, buffSize, mixDelay, pktSize);
+			Boomerang boom = new Boomerang(seed, simTime, numNodes, enterRate, 
+					exitRate, gridHeight, gridWidth, trafficGenRate, m, n, 
+					buffSize, mixDelay, pktSize, retryLimit);
 			boom.run();
 		}
 		catch (FileNotFoundException e)
