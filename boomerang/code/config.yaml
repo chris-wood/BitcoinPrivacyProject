@@ -1,0 +1,15 @@
+simTime: 5
+numNodes: 5
+enterRate: 0
+exitRate: 0
+gridHeight: 100
+gridWidth: 100
+chaffGenRate: 2
+txGenRate: 2
+circuitWidth: 2
+circuitDepth: 2
+retryLimit: 1
+buffSize: 1
+mixDelay: 1
+pktSize: 1024
+seed: 256

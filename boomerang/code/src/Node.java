@@ -140,7 +140,7 @@ public class Node
 			while (running)
 			{
 				ArrayList<Message> bucket = new ArrayList<Message>();
-				for (int i = 0; i < boom.buffSize; i++)
+				for (int i = 0; i < boom.config.buffSize; i++)
 				{
 					try
 					{
@@ -206,19 +206,19 @@ public class Node
 			{		
 				try
 				{
-					double sleep = rng.nextDouble() * boom.trafficGenRate;
-					sleep = sleep < 0 ? (sleep * -1) % boom.trafficGenRate : sleep;
+					double sleep = rng.nextDouble() * boom.config.chaffGenRate;
+					sleep = sleep < 0 ? (sleep * -1) % boom.config.chaffGenRate : sleep;
 					System.err.println(host + ": chaff generator sleeping for: " + sleep);
 					Thread.sleep((long)sleep * 1000);
 					
 					// Build the m circuits of length n each
 					ArrayList<Message> messages = new ArrayList<Message>();
-					for (int m = 0; m < boom.m; m++)
+					for (int m = 0; m < boom.config.circuitWidth; m++)
 					{
 						ArrayList<Node> circuit = new ArrayList<Node>();
 						HashSet<Integer> seen = new HashSet<Integer>();
 						seen.add(host.id);
-						for (int n = 0; n < boom.n - 1; n++)
+						for (int n = 0; n < boom.config.circuitDepth - 1; n++)
 						{
 							// Pick a new node not already in this circuit
 							int nIndex = rng.nextInt(boom.getNumberOfNodes());
@@ -285,8 +285,8 @@ public class Node
 			{		
 				try
 				{
-					double sleep = rng.nextDouble() * boom.trafficGenRate;
-					sleep = sleep < 0 ? (sleep * -1) % boom.trafficGenRate : sleep;
+					double sleep = rng.nextDouble() * boom.config.txGenRate;
+					sleep = sleep < 0 ? (sleep * -1) % boom.config.txGenRate : sleep;
 					Thread.sleep((long)sleep * 1000);
 					
 					// Continue to send out the new transaction until it is observed in the network
@@ -296,11 +296,11 @@ public class Node
 						// Build the m circuits of length n each
 						Semaphore blockSem = new Semaphore(0); // binary sem
 						ArrayList<Message> messages = new ArrayList<Message>();
-						for (int m = 0; m < boom.m; m++)
+						for (int m = 0; m < boom.config.circuitWidth; m++)
 						{
 							ArrayList<Node> circuit = new ArrayList<Node>();
 							HashSet<Integer> seen = new HashSet<Integer>();
-							for (int n = 0; n < boom.n; n++)
+							for (int n = 0; n < boom.config.circuitDepth; n++)
 							{
 								// Pick a new node not already in this circuit
 								int nIndex = rng.nextInt(boom.getNumberOfNodes());
@@ -330,7 +330,7 @@ public class Node
 						}
 						
 						// Wait until at least one has gone through to the end of a circuit
-						timeout = blockSem.tryAcquire(boom.retryLimit, TimeUnit.SECONDS);
+						timeout = blockSem.tryAcquire(boom.config.retryLimit, TimeUnit.SECONDS);
 						if (!timeout)
 						{
 							numRetries++;
