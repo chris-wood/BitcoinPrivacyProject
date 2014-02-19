@@ -105,8 +105,9 @@ public class Boomerang implements Runnable
 			int mixDelay = Integer.parseInt(reader.readLine());
 			int pktSize = Integer.parseInt(reader.readLine());
 			long seed = Long.parseLong(reader.readLine());
+			reader.close();
 			
-			// Debug
+			// Print out simulation parameters 
 			System.out.println("Starting simulation with parameters:");
 			System.out.println("  Time: " + simTime);
 			System.out.println("  Nodes: " + numNodes);
