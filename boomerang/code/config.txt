@@ -1,18 +1,24 @@
 5
 4
+100
+100
 2
 2
 2
 1
 1
 1024
+256
 
 
 % time
 % number of nodes
+% grid height
+% grid width
 % cover traffic generation rate (random variable)
 % circuit width
 % circuit length (fixed)
 % mix buffer size (fixed)
 % mix buffer message delay
 % encoded transaction size
+% simulation seed

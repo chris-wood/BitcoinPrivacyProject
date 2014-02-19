@@ -12,6 +12,7 @@ public class Node
 	public Boomerang boom;
 	public int id;
 	public Random rng;
+	public Location loc;
 	
 	// Inner processes
 	NodeForwarder forwarder;
@@ -21,21 +22,22 @@ public class Node
 	public BlockingQueue<Message> msgQueue;
 	public int msgIndex = 0;
 	
-	public Node(int id, Boomerang boomerang)
+	public Node(int id, Location loc, Boomerang boomerang, long seed)
 	{
 		this.id = id;
 		this.boom = boomerang;
-		this.rng = new Random(System.currentTimeMillis());
+		this.loc = loc;
+		this.rng = new Random(seed);
 		this.msgQueue = new LinkedBlockingQueue<Message>();
 	}
 	
 	public void start()
 	{
-		this.forwarder = new NodeForwarder();
+		this.forwarder = new NodeForwarder(this);
 		Thread t1 = new Thread(forwarder);
 		t1.start();
 		
-		this.generator = new NodeGenerator();
+		this.generator = new NodeGenerator(this);
 		Thread t2 = new Thread(generator);
 		t2.start();
 	}
@@ -48,20 +50,29 @@ public class Node
 	
 	public void acceptMessage(Message m) throws InterruptedException
 	{
-		if (m.hops.size() > 0)
+		if (m.hops.size() > 1)
 		{
+			m.arriveTime.add(System.currentTimeMillis());
 			msgQueue.put(m);
 		}
 		else
 		{
 			// reached the end of the circuit, broadcast the transaction here
+			System.err.println(m + " reached the end of the circuit");
 		}
 	}
 	
 	class NodeForwarder implements Runnable
 	{
+		public Node host; 
+		
 		// Node thread control
 		private volatile boolean running = true;
+		
+		public NodeForwarder(Node host)
+		{
+			this.host = host;
+		}
 		
 		public void kill()
 		{
@@ -110,16 +121,9 @@ public class Node
 					Collections.shuffle(bucket);
 					for (Message m : bucket)
 					{
-						Node nextHop = m.hops.remove(0);
-						try
-						{
-							nextHop.acceptMessage(m);
-						}
-						catch (InterruptedException e)
-						{
-							System.err.println(nextHop + " failed to accept new message");
-							e.printStackTrace();
-						}
+						m.sendTime.add(System.currentTimeMillis());
+						Thread mThread = new Thread(m);
+						mThread.run();
 					}
 				}
 			}
@@ -128,12 +132,19 @@ public class Node
 	
 	class NodeGenerator implements Runnable
 	{
+		private Node host;
+		
 		// Node thread control
 		private volatile boolean running = true;
 		
 		public void kill()
 		{
 			running = false;
+		}
+		
+		public NodeGenerator(Node host)
+		{
+			this.host = host;
 		}
 		
 		@Override
@@ -176,8 +187,12 @@ public class Node
 					for (Message m : messages)
 					{
 //						System.err.println(m.toString() + ": " + m.hops);
-						Node nextHop = m.hops.remove(0);
-						nextHop.acceptMessage(m);
+//						Node nextHop = m.hops.remove(0);
+//						nextHop.acceptMessage(m);
+						m.hops.add(0, host);
+						m.sendTime.add(System.currentTimeMillis());
+						Thread mThread = new Thread(m);
+						mThread.run();
 					}
 				}
 				catch (InterruptedException e)

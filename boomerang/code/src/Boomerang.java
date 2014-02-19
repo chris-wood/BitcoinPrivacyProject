@@ -3,11 +3,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Boomerang implements Runnable
 {
 	public long simTime;
 	public int trafficGenRate;
+	public int gridWidth;
+	public int gridHeight;
 	public int m; 
 	public int n;
 	public int buffSize;
@@ -20,21 +23,28 @@ public class Boomerang implements Runnable
 	// Main simulation thread control
 	private volatile boolean running = true;
 	
-	public Boomerang(long st, int num, int tgr, int mm, int nn, int bs, int md, int ps)
+	public Boomerang(long seed, long st, int num, int height, int width, int tgr, int mm, int nn, int bs, int md, int ps)
 	{
 		this.simTime = st;
 		this.trafficGenRate = tgr;
+		this.gridHeight = height;
+		this.gridWidth = width;
 		this.m = mm;
 		this.n = nn;
 		this.buffSize = bs;
 		this.mixDelay = md;
 		this.pktSize = ps;
 		
+		// RNG for random node locations
+		Random rng = new Random(seed);
+		
 		// Create all of the nodes
 		nodes = new ArrayList<Node>();
 		for (int i = 0; i < num; i++)
 		{
-			nodes.add(new Node(i, this));
+			int x = rng.nextInt(gridWidth);
+			int y = rng.nextInt(gridHeight);
+			nodes.add(new Node(i, new Location(x, y), this, seed++));
 		}
 	}
 	
@@ -86,12 +96,15 @@ public class Boomerang implements Runnable
 			BufferedReader reader = new BufferedReader(new FileReader(args[0]));
 			long simTime = Long.parseLong(reader.readLine());
 			int numNodes = Integer.parseInt(reader.readLine());
+			int gridHeight = Integer.parseInt(reader.readLine());
+			int gridWidth = Integer.parseInt(reader.readLine());
 			int trafficGenRate = Integer.parseInt(reader.readLine());
 			int m = Integer.parseInt(reader.readLine());
 			int n = Integer.parseInt(reader.readLine());
 			int buffSize = Integer.parseInt(reader.readLine());
 			int mixDelay = Integer.parseInt(reader.readLine());
 			int pktSize = Integer.parseInt(reader.readLine());
+			long seed = Long.parseLong(reader.readLine());
 			
 			// Debug
 			System.out.println("Starting simulation with parameters:");
@@ -106,7 +119,7 @@ public class Boomerang implements Runnable
 			System.out.println();
 			
 			// Run the simulator
-			Boomerang boom = new Boomerang(simTime, numNodes, trafficGenRate, m, n, buffSize, mixDelay, pktSize);
+			Boomerang boom = new Boomerang(seed, simTime, numNodes, gridHeight, gridWidth, trafficGenRate, m, n, buffSize, mixDelay, pktSize);
 			boom.run();
 		}
 		catch (FileNotFoundException e)
