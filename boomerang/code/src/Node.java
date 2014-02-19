@@ -16,7 +16,13 @@ public class Node
 	public Location loc;
 	
 	// Statistics
+	public long startTime;
+	public long endTime;
+	public long liveTime;
 	public int numRetries;
+	public int numForwarded;
+	public int numChaffEncodings;
+	public int numTxEncodings;
 	
 	// Inner processes
 	NodeForwarder forwarder;
@@ -39,11 +45,17 @@ public class Node
 		this.loc = loc;
 		this.rng = new Random(seed);
 		this.msgQueue = new LinkedBlockingQueue<Message>();
+		
 		this.numRetries = 0;
+		this.numForwarded = 0;
+		this.numChaffEncodings = 0;
+		this.numTxEncodings = 0;
 	}
 	
 	public void start()
 	{
+		startTime = System.currentTimeMillis();
+		
 		this.forwarder = new NodeForwarder(this);
 		Thread t1 = new Thread(forwarder);
 		t1.start();
@@ -59,6 +71,9 @@ public class Node
 	
 	public void stop()
 	{
+		endTime = System.currentTimeMillis();
+		liveTime = endTime - startTime;
+		
 		forwarder.kill();
 		coverGenerator.kill();
 		txGenerator.kill();
@@ -157,6 +172,7 @@ public class Node
 						m.sendTime.add(System.currentTimeMillis());
 						Thread mThread = new Thread(m);
 						mThread.run();
+						host.numForwarded++;
 					}
 				}
 			}
@@ -214,13 +230,14 @@ public class Node
 							Node node = boom.getNode(nIndex);
 							circuit.add(node);
 							seen.add(nIndex);
+							host.numChaffEncodings++;
 						}
 						
 						// New message to send
 						Message newMsg = new Message(id + "-" + msgIndex++, MessageType.COVER);
 						circuit.add(host);
 						newMsg.setHops(host, circuit);
-						messages.add(newMsg);
+						messages.add(newMsg);					
 					}
 					
 					// Blast out each message at the same time
@@ -295,6 +312,7 @@ public class Node
 								Node node = boom.getNode(nIndex);
 								circuit.add(node);
 								seen.add(nIndex);
+								host.numTxEncodings++;
 							}
 							
 							// New message to send

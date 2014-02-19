@@ -159,7 +159,10 @@ public class Boomerang implements Runnable
 			Random rng = new Random(seed++);
 			if (getNumberOfNodes() > 0)
 			{
-				nodes.remove(rng.nextInt(getNumberOfNodes()));
+				int index = rng.nextInt(getNumberOfNodes());
+				Node n = nodes.get(index);
+				nodes.remove(index);
+				System.err.println("Terminating " + n);
 			}
 			nodes.notifyAll();
 		}
@@ -211,6 +214,7 @@ public class Boomerang implements Runnable
 						Node newNode = new Node(new Location(x, y), boom, seed++);
 						boom.addNode(newNode);
 						newNode.start();
+						System.err.println("Spawning " + newNode);
 					}
 				}
 				catch (InterruptedException e)
