@@ -165,10 +165,10 @@ public class Node
 				
 				if (running)
 				{
-//					System.out.println("Node " + id + " mixing and forwarding");
 					Collections.shuffle(bucket);
 					for (Message m : bucket)
 					{
+						boom.numMessages.incrementAndGet();
 						m.sendTime.add(System.currentTimeMillis());
 						Thread mThread = new Thread(m);
 						mThread.run();
@@ -243,7 +243,7 @@ public class Node
 					// Blast out each message at the same time
 					for (Message m : messages)
 					{
-//						m.hops.add(0, host);
+						boom.numMessages.incrementAndGet();
 						m.sendTime.add(System.currentTimeMillis());
 						Thread mThread = new Thread(m);
 						mThread.run();
@@ -324,6 +324,7 @@ public class Node
 						// Blast out each message at the same time
 						for (Message m : messages)
 						{
+							boom.numMessages.incrementAndGet();
 							m.sendTime.add(System.currentTimeMillis());
 							Thread mThread = new Thread(m);
 							mThread.run();

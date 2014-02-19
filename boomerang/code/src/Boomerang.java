@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -52,6 +50,17 @@ public class Boomerang implements Runnable
 		// Create node maintenance threads
 		generator = new BoomerangNodeGenerator(this);
 		terminator = new BoomerangNodeTerminator(this);
+	}
+	
+	public void computeStats()
+	{
+		// 1. compute all stats
+		// 2. generate plot of nodes with message paths
+		
+//		strict graph {
+//		    node0 [pos="1,2!"];
+//		    node1 [pos="2,3!"];
+//		}
 	}
 	
 	public void run()
