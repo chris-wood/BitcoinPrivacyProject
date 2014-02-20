@@ -1,0 +1,65 @@
+\section{Boomerang Properties} \label{sec:properties}
+In this section we elaborate on the design goals of Boomerang. We first discuss the anonymity properties that are provided by Boomerang, and then discuss system-level properties such as fault tolerance and performance.
+
+\subsection{Anonymity Properties}
+Inspired by Tarzan \cite{tarzan}, we analyze the anonymity properties of Boomerang with respect to static and adaptive adversaries. In particular, we strive to show that senders achieve anonymity against a minority of colluding nodes. Before proving any claims, we present the main sources of information exposure in Table \ref{tab:anonymity-properties}; a positive entry indicates that an attacker will be able to uncover the source of information, whereas a negative entry indicates that such exposure is not feasible given the Boomerang design.
+
+\begin{table*}[t]
+\begin{center}
+	\caption {Boomerang information exposure.}
+    \label{tab:anonymity-properties}
+    \begin{tabular}{|l||c|c|c|c|}
+    \hline
+    \emph{Information Exposed} & \emph{Bad Entrance Node} & \emph{Bad Intermediate Node} & \emph{Bad Exit Node} & \emph{Bad Entrance/Exit Nodes} \\ \hline \hline
+    Sender activity & Maybe    & Maybe & No & Maybe \\ \hline
+    Sender content  & No       & No    & No & Maybe \\ \hline
+    \end{tabular}
+\end{center}
+\end{table*}
+
+% 2. Anonymity against malicious nodes: Tarzan should pro- vide sender or recipient anonymity against colluding nodes. That is, a particular host should not be uniquely linkable as the sender (recipient) of any message, or that a message should not be linkable to any sender (recipient) [20]. We consider these properties in terms of an anonymity set: the set of possible senders of a message. The larger this set, the “more” anonymous an initiator remains. These properties implies the weaker relationship anonymity: an adversary should not be able to identify a pair of hosts as communicating with each other, irrespective of which host is running Tarzan.
+
+% leakage in tunnels:
+% Cover traffic (dummy traffic) that is indistinguishable from data can prevent such analysis. First, an eavesdropper cannot determine whether a relay initiates new data or just sends cover packets. Sec- ond, an observer must back-trace the multiple sources of a node’s incoming traffic, creating a fan-out of possible senders.
+
+% exit/entrance nodes:
+% While cover traffic and layered encryption protects data traffic within tunnels, an adversary may attempt to leverage the fact that data exits the Tarzan network in clear-text. These network-edge attacks include packet replay, tagging, reordering, and flooding. They generally require an adversary to control some node or link on a tunnel and to observe a PNAT or the non-participating Internet host of interest. 
+% While Tarzan is less susceptible to such attacks on its sender anonymity due to its lack of any entrance points,
+% Lastly, an adversary may attempt to flood a node with packets. It hopes to reduce the number of other senders that can simultane- ously use the relay, and then try to identify its own outgoing pack- ets from those of others. Tarzan greatly reduces the effectiveness of such flooding. First, mimics encrypt messages between them, mak- ing it difficult for an adversary to identify its own packets. Second, cover traffic cannot be distinguished from the legitimate traffic of other nodes. Third, the rigid structure of the mimic overlay limits the set of nodes that an adversary attack: A malicious node can only flood mimics through a well-formed tunnel in the overlay.
+
+% 1. anonymity set size = exponential in path length?
+% do the analysis below:
+
+% malicious nodes selected with probability N_bad / N_total
+% since D is fixed, if at hop l (controlled by A) the adversary knows (l-1) predecessors, then the adversary can deterministically determine whether or not the sender is the predecessor, l-1
+%%%%% use i to denote the hop in the circuit, the adversary is trying to figure out the specific sender from the anonymity set of one of the predecessors
+% Let H_i denote the event that first malicious node in circuit appears at position i (1 <= i <= D)
+% H_i+ = event that it occurs somewhere after H_i, i.e., H_i+ = H_i \land H_i+1 \land ... \land H_D
+% probability that traverses (i-1) honest nodes is ((Ntotal - Nbad)/Ntotal)^(i-1) * Pr(tunnel is at least (i-1 + E(r)) hops long)
+% E(AS_i) = (((Ntotal - Nbad)/Ntotal) * (\kappa - 1))^(i-1) ===> PLOT IN MATHEMATICA
+% probability that A selects correct initiator, C_i = Pr(H_i) / (Pr(H_i+) * E(AS_i))
+% as Nbad/Ntotal -> 1, C_1 = Pr(H1)/Pr(H1+) -> 1  ====> PLOT IN MATHEMATICS
+
+\subsection{System-Level Properties}
+From a systems perspective, Boomerang was designed with fault-tolerance and performance in mind. In particular, we (easily) claim that the Boomerang scheme is resistant to any adversarial attempt to leverage a successful denial of service (DoS) attack on the network. By the assumptions of the Bitcoin network, a majority of the participating nodes will always be honest (i.e., effectively uncompromised). Now, assume that there are $N_{total}$ total nodes in the Bitcoin network, at least $N_{total}/2$ such nodes are honest, and $N_{bad} \leq T/2 - 1$ nodes are compromised. By this claim, during node selection and circuit formation, $W$ nodes will be drawn at random without replacement, meaning that the probability of forming a circuit with at least one corrupt node, in the worst case, is
+
+\begin{align*}
+\sum_{i=1}^D \frac{N_{bad}}{(N_{total}/2) - 1 - i}
+\end{align*}
+
+For reasonable measures of fault-tolerance, we require that this probability is kept as small as possible. However, for anonymity purposes, we require that $D$ is maximized to achieve optimal mixing (and thus, anonymity) throughout the network. 
+
+\todo[inline]{need to quantify anonymity in terms of $N$ and $T$.}
+
+From a performance perspective, our main goal is to minimize the overhead of Boomerang message encoding, transmission, and forwarding while maximizing the anonymity properties discussed in the previous section. To that end, we discuss how the performance varies based on system-wide parameters that influence such anonymity properties. Based on the Boomerang design it is clear that the performance of the Boomerang scheme is tightly coupled to the following paramters:
+\begin{itemize}
+	\item $W$ - the circuit width,
+	\item $D$ - the circuit depth,
+	\item $\sigma$ - the average cover traffic generation rate, and
+	\item $\pi$ - the average rate at which new transactions are made.
+\end{itemize}
+
+\todo[inline]{How many messages should a node expect to receive in a set amount of time?}
+
+% 4. Performance: Tarzan should maximize the performance of tunnel transmission, subject to our anonymity requirements, to make Tarzan a viable IP-level communication channel.
+

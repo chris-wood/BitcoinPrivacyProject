@@ -1,4 +1,4 @@
-\section{Boomerang Design}
+\section{Boomerang Design} \label{sec:design}
 
 As previously discussed, the Boomerang protocol enhancement for Bitcoin is motivated by the need to hide the source from which transactions are introduced into the network. Furthermore, this should be done in a transparent way so that any other form of anonymous coin extension on top of Bitcoin (e.g., Zerocoin) can leverage the service for transaction anonymity. Boomerang is \emph{not} intended to support regular Bitcoin traffic; once a transaction becomes public knowledge, Boomerang no longer plays a role in its distribution. 
 
@@ -40,25 +40,25 @@ The procedure to handle Boomerang messages, {\sf BoomerangMessageHandler}, is pr
 \label{alg:encode}
 \begin{algorithmic}[1]
 
-\For{$m = 1$ to $M$}
+\For{$i = 1$ to $W$}
 	\State $\bar{T} := T$
 	\State $s \gets \{0,1\}^{\tau}$
-	\For{$n = 1$ \textbf{to} $N_m$}
+	\For{$j = 1$ \textbf{to} $D_i$}
 		\State $p := \mathsf{PRG}(s)$
 		\State $\bar{T} := \bar{T} \oplus p$
-		\State $s \gets E_{pk_{m,n}}(s)$
+		\State $s \gets E_{pk_{i,j}}(s)$
 	\EndFor
 
 	% populate the address vector
-	\State $\mathsf{index} \gets \{0,\dots,2N_m\}$ % random address vector index
-	\State $\mathsf{AV} := [2N_m]$ % address vector
-	\For{$n = N_m$ \textbf{downto} $2$}
-		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{m,n}}(\mathsf{addr}_{N_n})$
+	\State $\mathsf{index} \gets \{0,\dots,2D_i\}$ % random address vector index
+	\State $\mathsf{AV} := [2D_i]$ % address vector
+	\For{$j = D_i$ \textbf{downto} $2$}
+		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{i,j}}(\mathsf{addr}_{D_j})$
 		\State $\mathsf{index} := \mathsf{index} + 1 (\mod N_m)$
-		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{m,n}}(\mathsf{addr}_{N_{n-1}})$
-		\State $\mathsf{index} := \gets \{0,\dots,2N_m\}$
-		\While {$\mathsf{index} \mod 2 \not= 0$ \text{ and } $\mathsf{AV}[\mathsf{index}] \not= \bot \text{ and } \mathsf{AV}[\mathsf{index + 1 (\mod N_m)}] \not= \bot$}
-			\State $\mathsf{index} \gets \{0,\dots,2N_m\}$
+		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{i,j}}(\mathsf{addr}_{D_{j-1}})$
+		\State $\mathsf{index} := \gets \{0,\dots,2D_i\}$
+		\While {$\mathsf{index} \mod 2 \not= 0$ \text{ and } $\mathsf{AV}[\mathsf{index}] \not= \bot \text{ and } \mathsf{AV}[\mathsf{index + 1 (\mod D_i)}] \not= \bot$}
+			\State $\mathsf{index} \gets \{0,\dots,2D_i\}$
 		\EndWhile
 	\EndFor
 
@@ -70,23 +70,23 @@ The procedure to handle Boomerang messages, {\sf BoomerangMessageHandler}, is pr
 \end{algorithm*}
 
 \begin{algorithm*}[t!]
-\caption{{\sf BoomerangMessageHandler}($n$, $M$)}
+\caption{{\sf BoomerangMessageHandler}($j$, $M$)}
 \label{alg:handler}
 \begin{algorithmic}[1]
 
-\State $s := D_{sk_{n}}(M[0])$
+\State $s := D_{sk_{j}}(M[0])$
 \State $\bar{T} := M[2] \oplus PRG(s)$
 \If {$\bar{T}$ is a well formed transaction}
 	\State $\mathsf{Broadcast}(\bar{T})$ to the Bitcoin network
-\ElsIf {$\bar{T}$ destination address is $\mathsf{addr}_n$}
+\ElsIf {$\bar{T}$ destination address is $\mathsf{addr}_j$}
 	\State Discard $\bar{T}$; return;
 \Else
 	\State $\mathsf{AV} := M[1]$
-	\State $n := 1$
-	\While {$n < 2N_m$}
-		\State $\mathsf{addr}_{src} := D_{pk_n}(AV[n])$
-		\If {$\mathsf{addr}_{src} = \mathsf{addr}_n$}
-			\State $\mathsf{addr}_{dst} := D_{pk_n}(AV[n + 1])$
+	\State $i := 1$
+	\While {$i < \mathsf{len}(\mathsf{AV})$}
+		\State $\mathsf{addr}_{src} := D_{pk_j}(AV[j])$
+		\If {$\mathsf{addr}_{src} = \mathsf{addr}_j$}
+			\State $\mathsf{addr}_{dst} := D_{pk_j}(AV[j + 1])$
 			\State $M := \mathsf{Pack}(s, \mathsf{AV}, \bar{T})$
 			\If {$|Buffer| \geq B$}
 				\State $\mathsf{Transmit}(M)$
@@ -94,7 +94,7 @@ The procedure to handle Boomerang messages, {\sf BoomerangMessageHandler}, is pr
 				\State $B.add(M)$
 			\EndIf
 		\Else
-			\State $n := n + 2$
+			\State $i := i + 2$
 		\EndIf
 	\EndWhile
 \EndIf
@@ -118,8 +118,6 @@ Based on the {\sf EncodeTransaction} and {\sf BoomerangMessageHandler} procedure
 
 To satisfy the first primitive, we chose the standard RSA cryptosystem. While ElGamal has the ideal property that plaintext and ciphertext elements are members of the same group $\mathbb{Z}_p$ for some sufficiently large prime $p$, the ciphertext actually consists of a pair of group elements, and thus does not satisfy the ciphertext expansion property. Also, while RSA-OAEP is the only known CCA-secure variant of RSA (in the Random Oracle model), the input plaintext is strictly less than the output ciphertext due to the applied padding. Therefore, this does not achieve the first property that function domain and range are equivalent. 
 
-
-
 % TODO: rsa & prg
 
 % \begin{figure}[ht!]
@@ -133,3 +131,12 @@ To satisfy the first primitive, we chose the standard RSA cryptosystem. While El
 \subsection{Peer Discovery}
 TODO: gossip protocol, duration of Boomerang public/private key pairs, what else?
 
+% To protect against fake entries, Tarzan differentiates between un- validated and validated addresses in the peer-discovery and selec- tion process. Honest nodes only propagate validated addresses and only select mimics from their set of validated addresses.
+
+
+% Furthermore, a global eavesdropper that watches nodes gossip
+% can record the α nodes we assume each learns from the total set
+% of size n. Therefore, only α possible nodes could have initiated
+% a tunnel establishment request to a colluding malicious node.  In
+% general, for any α < n, this discovery-profiling attack leaks some 10
+% information and thus should be avoided.
