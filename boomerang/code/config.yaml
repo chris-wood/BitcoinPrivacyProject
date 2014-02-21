@@ -1,7 +1,7 @@
-simTime: 5
-numNodes: 5
-enterRate: 0
-exitRate: 0
+simTime: 100
+numNodes: 100
+enterRate: 2
+exitRate: 2
 gridHeight: 100
 gridWidth: 100
 chaffGenRate: 2
