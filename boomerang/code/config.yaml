@@ -1,11 +1,11 @@
 simTime: 100
-numNodes: 100
+numNodes: 5
 enterRate: 2
 exitRate: 2
 gridHeight: 100
 gridWidth: 100
-chaffGenRate: 2
-txGenRate: 2
+chaffGenRate: 4
+txGenRate: 4
 circuitWidth: 2
 circuitDepth: 2
 retryLimit: 1

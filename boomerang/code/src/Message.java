@@ -11,13 +11,15 @@ public class Message
 	public boolean startTransmit;
 	public long waitTime;
 	public boolean broadcasted;
+	public Boomerang boom;
 	
 	// State
 	public Node nextHop;
 	
-	public Message(String id, MessageType type)
+	public Message(String id, Boomerang boom, MessageType type)
 	{
 		this.id = id;
+		this.boom = boom;
 		this.broadcasted = false;
 		this.waitTime = 0;
 		this.broadcastTime = -1;
@@ -27,20 +29,29 @@ public class Message
 	
 	public void doEvent()
 	{
-		if (waitTime > 0)
+		if (broadcasted = true)
 		{
-			waitTime--;
-		}
-		else if (startTransmit) // wait time = 0
-		{
-			Node source = hops.remove(0);
-			nextHop = hops.get(0);
-			double distance = source.loc.distanceTo(nextHop.loc);
-			waitTime = (long)distance;
+			boom.removeMessage(this);
 		}
 		else
 		{
-			nextHop.acceptMessage(this);
+			if (waitTime > 0)
+			{
+				waitTime--;
+			}
+			else if (startTransmit) // wait time = 0
+			{
+				startTransmit = false;
+				Node source = hops.remove(0);
+				nextHop = hops.get(0);
+				double distance = source.loc.distanceTo(nextHop.loc);
+				waitTime = (long)distance;
+			}
+			else
+			{
+				nextHop.acceptMessage(this);
+				startTransmit = true;
+			}
 		}
 	}
 	
@@ -71,34 +82,4 @@ public class Message
 	{
 		startTransmit = true;
 	}
-
-//	@Override
-//	public void run()
-//	{
-//		Node source = hops.remove(0);
-//		Node nextHop = hops.get(0);
-//		
-//		// Sleep to emulate traversal over the network
-//		try
-//		{
-//			double distance = source.loc.distanceTo(nextHop.loc);
-//			
-//			// TODO: need to scale the distance by a realistic (configurable?) factor
-//			Thread.sleep(1); // (long)(distance)
-//		}
-//		catch (InterruptedException e)
-//		{
-//			e.printStackTrace();
-//		} 
-//		
-//		// Insert into the next hop after "traversing the network"
-//		try
-//		{
-//			nextHop.acceptMessage(this);
-//		}
-//		catch (InterruptedException e)
-//		{
-//			e.printStackTrace();
-//		}
-//	}
 }

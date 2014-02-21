@@ -31,6 +31,7 @@ public class Boomerang implements Runnable
 	// Network information
 	public ArrayList<Node> nodes;
 	public HashSet<Message> messages;
+	public HashSet<Message> messagesToRemove;
 	
 	// State
 	public long spawnWait;
@@ -73,10 +74,7 @@ public class Boomerang implements Runnable
 		
 		// Message container
 		messages = new HashSet<Message>();
-		
-		// Create node maintenance threads
-//		generator = new BoomerangNodeGenerator(this);
-//		terminator = new BoomerangNodeTerminator(this);
+		messagesToRemove = new HashSet<Message>();
 	}
 	
 	public void computeStats()
@@ -133,78 +131,41 @@ public class Boomerang implements Runnable
 	}
 	
 	public void run()
-	{
-		long start = System.currentTimeMillis() / 1000;
-		long current = System.currentTimeMillis() / 1000;
-		
-		// Start every node
-		System.out.println("Simulation starting...");
-//		for (Node n : nodes)
-//		{
-//			n.start();
-//		}
-		
-		// Start maintenance threads
-//		Thread genThread = new Thread(generator);
-//		if (config.enterRate > 0)
-//		{
-//			genThread.start();
-//		}
-//		Thread termThread = new Thread(terminator);
-//		if (config.exitRate > 0)
-//		{
-//			termThread.start();
-//		}
-		
+	{	
 		// Run the simulation for the specified amount of time
+		System.out.println("Simulation starting...");
 		Clock clock = new Clock(); 
 		while (clock.time < config.simTime)
 		{
 			for (Node n : nodes)
 			{
-//				n.doEvent();
+				n.doEvent();
 			}
 			
 			for (Message m : messages)
 			{
-//				m.doEvent();
+				m.doEvent();
 			}
 			
-			doEvent();
+			for (Message m : messagesToRemove)
+			{
+				messages.remove(m);
+			}
+			messagesToRemove.clear();
+			
+//			doEvent();
 			
 			// Advance time
 			clock.tick();
-			
-//			try
-//			{
-//				Thread.sleep(1000); // sleep for a second
-//			}
-//			catch (InterruptedException e)
-//			{
-//				e.printStackTrace();
-//			}
-//			current = System.currentTimeMillis() / 1000;
 		}
-		
-		// Kill the maintenantce threads
-//		generator.kill();
-//		terminator.kill();
-//		try
-//		{
-//			genThread.join();
-//			termThread.join();
-//		}
-//		catch (InterruptedException e)
-//		{
-//			e.printStackTrace();
-//		}
 		
 		// Kill all the nodes
 		System.out.println("Simulation complete. Killing every node.");
-//		for (Node n : nodes)
-//		{
-//			n.stop();
-//		}
+	}
+	
+	public void removeMessage(Message m)
+	{
+		messagesToRemove.add(m);
 	}
 	
 	public void addMessage(Message m)
@@ -244,93 +205,6 @@ public class Boomerang implements Runnable
 		nodes.add(n);
 	}
 	
-//	class BoomerangNodeGenerator implements Runnable
-//	{
-//		// Main simulation thread control
-//		private volatile boolean running = true;
-//		
-//		private Boomerang boom;
-//		
-//		public BoomerangNodeGenerator(Boomerang boom)
-//		{
-//			this.boom = boom;
-//		}
-//		
-//		public void kill()
-//		{
-//			running = false;
-//		}
-//
-//		@Override
-//		public void run()
-//		{
-//			while (running)
-//			{
-//				try
-//				{
-//					// Sleep
-//					int sleepSeconds = rng.nextInt(boom.config.enterRate) + 1;
-//					Thread.sleep(sleepSeconds * 1000);
-//					
-//					// Add the new node to the group
-//					int x = rng.nextInt(config.gridWidth);
-//					int y = rng.nextInt(config.gridHeight);
-//					if (running)
-//					{
-//						Node newNode = new Node(new Location(x, y), boom, config.seed++);
-//						boom.addNode(newNode);
-////						newNode.start();
-//						System.err.println("Spawning " + newNode);
-//					}
-//				}
-//				catch (InterruptedException e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
-//	
-//	class BoomerangNodeTerminator implements Runnable
-//	{
-//		// Main simulation thread control
-//		private volatile boolean running = true;
-//		
-//		private Boomerang boom;
-//		
-//		public BoomerangNodeTerminator(Boomerang boom)
-//		{
-//			this.boom = boom;
-//		}
-//		
-//		public void kill()
-//		{
-//			running = false;
-//		}
-//
-//		@Override
-//		public void run()
-//		{
-//			Random rng = new Random(boom.config.seed++);
-//			while (running)
-//			{
-//				try
-//				{
-//					// Sleep
-//					int sleepSeconds = rng.nextInt(boom.config.exitRate) + 1;
-//					Thread.sleep(sleepSeconds * 1000);
-//					
-//					// Remove a random node
-//					boom.removeRandomNode();
-//				}
-//				catch (InterruptedException e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
-	
 	public static void main(String[] args)
 	{
 		if (args.length != 1)
@@ -348,16 +222,14 @@ public class Boomerang implements Runnable
 			// Run the simulator
 			Boomerang boom = new Boomerang(config);
 			boom.run();
+			
+			// TODO: compute stats
 		}
 		catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}
 		catch (NumberFormatException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
