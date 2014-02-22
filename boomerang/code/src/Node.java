@@ -1,18 +1,14 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Random;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
+import java.security.SecureRandom;
 
 public class Node
 {
 	// Behavior parameters
 	public Boomerang boom;
 	public int id;
-	public Random rng;
+	public SecureRandom rng;
 	public Location loc;
 	
 	// Statistics
@@ -54,7 +50,7 @@ public class Node
 		this.id = globalNodeId++;
 		this.boom = boomerang;
 		this.loc = loc;
-		this.rng = new Random(seed);
+		this.rng = new SecureRandom();
 		this.msgQueue = new ArrayList<Message>();
 		this.mixBucket = new ArrayList<Message>();
 		this.lastSent = new ArrayList<Message>();
@@ -94,7 +90,8 @@ public class Node
 			Collections.shuffle(mixBucket);
 			for (Message m : mixBucket)
 			{
-				boom.numMessages.incrementAndGet();
+				numForwarded++;
+				boom.numMessages++;
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
 			}
@@ -149,7 +146,9 @@ public class Node
 			// Blast out each message at the same time
 			for (Message m : messages)
 			{
-				boom.numMessages.incrementAndGet();
+				boom.numMessages++;
+				boom.numChaffGenerated++;
+				boom.startedChaff.add(m);
 				m.hops.add(0, this);
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
@@ -198,6 +197,7 @@ public class Node
 		{
 			// Blast out each message at the same time
 			resend = false;
+			numRetries++;
 			messages = new ArrayList<Message>();
 			for (int m = 0; m < boom.config.circuitWidth; m++)
 			{
@@ -229,8 +229,9 @@ public class Node
 			// Blast out each message at the same time
 			for (Message m : messages)
 			{
-//				m.hops.add(0, this);
-				boom.numMessages.incrementAndGet();
+				boom.numMessages++;
+				boom.numTxGenerated++;
+				boom.startedTx.add(m);
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
 			}
@@ -272,8 +273,9 @@ public class Node
 			// Blast out each message at the same time
 			for (Message m : messages)
 			{
-//				m.hops.add(0, this);
-				boom.numMessages.incrementAndGet();
+				boom.numMessages++;
+				boom.numTxGenerated++;
+				boom.startedTx.add(m);
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
 			}
@@ -296,7 +298,7 @@ public class Node
 		}
 		else
 		{
-			// reached the end of the circuit, broadcast the transaction here
+			// Reached the end of the circuit, broadcast the transaction here
 			if (m.type == MessageType.TX)
 			{
 				m.markAsBroadcasted();

@@ -7,6 +7,7 @@ public class Message
 	public ArrayList<Long> sendTime;
 	public ArrayList<Long> arriveTime;
 	public long broadcastTime;
+	public long spawnTime;
 	public String id;
 	public MessageType type;
 	public boolean startTransmit;
@@ -14,11 +15,15 @@ public class Message
 	public boolean broadcasted;
 	public Boomerang boom;
 	
+	// Stats
+	public long latency;
+	
 	// State
 	public Node nextHop;
 	
 	public Message(String id, Boomerang boom, MessageType type)
 	{
+		this.type = type;
 		this.id = id;
 		this.boom = boom;
 		this.broadcasted = false;
@@ -73,6 +78,7 @@ public class Message
 	{
 		broadcasted = true;
 		broadcastTime = Clock.time;
+		latency = broadcastTime - spawnTime;
 	}
 	
 	@Override
@@ -84,5 +90,6 @@ public class Message
 	public void transmitMessage()
 	{
 		startTransmit = true;
+		spawnTime = Clock.time;
 	}
 }

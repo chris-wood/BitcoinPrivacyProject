@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Random;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.security.SecureRandom;
 
 import org.ho.yaml.Yaml;
 
@@ -25,13 +22,24 @@ public class Boomerang implements Runnable
 	//***4. Per-hop latency 
 	//***5. Node forwarding throughput (messages/s)
 	//***6. #retries
-	public AtomicInteger numMessages;
+	public int numMessages;
+	public int numMessagesCompleted;
+	public int numChaffGenerated;
+	public int numChaffCompleted;
+	public int numTxGenerated;
+	public int numTxCompleted;
+	
+	public ArrayList<Message> completedMessages;
+	public ArrayList<Message> completedChaff;
+	public ArrayList<Message> completedTx;
+	public ArrayList<Message> startedChaff;
+	public ArrayList<Message> startedTx;
 	
 	// Network information
+	public HashSet<Node> nodeHistory;
 	public ArrayList<Node> nodes;
 	public HashSet<Message> messages;
 	public HashSet<Message> messagesToRemove;
-	public ArrayList<Message> completedMessages;
 	
 	// State
 	public long spawnWait;
@@ -39,10 +47,7 @@ public class Boomerang implements Runnable
 	public long termWait;
 	public boolean startTerm;
 	
-	public Random rng;
-	
-	// Event collector
-	public static BlockingQueue<MessageEvent> events; 
+	public SecureRandom rng; 
 	
 	public Boomerang(Config config)
 	{	
@@ -52,37 +57,69 @@ public class Boomerang implements Runnable
 		this.termWait = 0L;
 		this.startTerm = true;
 		
-		rng = new Random(config.seed++);
+		rng = new SecureRandom();
 		
 		// Stats
-		numMessages = new AtomicInteger(0);
-		
-		// Event collector
-		events = new LinkedBlockingQueue<MessageEvent>();
+		numMessages = 0;
+		numMessagesCompleted = 0;
+		numChaffGenerated = 0;
+		numChaffCompleted = 0;
+		numTxGenerated = 0;
+		numTxCompleted = 0;
 		
 		// RNG for random node locations
-		Random rng = new Random(config.seed);
+		SecureRandom rng = new SecureRandom();
 		
 		// Create all of the nodes
 		nodes = new ArrayList<Node>();
+		nodeHistory = new HashSet<Node>();
 		for (int i = 0; i < config.numNodes; i++)
 		{
 			int x = rng.nextInt(config.gridWidth);
 			int y = rng.nextInt(config.gridHeight);
-			nodes.add(new Node(new Location(x, y), this, config.seed++));
+			Node n = new Node(new Location(x, y), this, config.seed++);
+			nodes.add(n);
+			nodeHistory.add(n);
 		}
 		
 		// Message container
 		messages = new HashSet<Message>();
 		messagesToRemove = new HashSet<Message>();
+		
 		completedMessages = new ArrayList<Message>();
+		completedChaff = new ArrayList<Message>();
+		startedChaff = new ArrayList<Message>();
+		completedTx = new ArrayList<Message>();
+		startedTx = new ArrayList<Message>();
 	}
 	
 	public void computeStats() throws IOException
 	{
 		// 1. compute all stats
-		// 2. generate plot of nodes with message paths
+		long totalLatency = 0L;
+		for (Message m : completedMessages)
+		{
+			totalLatency += m.latency; 
+		}
+		double avgLatency = (double)totalLatency / completedMessages.size();
 		
+		int totalChaffComputations = 0;
+		int totalTxComputations = 0;
+		int totalForwarded = 0;
+		int totalRetries = 0;
+		for (Node n : nodeHistory)
+		{
+			totalChaffComputations += n.numChaffEncodings;
+			totalTxComputations += n.numTxEncodings;
+			totalForwarded += n.numForwarded;
+			totalRetries += n.numRetries;
+		}
+		double avgChaffComputations = (double)totalChaffComputations / nodeHistory.size();
+		double avgTxComputations = (double)totalTxComputations / nodeHistory.size();
+		double avgForwarded = (double)totalForwarded / nodeHistory.size();
+		double avgRetries  = (double)totalRetries / nodeHistory.size();
+		
+		// 2. generate plot of nodes with message paths
 //		strict graph {
 //		    node0 [pos="1,2!"];
 //		    node1 [pos="2,3!"];
@@ -90,6 +127,10 @@ public class Boomerang implements Runnable
 		
 		// Create the main adjacency matrix of completed broadcasts
 		int[][] completeAM = new int[Node.globalNodeId][Node.globalNodeId];
+		int[][] completeChaffAM = new int[Node.globalNodeId][Node.globalNodeId];
+		int[][] completeTxAM = new int[Node.globalNodeId][Node.globalNodeId];
+		int[][] startedChaffAM = new int[Node.globalNodeId][Node.globalNodeId];
+		int[][] startedTxAM = new int[Node.globalNodeId][Node.globalNodeId];
 		for (int i = 0; i < Node.globalNodeId; i++)
 		{
 			for (int j = 0; j < Node.globalNodeId; j++)
@@ -101,28 +142,80 @@ public class Boomerang implements Runnable
 						completeAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
 					}
 				}
+				
+				for (Message m : completedChaff)
+				{
+					for (int n = 0; n < m.circuit.size() - 1; n++)
+					{
+						completeChaffAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+					}
+				}
+				
+				for (Message m : completedTx)
+				{
+					for (int n = 0; n < m.circuit.size() - 1; n++)
+					{
+						completeTxAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+					}
+				}
+				
+				for (Message m : startedChaff)
+				{
+					for (int n = 0; n < m.circuit.size() - 1; n++)
+					{
+						startedChaffAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+					}
+				}
+				
+				for (Message m : startedTx)
+				{
+					for (int n = 0; n < m.circuit.size() - 1; n++)
+					{
+						startedTxAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+					}
+				}
 			}
 		}
 		
-		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_complete.txt")));
+		PrintWriter completeWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_complete.txt")));
+		PrintWriter completeCharrWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_completechaff.txt")));
+		PrintWriter completeTxWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_completetx.txt")));
+		PrintWriter startedChaffWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_startchaff.txt")));
+		PrintWriter startedTxWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_starttx.txt")));
 		for (int i = 0; i < Node.globalNodeId; i++)
 		{
-			StringBuilder builder = new StringBuilder();
+			StringBuilder completeBuilder = new StringBuilder();
+			StringBuilder startedChaffBuilder = new StringBuilder();
+			StringBuilder startedTxBuilder = new StringBuilder();
+			StringBuilder completeChaffBuilder = new StringBuilder();
+			StringBuilder completeTxBuilder = new StringBuilder();
 			for (int j = 0; j < Node.globalNodeId; j++)
 			{
-				builder.append(completeAM[i][j] + ",");
+				completeBuilder.append(completeAM[i][j] + ",");
+				startedChaffBuilder.append(startedChaffAM[i][j] + ",");
+				startedTxBuilder.append(startedTxAM[i][j] + ",");
+				completeChaffBuilder.append(completeChaffAM[i][j] + ",");
+				completeTxBuilder.append(completeTxAM[i][j] + ",");
+				
 			}
-			System.out.println(builder.substring(0, builder.toString().length() - 1));
-			writer.println(builder.substring(0, builder.toString().length() - 1));
+			System.out.println(completeBuilder.substring(0, completeBuilder.toString().length() - 1));
+			
+			completeWriter.println(completeBuilder.substring(0, completeBuilder.toString().length() - 1));
+			completeCharrWriter.println(completeChaffBuilder.substring(0, completeChaffBuilder.toString().length() - 1));
+			completeTxWriter.println(completeTxBuilder.substring(0, completeTxBuilder.toString().length() - 1));
+			startedChaffWriter.println(startedChaffBuilder.substring(0, startedChaffBuilder.toString().length() - 1));
+			startedTxWriter.println(startedTxBuilder.substring(0, startedTxBuilder.toString().length() - 1));
 		}
-		writer.flush();
-		writer.close();
-		
-		// TODO: generate adj matrices of:
-		// 1. all transactions
-		// 2. complete transactions
-		// 2. all chaff
-		// 3. complete chaff
+		completeWriter.flush();
+		completeWriter.close();
+		completeCharrWriter.flush();
+		completeCharrWriter.close();
+		completeTxWriter.flush();
+		completeTxWriter.close();
+		startedChaffWriter.flush();
+		startedChaffWriter.close();
+		startedTxWriter.flush();
+		startedTxWriter.close();
 	}
 	
 	public void doEvent()
@@ -144,7 +237,8 @@ public class Boomerang implements Runnable
 			int x = rng.nextInt(config.gridWidth);
 			int y = rng.nextInt(config.gridHeight);
 			Node newNode = new Node(new Location(x, y), this, config.seed++);
-			addNode(newNode);
+			nodes.add(newNode);
+			nodeHistory.add(newNode);
 			System.err.println("Spawning " + newNode + " at time " + Clock.time);
 			startSpawn = true;
 		}
@@ -204,6 +298,17 @@ public class Boomerang implements Runnable
 	{
 		messagesToRemove.add(m);
 		completedMessages.add(m);
+		switch (m.type)
+		{
+			case TX:
+				completedTx.add(m);
+				startedTx.remove(m);
+				break;
+			case COVER:
+				completedChaff.add(m);
+				startedChaff.remove(m);
+				break;
+		}
 	}
 	
 	public void addMessage(Message m)
@@ -236,11 +341,6 @@ public class Boomerang implements Runnable
 			nodes.remove(index);
 			System.err.println("Terminating " + n + " at time " + Clock.time);
 		}
-	}
-	
-	public void addNode(Node n)
-	{
-		nodes.add(n);
 	}
 	
 	public static void main(String[] args)
