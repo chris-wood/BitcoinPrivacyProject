@@ -98,7 +98,7 @@ public class Node
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
 			}
-			System.out.println("Node " + id + " forwarding at " + Clock.time);
+			Util.disp(this.toString() + " forwarding ");
 		}
 		
 		// Handle cover generation
@@ -155,7 +155,7 @@ public class Node
 				m.transmitMessage();
 			}
 			
-			System.out.println("Node " + id + " generating chaff at " + Clock.time);
+			Util.disp(this.toString() + " generating chaff");
 			
 			coverSendStart = true;
 		}
@@ -171,7 +171,7 @@ public class Node
 			double sleep = rng.nextDouble() * boom.config.txGenRate;
 			sleep = sleep < 0 ? (sleep * -1) % boom.config.txGenRate : sleep;
 			txWait = (long)sleep;
-			System.out.println("NOde " + id + " waiting for " + txWait);
+			Util.disp(this.toString() + " waiting for " + txWait + " to transmit");
 		}
 		else if (txTimeoutWait > 0)
 		{	
@@ -185,10 +185,13 @@ public class Node
 				}
 			}
 			
-			txTimeoutWait--;
-			if (txSendStart = false && txTimeoutWait == 0)
+			if (!txSendStart)
 			{
-				resend = true;
+				txTimeoutWait--;
+				if (txSendStart = false && txTimeoutWait == 0)
+				{
+					resend = true;
+				}
 			}
 		}
 		else if (resend)
@@ -226,7 +229,7 @@ public class Node
 			// Blast out each message at the same time
 			for (Message m : messages)
 			{
-				m.hops.add(0, this);
+//				m.hops.add(0, this);
 				boom.numMessages.incrementAndGet();
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
@@ -269,13 +272,13 @@ public class Node
 			// Blast out each message at the same time
 			for (Message m : messages)
 			{
-				m.hops.add(0, this);
+//				m.hops.add(0, this);
 				boom.numMessages.incrementAndGet();
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
 			}
 			
-			System.out.println("Node " + id + " generating FRESH traffic at " + Clock.time);
+			Util.disp(this.toString() + " generating fresh traffic");
 			
 			// Set timeout wait 
 			lastSent = messages;

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Message 
 {
+	public ArrayList<Node> circuit;
 	public ArrayList<Node> hops;
 	public ArrayList<Long> sendTime;
 	public ArrayList<Long> arriveTime;
@@ -31,7 +32,7 @@ public class Message
 	{
 		if (broadcasted = true)
 		{
-			boom.removeMessage(this);
+			boom.finalizeMessage(this);
 		}
 		else
 		{
@@ -60,9 +61,11 @@ public class Message
 		arriveTime = new ArrayList<Long>(hops.size());
 		sendTime = new ArrayList<Long>(hops.size());
 		this.hops.add(0, start);
+		this.circuit = new ArrayList<Node>();
 		for (Node n : hops)
 		{
 			this.hops.add(n);
+			this.circuit.add(n);
 		}
 	}
 	

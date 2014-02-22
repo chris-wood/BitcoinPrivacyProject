@@ -15,4 +15,5 @@ public class Config
 	public int pktSize;
 	public long seed;
 	public int retryLimit;
+	public String outfileprefix;
 }

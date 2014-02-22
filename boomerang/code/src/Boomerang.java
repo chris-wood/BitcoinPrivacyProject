@@ -1,6 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -24,14 +27,11 @@ public class Boomerang implements Runnable
 	//***6. #retries
 	public AtomicInteger numMessages;
 	
-	// Node maintenance threads
-//	public BoomerangNodeGenerator generator;
-//	public BoomerangNodeTerminator terminator;
-	
 	// Network information
 	public ArrayList<Node> nodes;
 	public HashSet<Message> messages;
 	public HashSet<Message> messagesToRemove;
+	public ArrayList<Message> completedMessages;
 	
 	// State
 	public long spawnWait;
@@ -75,9 +75,10 @@ public class Boomerang implements Runnable
 		// Message container
 		messages = new HashSet<Message>();
 		messagesToRemove = new HashSet<Message>();
+		completedMessages = new ArrayList<Message>();
 	}
 	
-	public void computeStats()
+	public void computeStats() throws IOException
 	{
 		// 1. compute all stats
 		// 2. generate plot of nodes with message paths
@@ -86,6 +87,42 @@ public class Boomerang implements Runnable
 //		    node0 [pos="1,2!"];
 //		    node1 [pos="2,3!"];
 //		}
+		
+		// Create the main adjacency matrix of completed broadcasts
+		int[][] completeAM = new int[Node.globalNodeId][Node.globalNodeId];
+		for (int i = 0; i < Node.globalNodeId; i++)
+		{
+			for (int j = 0; j < Node.globalNodeId; j++)
+			{
+				for (Message m : completedMessages)
+				{
+					for (int n = 0; n < m.circuit.size() - 1; n++)
+					{
+						completeAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+					}
+				}
+			}
+		}
+		
+		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_complete.txt")));
+		for (int i = 0; i < Node.globalNodeId; i++)
+		{
+			StringBuilder builder = new StringBuilder();
+			for (int j = 0; j < Node.globalNodeId; j++)
+			{
+				builder.append(completeAM[i][j] + ",");
+			}
+			System.out.println(builder.substring(0, builder.toString().length() - 1));
+			writer.println(builder.substring(0, builder.toString().length() - 1));
+		}
+		writer.flush();
+		writer.close();
+		
+		// TODO: generate adj matrices of:
+		// 1. all transactions
+		// 2. complete transactions
+		// 2. all chaff
+		// 3. complete chaff
 	}
 	
 	public void doEvent()
@@ -133,7 +170,7 @@ public class Boomerang implements Runnable
 	public void run()
 	{	
 		// Run the simulation for the specified amount of time
-		System.out.println("Simulation starting...");
+		Util.disp("Simulation starting...");
 		Clock clock = new Clock(); 
 		while (clock.time < config.simTime)
 		{
@@ -153,19 +190,20 @@ public class Boomerang implements Runnable
 			}
 			messagesToRemove.clear();
 			
-//			doEvent();
+			doEvent();
 			
 			// Advance time
 			clock.tick();
 		}
 		
 		// Kill all the nodes
-		System.out.println("Simulation complete. Killing every node.");
+		Util.disp("Simulation complete. Killing every node.");
 	}
 	
-	public void removeMessage(Message m)
+	public void finalizeMessage(Message m)
 	{
 		messagesToRemove.add(m);
+		completedMessages.add(m);
 	}
 	
 	public void addMessage(Message m)
@@ -217,19 +255,22 @@ public class Boomerang implements Runnable
 		{
 			// Parse the config file and run the simulator
 			Config config = Yaml.loadType(new File(args[0]), Config.class);
-			System.out.println(config);
+			Util.disp(config.toString());
 			
 			// Run the simulator
 			Boomerang boom = new Boomerang(config);
 			boom.run();
-			
-			// TODO: compute stats
+			boom.computeStats();
 		}
 		catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}
 		catch (NumberFormatException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
