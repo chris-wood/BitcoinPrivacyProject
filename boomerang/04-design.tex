@@ -21,7 +21,7 @@ Boomerang peer discovery is done in a similar manner to the Bitcoin peer discove
 
 \subsection{Broadcast Protocol}
 
-At the heart of the Bitcoin protocol is the ability to encode new transactions as Boomerang messages and then ripple them throughout the network. We describe the complete procedure for message encoding, {\sf EncodeTransaction}, in Algorithm \ref{alg:encode}, where the notation contained therein is defined in Table \ref{tab:notation}. An encoded Boomerang message has a very well-defined format, as shown in Figure \ref{fig:boomerang_message}. In particular, the message is composed of the following:
+At the heart of the Bitcoin protocol is the ability to encode new transactions as Boomerang messages and then ripple them throughout the network. We describe the complete procedure for message encoding, {\sf EncodeTransaction}, in Algorithm \ref{alg:encode}, where the notation contained therein is defined in Table \ref{tab:notation}. This procedure takes only two parameters - a transaction $T$ to encode and a set of valid nodes $\mathbf{C}$ to be used in the circuit(s) creation, where $\mathbf{C}$ is created by randomly sampling from the set of valid nodes in the address book (see Section \ref{sec:validation} for a description of how the address book is managed). An encoded Boomerang message has a very well-defined format, as shown in Figure \ref{fig:boomerang_message}, composed of seed element, encrypted address vector, encrypted message identifier (used internally during message validation), and the encrypted transaction. In particular, the message is composed of the following:
 \begin{enumerate}
 	\item A potentially re-encrypted seed. By the description of {\sf EncodeTransaction}, it is required that the public-key encryption scheme used to mask these seeds has the same domain and range. This is needed because the decrypted seed for one hop will be used as decrypted seed on the previous hop, very much like onion layers of encryption.
 	\item An encrypted address vector that is used by each hop to learn the next hop in the circuit without learning any other information about the nodes in the circuit. More specifically, a router can only learn about the immediate source and destination of a Boomerang message (the security and anonymity implications of this are discussed in the following section).
@@ -33,16 +33,24 @@ At the heart of the Bitcoin protocol is the ability to encode new transactions a
 \caption{Boomerang Protocol Notation}
 	\begin{tabular}{|l|l|}\hline
 	\textbf{Symbol} & \textbf{Description} \\ \hline
-	~ & ~ \\
-	~ & ~ \\
-	~ & ~ \\ \hline
+	$W$ & Local number of parallel circuits constructed to emit a new transaction. \\
+	$D$ & Global depth of transaction and dummy message circuits. \\
+	$T$ & A boomerang transaction \\ 
+	$\bar{T}$ & An encrypted boomerang transaction \\ 
+	$M$ & A (dummy or encoded transaction) Boomerang message sent over the wire. \\
+	~ & A message is treated as an indexable array with fields shown in Figure \ref{fig:boomerang_message}. \\
+	$\mathbf{C}$ & Set of valid nodes from which to build a circuit. \\
+	$\mathsf{AV}$ & Address vector element of a Boomerang message. \\
+	$\mathsf{addr}$ & Network address of a Bitcoin node. \\
+	$E_{pk}(\cdot)$ & Encryption of some plaintext under the public key $pk$. \\	
+	$D_{sk}(\cdot)$ & Decryption of some ciphertext under the private key $sk$. \\ \hline
 	\end{tabular}
 \end{center}
 \end{table*}
 
 \begin{figure}[ht!]
 \begin{center}
-\includegraphics[scale=0.4]{./images/boomerang_message.pdf}
+\includegraphics[scale=0.35]{./images/boomerang_message.pdf}
 \caption{Boomerang message encoding.}
 \label{fig:boomerang_message}
 \end{center}
@@ -51,7 +59,7 @@ At the heart of the Bitcoin protocol is the ability to encode new transactions a
 The procedure to handle Boomerang messages, {\sf BoomerangMessageHandler}, is provided in Algorithm \ref{alg:handler}. 
 
 \begin{algorithm*}[t!]
-\caption{{\sf EncodeTransaction}($T$)}
+\caption{{\sf EncodeTransaction}($T, \mathbf{C}$)}
 \label{alg:encode}
 \begin{algorithmic}[1]
 
@@ -117,13 +125,9 @@ The procedure to handle Boomerang messages, {\sf BoomerangMessageHandler}, is pr
 \end{algorithmic}
 \end{algorithm*}
 
-% TODO: cover traffic generation, mix delay
-
 Similar to the Tarzan P2P mixnet, a critical part of the Boomerang protocol is the inclusion of cover traffic that is indistinguishable from legitimate encoded Boomerang transaction messages \cite{tarzan}. This traffic is needed for two reasons: (1) to keep legitimate transactions moving through mixnet circuits, and (2) to obfuscate the flow of legitimate transactions through the network. To support this cover traffic with minimal changes to the protocol, nodes in the network will \emph{reuse} and \emph{re-encode} old transactions to be sent throughout the network, with the exception that the destination node for the mixnet circuit (as specified in the {\sf EncodeTransaction} procedure) will be the same as the sender. This is because the sender can easily discover when a transaction message has looped through the network and back to themselves, at which point they can then simply discard the transaction. Clearly, the rate at which this cover traffic is generated plays a critical role in the overall performance of the system when using Boomerang. We discuss the selection of parameters that achieve optimal performance without sacrificing security in Section 5. 
 
 \subsection{Cryptographic Primitives}
-
-% TODO: PRG, PK-encryption, etc
 
 Based on the {\sf EncodeTransaction} and {\sf BoomerangMessageHandler} procedures, we require the following cryptographic primitives to support Boomerang messages:
 \begin{enumerate}
@@ -135,25 +139,7 @@ To satisfy the first primitive, we chose the standard RSA cryptosystem. While El
 
 % TODO: rsa & prg
 
-% \begin{figure}[ht!]
-% \begin{center}
-% \includegraphics[scale=0.25]{./images/boomerang_clusters.pdf}
-% \caption{TODO}
-% \label{fig:boomerang_clusters}
-% \end{center}
-% \end{figure}
-
-\subsection{Node Verification}
+\subsection{Node Validation}
 Boomerang clients need to validate addresses in the internal database. In order to validate addresses, Boomerang messages will be sent through un-validated addresses as well as validated addresses. If the local client correctly decrypts the Boomerang message, the nodes along the message’s route are marked as verified with a timestamp in the internal database. Boomerang clients will only relay address information from verified addresses.
 
 % TODO: gossip protocol, duration of Boomerang public/private key pairs, what else?
-
-% To protect against fake entries, Tarzan differentiates between un- validated and validated addresses in the peer-discovery and selec- tion process. Honest nodes only propagate validated addresses and only select mimics from their set of validated addresses.
-
-
-% Furthermore, a global eavesdropper that watches nodes gossip
-% can record the α nodes we assume each learns from the total set
-% of size n. Therefore, only α possible nodes could have initiated
-% a tunnel establishment request to a colluding malicious node.  In
-% general, for any α < n, this discovery-profiling attack leaks some 10
-% information and thus should be avoided.
