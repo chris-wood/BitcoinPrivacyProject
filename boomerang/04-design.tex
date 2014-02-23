@@ -4,6 +4,21 @@ As previously discussed, the Boomerang protocol enhancement for Bitcoin is motiv
 
 In the following sections we detail the core protocol and several important design and security tradeoffs that can be made in practice when using Boomerang. A formal analysis of the security and performance of Boomerang-enhanced Bitcoin is provided in Sections X and Y. 
 
+\subsection{Boomerang Peer-to-Peer Network Design}
+Boomerang peer discovery is done in a similar manner to the Bitcoin peer discovery process described above with a few exceptions. Boomerang nodes can also query Bitcoin nodes after connecting to the Bitcoin network. Boomerang nodes can also learn the address of other nodes by routing Boomerang messages. The Boomerang peer discovery methods are:
+
+\begin{enumerate}
+	\item User inputted addresses from command line or text file: If the user manually inputs address information, the client will attempt to connect to those Boomerang peers first.
+	\item Node reads stored Boomerang addresses from previous sessions: Boomerang clients will attempt to connect to peers stored in the internal address database from the previous session.
+	\item Nodes make a DNS request for Boomerang seed nodes: If there are no active nodes in the internal address database, then the client will perform a DNS lookup using hard-coded DNS servers for current seed nodes.
+	\item Nodes connect to hard-coded seed addresses: If DNS lookups fail, then the client attempts to connect to hard-coded seed addresses.
+	\item Nodes query Bitcoin network for Boomerang nodes: The client sends Boomerang connection requests to nodes on the Bitcoin network.
+	\item Nodes utilize callback addresses: After receiving a Boomerang connection request from a remote node, the client node can use the callback address to connect to the remote node and exchange address database information.
+	\item Nodes receive relayed addresses: After receiving new address information and verifying validity of the address, a node will randomly pick a few nodes in the internal database and relay the new address information.
+	\item Nodes will self broadcast periodically: Similarly to relayed addresses, periodically Boomerang clients will randomly pick a few nodes in the internal database and relay its own address information.
+	\item Boomerang messages: The destination of a Boomerang message must be a Boomerang node. The client can then request a connection with the destination node and exchange address database information.
+\end{enumerate}
+
 \subsection{Broadcast Protocol}
 
 At the heart of the Bitcoin protocol is the ability to encode new transactions as Boomerang messages and then ripple them throughout the network. We describe the complete procedure for message encoding, {\sf EncodeTransaction}, in Algorithm \ref{alg:encode}, where the notation contained therein is defined in Table \ref{tab:notation}. An encoded Boomerang message has a very well-defined format, as shown in Figure \ref{fig:boomerang_message}. In particular, the message is composed of the following:
@@ -128,8 +143,10 @@ To satisfy the first primitive, we chose the standard RSA cryptosystem. While El
 % \end{center}
 % \end{figure}
 
-\subsection{Peer Discovery}
-TODO: gossip protocol, duration of Boomerang public/private key pairs, what else?
+\subsection{Node Verification}
+Boomerang clients need to validate addresses in the internal database. In order to validate addresses, Boomerang messages will be sent through un-validated addresses as well as validated addresses. If the local client correctly decrypts the Boomerang message, the nodes along the message’s route are marked as verified with a timestamp in the internal database. Boomerang clients will only relay address information from verified addresses.
+
+% TODO: gossip protocol, duration of Boomerang public/private key pairs, what else?
 
 % To protect against fake entries, Tarzan differentiates between un- validated and validated addresses in the peer-discovery and selec- tion process. Honest nodes only propagate validated addresses and only select mimics from their set of validated addresses.
 

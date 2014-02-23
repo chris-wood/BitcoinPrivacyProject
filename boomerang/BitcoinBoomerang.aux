@@ -5,34 +5,48 @@
 \citation{zerocoin}
 \citation{pinocchio}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}}
-\@writefile{toc}{\contentsline {section}{\numberline {II}Boomerang Overview}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Review of the Bitcoin Peer-to-Peer Network}{1}}
 \citation{AnonymityTerms}
 \citation{Chaum81-Mix}
 \citation{tarzan}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces TODO}}{2}}
-\newlabel{fig:boomerang_net}{{1}{2}}
-\@writefile{toc}{\contentsline {section}{\numberline {III}Boomerang Design}{2}}
-\newlabel{sec:design}{{III}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-A}}Broadcast Protocol}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Bitcoin connection setup.}}{2}}
+\newlabel{fig:bitcoin_peer_protocol}{{1}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Boomerang Overview}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces TODO}}{3}}
+\newlabel{fig:boomerang_net}{{2}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Boomerang Design}{3}}
+\newlabel{sec:design}{{IV}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-A}}Boomerang Peer-to-Peer Network Design}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}Broadcast Protocol}{3}}
 \citation{tarzan}
 \citation{tarzan}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Boomerang message encoding.}}{3}}
-\newlabel{fig:boomerang_message}{{2}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-B}}Cryptographic Primitives}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {III-C}}Peer Discovery}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Boomerang Properties}{3}}
-\newlabel{sec:properties}{{IV}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-A}}Anonymity Properties}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}System-Level Properties}{3}}
-\@writefile{tdo}{\contentsline {todo}{need to quantify anonymity in terms of $N$ and $T$.}{3}}
-\pgfsyspdfmark {pgfid1}{29259718}{12540463}
-\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Boomerang Protocol Notation}}{4}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces {\sf  EncodeTransaction}($T$)}}{4}}
-\newlabel{alg:encode}{{1}{4}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces {\sf  BoomerangMessageHandler}($j$, $M$)}}{4}}
-\newlabel{alg:handler}{{2}{4}}
-\@writefile{tdo}{\contentsline {todo}{How many messages should a node expect to receive in a set amount of time?}{4}}
-\pgfsyspdfmark {pgfid2}{29259718}{4691386}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Boomerang message encoding.}}{4}}
+\newlabel{fig:boomerang_message}{{3}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-C}}Cryptographic Primitives}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-D}}Node Verification}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Boomerang Properties}{4}}
+\newlabel{sec:properties}{{V}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}Anonymity Properties}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}System-Level Properties}{4}}
+\@writefile{tdo}{\contentsline {todo}{need to quantify anonymity in terms of $N$ and $T$.}{4}}
+\pgfsyspdfmark {pgfid1}{29259718}{11262494}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Boomerang Protocol Notation}}{5}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces {\sf  EncodeTransaction}($T$)}}{5}}
+\newlabel{alg:encode}{{1}{5}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces {\sf  BoomerangMessageHandler}($j$, $M$)}}{5}}
+\newlabel{alg:handler}{{2}{5}}
+\@writefile{tdo}{\contentsline {todo}{How many messages should a node expect to receive in a set amount of time?}{5}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Boomerang information exposure.}}{6}}
+\newlabel{tab:anonymity-properties}{{II}{6}}
+\pgfsyspdfmark {pgfid2}{11496193}{43414731}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-C}}Network Security Analysis}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Performance Analysis}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-A}}Parameter Selection}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Related Works}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Tarzan gossip and validation protocol.}}{6}}
+\newlabel{fig:tarzan_protocol}{{4}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces A Chord network with ``finger'' table entries highlighted.}}{6}}
+\newlabel{fig:chord}{{5}{6}}
 \bibcite{bitcoin}{1}
 \bibcite{Chaum81-Mix}{2}
 \bibcite{tarzan}{3}
@@ -41,8 +55,4 @@
 \bibcite{chaumain}{6}
 \bibcite{zerocoin}{7}
 \bibcite{bitcoin-tor-wiki}{8}
-\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Boomerang information exposure.}}{5}}
-\newlabel{tab:anonymity-properties}{{II}{5}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Performance Analysis}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}Parameter Selection}{5}}
-\@writefile{toc}{\contentsline {section}{References}{5}}
+\@writefile{toc}{\contentsline {section}{References}{7}}

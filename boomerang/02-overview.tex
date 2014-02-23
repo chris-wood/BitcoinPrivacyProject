@@ -1,3 +1,18 @@
+\section{Review of the Bitcoin Peer-to-Peer Network}
+Bitcoin uses a simple broadcast network. To connect to the network, a local client uses four main methods of bootstrapping to locate an initial remote node.  The first is the internal database of addresses the client saved during the previous session.  If none of those addresses are active or the client is being run for the first time, the client uses a hard-coded DNS service to locate the address of seed nodes.   The third method is via hard-coded addresses of seed nodes.  The final method uses user inputted addresses from the command line or loaded from a text file.  The Bitcoin network also previously used Internet Relay Chat (IRC) bootstrapping, but support for this method has been removed as of Bitcoin version 0.8.2.
+
+To connect to a remote node, the client node first sends a version message to the remote node. If the remote node accepts the version message it replies with a verack message and its own version message. If the client node accepts the remote node’s version message, it replies with a verack message.  Finally, both nodes exchange getaddr messages and addr messages, which include the node’s address information as well as no more than 2,500 addresses seen in the last 3 hours in the node’s internal address database.
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.3]{./images/bitcoin_peer_protocol.png}
+\caption{Bitcoin connection setup.}
+\label{fig:bitcoin_peer_protocol}
+\end{center}
+\end{figure}
+
+After a node has joined the Bitcoin P2P network, peer discovery is propagated by callback addresses, addr messages relays, and self broadcast. Callback addresses are addresses in the remote node’s version message that enable the local node to connect back.  If the local node does connect back, then as described above, the local node will exchange addr messages.  Address relays occur after new addresses are added into the local node’s internal database. The local node will pick two random nodes in its database and relay the new addresses in another addr message. A node will also self broadcast, in which the node advertises its own address in an addr message to all connected nodes.
+
 \section{Boomerang Overview}
 At its heart, Boomerang is a peer-to-peer mixnet that can be leveraged by any anonymizing coin, such as Zerocoin, to provide anonymity analogous to Tor without the same side channel vulnerabilities. The main idea is to hide the source or origin from which transactions are introduced into the network. To do this, we integrate traditional mix networks into the peer-to-peer Bitcoin network such that new transactions which are to be broadcasted must first pass through a series of mixes (which are actually other participating Bitcoin users) through the network so as to obfuscate the originating network address. Functionally, this is no different from Tor. However, Boomerang has several important distinctions that make it unique with respect to onion-routing techniques like Tor:
 \begin{enumerate}
