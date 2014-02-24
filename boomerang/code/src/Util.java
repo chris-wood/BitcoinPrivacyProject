@@ -5,4 +5,9 @@ public class Util
 	{
 		System.out.println("[" + Clock.time + "] " + s);
 	}
+	
+	public static void error(String s)
+	{
+		System.out.println("[" + Clock.time + "]> " + s);
+	}
 }

@@ -290,14 +290,16 @@ public class Node
 	
 	public void acceptMessage(Message m) 
 	{
-		if (m.hops.size() > 1)
+		if (m.hops.size() > 2)
 		{
-			System.err.println(this + ": retrieved message - " + m);
+			Util.disp(this + ": retrieved message - " + m);
 			m.arriveTime.add(Clock.time);
 			msgQueue.add(m);
 		}
 		else
 		{
+			Util.disp("FINISHED");
+			
 			// Reached the end of the circuit, broadcast the transaction here
 			if (m.type == MessageType.TX)
 			{

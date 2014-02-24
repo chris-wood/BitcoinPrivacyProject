@@ -118,104 +118,121 @@ public class Boomerang implements Runnable
 		double avgTxComputations = (double)totalTxComputations / nodeHistory.size();
 		double avgForwarded = (double)totalForwarded / nodeHistory.size();
 		double avgRetries  = (double)totalRetries / nodeHistory.size();
+	
+		Util.error("Writing general stats: " + config.path + "/" + config.outfileprefix + "_stats.txt");
+		PrintWriter statsWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_stats.txt")));
+		statsWriter.println(totalLatency + "," + totalChaffComputations + "," 
+		+ totalTxComputations + "," + totalForwarded + "," + totalRetries + "," 
+				+ avgLatency + "," + avgChaffComputations + "," + avgTxComputations 
+				+ "," + avgForwarded + "," + avgRetries);
+		statsWriter.flush();
+		statsWriter.close();
 		
-		// 2. generate plot of nodes with message paths
-//		strict graph {
-//		    node0 [pos="1,2!"];
-//		    node1 [pos="2,3!"];
-//		}
-		
-		// Create the main adjacency matrix of completed broadcasts
-		int[][] completeAM = new int[Node.globalNodeId][Node.globalNodeId];
-		int[][] completeChaffAM = new int[Node.globalNodeId][Node.globalNodeId];
-		int[][] completeTxAM = new int[Node.globalNodeId][Node.globalNodeId];
-		int[][] startedChaffAM = new int[Node.globalNodeId][Node.globalNodeId];
-		int[][] startedTxAM = new int[Node.globalNodeId][Node.globalNodeId];
-		for (int i = 0; i < Node.globalNodeId; i++)
+		// Only generate matrices if specified to do so
+		if (config.genMatrices)
 		{
-			for (int j = 0; j < Node.globalNodeId; j++)
-			{
-				for (Message m : completedMessages)
-				{
-					for (int n = 0; n < m.circuit.size() - 1; n++)
-					{
-						completeAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
-					}
-				}
-				
-				for (Message m : completedChaff)
-				{
-					for (int n = 0; n < m.circuit.size() - 1; n++)
-					{
-						completeChaffAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
-					}
-				}
-				
-				for (Message m : completedTx)
-				{
-					for (int n = 0; n < m.circuit.size() - 1; n++)
-					{
-						completeTxAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
-					}
-				}
-				
-				for (Message m : startedChaff)
-				{
-					for (int n = 0; n < m.circuit.size() - 1; n++)
-					{
-						startedChaffAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
-					}
-				}
-				
-				for (Message m : startedTx)
-				{
-					for (int n = 0; n < m.circuit.size() - 1; n++)
-					{
-						startedTxAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
-					}
-				}
-			}
-		}
-		
-		PrintWriter completeWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_complete.txt")));
-		PrintWriter completeCharrWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_completechaff.txt")));
-		PrintWriter completeTxWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_completetx.txt")));
-		PrintWriter startedChaffWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_startchaff.txt")));
-		PrintWriter startedTxWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.outfileprefix + "_starttx.txt")));
-		for (int i = 0; i < Node.globalNodeId; i++)
-		{
-			StringBuilder completeBuilder = new StringBuilder();
-			StringBuilder startedChaffBuilder = new StringBuilder();
-			StringBuilder startedTxBuilder = new StringBuilder();
-			StringBuilder completeChaffBuilder = new StringBuilder();
-			StringBuilder completeTxBuilder = new StringBuilder();
-			for (int j = 0; j < Node.globalNodeId; j++)
-			{
-				completeBuilder.append(completeAM[i][j] + ",");
-				startedChaffBuilder.append(startedChaffAM[i][j] + ",");
-				startedTxBuilder.append(startedTxAM[i][j] + ",");
-				completeChaffBuilder.append(completeChaffAM[i][j] + ",");
-				completeTxBuilder.append(completeTxAM[i][j] + ",");
-				
-			}
-			System.out.println(completeBuilder.substring(0, completeBuilder.toString().length() - 1));
+			Util.error("Computing adjacency matrices");
+			Util.error("Total number of nodes: " + Node.globalNodeId);
+			Util.error("Completed messages: " + completedMessages.size());
+			Util.error("Completed chaff: " + completedChaff.size());
+			Util.error("Completed TXs: " + completedTx.size());
+			Util.error("Started chaff: " + startedChaff.size());
+			Util.error("Started TXs: " + startedTx.size());
 			
-			completeWriter.println(completeBuilder.substring(0, completeBuilder.toString().length() - 1));
-			completeCharrWriter.println(completeChaffBuilder.substring(0, completeChaffBuilder.toString().length() - 1));
-			completeTxWriter.println(completeTxBuilder.substring(0, completeTxBuilder.toString().length() - 1));
-			startedChaffWriter.println(startedChaffBuilder.substring(0, startedChaffBuilder.toString().length() - 1));
-			startedTxWriter.println(startedTxBuilder.substring(0, startedTxBuilder.toString().length() - 1));
+			// Create the main adjacency matrix of completed broadcasts
+			int[][] completeAM = new int[Node.globalNodeId][Node.globalNodeId];
+			int[][] completeChaffAM = new int[Node.globalNodeId][Node.globalNodeId];
+			int[][] completeTxAM = new int[Node.globalNodeId][Node.globalNodeId];
+			int[][] startedChaffAM = new int[Node.globalNodeId][Node.globalNodeId];
+			int[][] startedTxAM = new int[Node.globalNodeId][Node.globalNodeId];
+			for (int i = 0; i < Node.globalNodeId; i++)
+			{
+				for (int j = 0; j < Node.globalNodeId; j++)
+				{
+					for (Message m : completedMessages)
+					{
+						for (int n = 0; n < m.circuit.size() - 1; n++)
+						{
+							completeAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+						}
+					}
+					
+					for (Message m : completedChaff)
+					{
+						for (int n = 0; n < m.circuit.size() - 1; n++)
+						{
+							completeChaffAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+						}
+					}
+					
+					for (Message m : completedTx)
+					{
+						for (int n = 0; n < m.circuit.size() - 1; n++)
+						{
+							completeTxAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+						}
+					}
+					
+					for (Message m : startedChaff)
+					{
+						for (int n = 0; n < m.circuit.size() - 1; n++)
+						{
+							startedChaffAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+						}
+					}
+					
+					for (Message m : startedTx)
+					{
+						for (int n = 0; n < m.circuit.size() - 1; n++)
+						{
+							startedTxAM[m.circuit.get(n).id][m.circuit.get(n+1).id]++; // increase weight on edge between the graph
+						}
+					}
+				}
+			}
+			
+			Util.error("Writing adjacency matrices to files");
+			
+			PrintWriter completeWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_complete.txt")));
+			PrintWriter completeCharrWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_completechaff.txt")));
+			PrintWriter completeTxWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_completetx.txt")));
+			PrintWriter startedChaffWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_startchaff.txt")));
+			PrintWriter startedTxWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_starttx.txt")));
+			for (int i = 0; i < Node.globalNodeId; i++)
+			{
+				StringBuilder completeBuilder = new StringBuilder();
+				StringBuilder startedChaffBuilder = new StringBuilder();
+				StringBuilder startedTxBuilder = new StringBuilder();
+				StringBuilder completeChaffBuilder = new StringBuilder();
+				StringBuilder completeTxBuilder = new StringBuilder();
+				for (int j = 0; j < Node.globalNodeId; j++)
+				{
+					completeBuilder.append(completeAM[i][j] + ",");
+					startedChaffBuilder.append(startedChaffAM[i][j] + ",");
+					startedTxBuilder.append(startedTxAM[i][j] + ",");
+					completeChaffBuilder.append(completeChaffAM[i][j] + ",");
+					completeTxBuilder.append(completeTxAM[i][j] + ",");
+					
+				}
+				System.out.println(completeBuilder.substring(0, completeBuilder.toString().length() - 1));
+				
+				completeWriter.println(completeBuilder.substring(0, completeBuilder.toString().length() - 1));
+				completeCharrWriter.println(completeChaffBuilder.substring(0, completeChaffBuilder.toString().length() - 1));
+				completeTxWriter.println(completeTxBuilder.substring(0, completeTxBuilder.toString().length() - 1));
+				startedChaffWriter.println(startedChaffBuilder.substring(0, startedChaffBuilder.toString().length() - 1));
+				startedTxWriter.println(startedTxBuilder.substring(0, startedTxBuilder.toString().length() - 1));
+			}
+			completeWriter.flush();
+			completeWriter.close();
+			completeCharrWriter.flush();
+			completeCharrWriter.close();
+			completeTxWriter.flush();
+			completeTxWriter.close();
+			startedChaffWriter.flush();
+			startedChaffWriter.close();
+			startedTxWriter.flush();
+			startedTxWriter.close();
 		}
-		completeWriter.flush();
-		completeWriter.close();
-		completeCharrWriter.flush();
-		completeCharrWriter.close();
-		completeTxWriter.flush();
-		completeTxWriter.close();
-		startedChaffWriter.flush();
-		startedChaffWriter.close();
-		startedTxWriter.flush();
-		startedTxWriter.close();
 	}
 	
 	public void doEvent()
@@ -264,10 +281,11 @@ public class Boomerang implements Runnable
 	public void run()
 	{	
 		// Run the simulation for the specified amount of time
-		Util.disp("Simulation starting...");
+		Util.error("Simulation starting...");
+		
 		Clock clock = new Clock(); 
 		while (clock.time < config.simTime)
-		{
+		{	
 			for (Node n : nodes)
 			{
 				n.doEvent();
@@ -291,11 +309,11 @@ public class Boomerang implements Runnable
 		}
 		
 		// Kill all the nodes
-		Util.disp("Simulation complete. Killing every node.");
+		Util.error("Simulation complete. Killing every node.");
 	}
 	
 	public void finalizeMessage(Message m)
-	{
+	{	
 		messagesToRemove.add(m);
 		completedMessages.add(m);
 		switch (m.type)
@@ -355,7 +373,7 @@ public class Boomerang implements Runnable
 		{
 			// Parse the config file and run the simulator
 			Config config = Yaml.loadType(new File(args[0]), Config.class);
-			Util.disp(config.toString());
+			Util.error(config.toString());
 			
 			// Run the simulator
 			Boomerang boom = new Boomerang(config);

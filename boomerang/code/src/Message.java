@@ -12,10 +12,11 @@ public class Message
 	public MessageType type;
 	public boolean startTransmit;
 	public long waitTime;
-	public boolean broadcasted;
+	public boolean broadcasted = false;
 	public Boomerang boom;
 	
 	// Stats
+	public boolean firstTransmit = true;
 	public long latency;
 	
 	// State
@@ -30,12 +31,13 @@ public class Message
 		this.waitTime = 0;
 		this.broadcastTime = -1;
 		this.startTransmit = false;
+		this.firstTransmit = true;
 		this.hops = new ArrayList<Node>();
 	}
 	
 	public void doEvent()
 	{
-		if (broadcasted = true)
+		if (broadcasted)
 		{
 			boom.finalizeMessage(this);
 		}
@@ -47,16 +49,24 @@ public class Message
 			}
 			else if (startTransmit) // wait time = 0
 			{
+				// Short circuit
+				if (hops.size() <= 1)
+				{
+					markAsBroadcasted();
+					return;
+				}
+				
 				startTransmit = false;
 				Node source = hops.remove(0);
 				nextHop = hops.get(0);
 				double distance = source.loc.distanceTo(nextHop.loc);
+				broadcasted = false;
 				waitTime = (long)distance;
 			}
 			else
 			{
 				nextHop.acceptMessage(this);
-				startTransmit = true;
+//				startTransmit = true;
 			}
 		}
 	}
@@ -76,20 +86,27 @@ public class Message
 	
 	public void markAsBroadcasted()
 	{
+		Util.disp("Marking " + this + " as broadcasted");
 		broadcasted = true;
 		broadcastTime = Clock.time;
-		latency = broadcastTime - spawnTime;
+		latency = broadcastTime - sendTime.get(0);
+	}
+	
+	public void transmitMessage()
+	{
+		startTransmit = true;
+		
+		// Don't overwrite the time
+		if (firstTransmit)
+		{
+			spawnTime = Clock.time;
+			firstTransmit = false;
+		}
 	}
 	
 	@Override
 	public String toString()
 	{
 		return "M" + id;
-	}
-	
-	public void transmitMessage()
-	{
-		startTransmit = true;
-		spawnTime = Clock.time;
 	}
 }

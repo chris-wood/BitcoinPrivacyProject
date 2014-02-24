@@ -1,5 +1,5 @@
 simTime: 10000
-numNodes: 1000
+numNodes: 10000
 enterRate: 2
 exitRate: 100
 gridHeight: 100

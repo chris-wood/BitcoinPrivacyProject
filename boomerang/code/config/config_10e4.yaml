@@ -1,5 +1,5 @@
-simTime: 10000
-numNodes: 1000
+simTime: 1000000
+numNodes: 10000
 enterRate: 2
 exitRate: 100
 gridHeight: 100
@@ -13,4 +13,6 @@ buffSize: 1
 mixDelay: 1
 pktSize: 1024
 seed: 256
-outfileprefix: "config1"
+outfileprefix: "config_10e4"
+path: "."
+genMatrices: false

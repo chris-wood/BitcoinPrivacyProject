@@ -16,4 +16,6 @@ public class Config
 	public long seed;
 	public int retryLimit;
 	public String outfileprefix;
+	public String path;
+	public boolean genMatrices;
 }
