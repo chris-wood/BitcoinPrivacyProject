@@ -94,8 +94,8 @@ public class Node
 				boom.numMessages++;
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
+				Util.disp(this.toString() + " FORWARD " + m.toString());
 			}
-			Util.disp(this.toString() + " forwarding ");
 		}
 		
 		// Handle cover generation
@@ -136,7 +136,7 @@ public class Node
 				}
 				
 				// New message to send
-				Message newMsg = new Message(id + "-" + coverMsgIndex++, boom, MessageType.COVER);
+				Message newMsg = new Message("CHAFF-" + id + "-" + coverMsgIndex++, boom, MessageType.COVER);
 				circuit.add(this);
 				newMsg.setHops(this, circuit);
 				messages.add(newMsg);					
@@ -152,9 +152,8 @@ public class Node
 				m.hops.add(0, this);
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
+				Util.disp(this.toString() + " CHAFF GEN " + m.toString());
 			}
-			
-			Util.disp(this.toString() + " generating chaff");
 			
 			coverSendStart = true;
 		}
@@ -170,7 +169,7 @@ public class Node
 			double sleep = rng.nextDouble() * boom.config.txGenRate;
 			sleep = sleep < 0 ? (sleep * -1) % boom.config.txGenRate : sleep;
 			txWait = (long)sleep;
-			Util.disp(this.toString() + " waiting for " + txWait + " to transmit");
+			Util.disp(this.toString() + " TX SLEEP " + txWait);
 		}
 		else if (txTimeoutWait > 0)
 		{	
@@ -187,7 +186,7 @@ public class Node
 			if (!txSendStart)
 			{
 				txTimeoutWait--;
-				if (txSendStart = false && txTimeoutWait == 0)
+				if (txSendStart == false && txTimeoutWait == 0)
 				{
 					resend = true;
 				}
@@ -220,7 +219,7 @@ public class Node
 				}
 				
 				// New message to send
-				Message newMsg = new Message(id + "-" + txMsgIndex, boom, MessageType.TX);
+				Message newMsg = new Message("TX-" + id + "-" + txMsgIndex, boom, MessageType.TX);
 				newMsg.setHops(this, circuit);
 				messages.add(newMsg);
 				boom.addMessage(newMsg);
@@ -234,6 +233,7 @@ public class Node
 				boom.startedTx.add(m);
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
+				Util.disp(this.toString() + " TX RESEND " + m.toString());
 			}
 			
 			// Set timeout wait 
@@ -264,7 +264,7 @@ public class Node
 				}
 				
 				// New message to send
-				Message newMsg = new Message(id + "-" + txMsgIndex, boom, MessageType.TX);
+				Message newMsg = new Message("TX-" + id + "-" + txMsgIndex, boom, MessageType.TX);
 				newMsg.setHops(this, circuit);
 				messages.add(newMsg);
 				boom.addMessage(newMsg);
@@ -278,9 +278,8 @@ public class Node
 				boom.startedTx.add(m);
 				m.sendTime.add(Clock.time);
 				m.transmitMessage();
+				Util.disp(this.toString() + " TX GEN " + m.toString());
 			}
-			
-			Util.disp(this.toString() + " generating fresh traffic");
 			
 			// Set timeout wait 
 			lastSent = messages;
@@ -292,23 +291,21 @@ public class Node
 	{
 		if (m.hops.size() > 2)
 		{
-			Util.disp(this + ": retrieved message - " + m);
+			Util.disp(this.toString() + " ACCEPTED " + m.toString());
 			m.arriveTime.add(Clock.time);
 			msgQueue.add(m);
 		}
 		else
-		{
-			Util.disp("FINISHED");
-			
+		{	
 			// Reached the end of the circuit, broadcast the transaction here
 			if (m.type == MessageType.TX)
 			{
 				m.markAsBroadcasted();
-				System.err.println("Transaction broadcasted: " + m);
+				Util.disp(m.toString() + " MSG BROADCASTED");
 			}
 			else
 			{
-				System.err.println("End of life: " + m);
+				Util.disp(m.toString() + " EOL");
 			}
 		}
 	}
@@ -316,6 +313,6 @@ public class Node
 	@Override
 	public String toString()
 	{
-		return "Node-" + id;
+		return "N-" + id;
 	}
 }

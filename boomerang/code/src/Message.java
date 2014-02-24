@@ -61,12 +61,11 @@ public class Message
 				nextHop = hops.get(0);
 				double distance = source.loc.distanceTo(nextHop.loc);
 				broadcasted = false;
-				waitTime = (long)distance;
+				waitTime = (long)((long)distance / 10e8);
 			}
 			else
 			{
 				nextHop.acceptMessage(this);
-//				startTransmit = true;
 			}
 		}
 	}
@@ -107,6 +106,6 @@ public class Message
 	@Override
 	public String toString()
 	{
-		return "M" + id;
+		return "M-" + id;
 	}
 }

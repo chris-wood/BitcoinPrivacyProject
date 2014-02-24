@@ -1,9 +1,9 @@
-simTime: 1000
+simTime: 10000
 numNodes: 1000
 enterRate: 750
 exitRate: 750
-gridHeight: 100
-gridWidth: 100
+gridHeight: 10000
+gridWidth: 10000
 chaffGenRate: 2500
 txGenRate: 7500
 circuitWidth: 4
