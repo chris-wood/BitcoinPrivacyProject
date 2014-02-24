@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  23 FEB 2014 16:23
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  23 FEB 2014 21:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -760,6 +760,20 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 ) (./03-properties.tex
+Overfull \hbox (5.1259pt too wide) in paragraph at lines 35--35
+[] 
+ []
+
+
+Overfull \hbox (17.20866pt too wide) in paragraph at lines 39--39
+[] 
+ []
+
+
+LaTeX Warning: Reference `fig:confidence-plot' on page 6 undefined on input lin
+e 42.
+
+[6 <./images/ctr_drbg_update.png>]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
@@ -775,14 +789,12 @@ Underfull \hbox (badness 6510) in paragraph at lines 2--3
 []\OT1/ptm/m/n/10 Tarzans P2P net-work is much more se-cure than
  []
 
-[6 <./images/ctr_drbg_update.png>]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-
 <./images/tarzan_protocol.png, id=140, 739.70471pt x 768.04588pt>
 File: ./images/tarzan_protocol.png Graphic file (type png)
 
@@ -795,8 +807,8 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-
-<./images/chord.png, id=141, 401.5pt x 401.5pt>
+ [7 <./images/tarzan_protocol.png>]
+<./images/chord.png, id=145, 401.5pt x 401.5pt>
 File: ./images/chord.png Graphic file (type png)
  <use ./images/chord.png>
 Package pdftex.def Info: ./images/chord.png used on input line 18.
@@ -825,7 +837,6 @@ r
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no î in font ptmr7t!
-[7 <./images/tarzan_protocol.png> <./images/chord.png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -837,9 +848,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[8
-
-] (./BitcoinBoomerang.aux)
+[8 <./images/chord.png>] (./BitcoinBoomerang.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -848,10 +857,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 12770 strings out of 493315
- 235488 string characters out of 6137904
- 294842 words of memory out of 5000000
- 15903 multiletter control sequences out of 15000+600000
+ 12771 strings out of 493315
+ 235509 string characters out of 6137904
+ 294843 words of memory out of 5000000
+ 15904 multiletter control sequences out of 15000+600000
  54330 words of font info for 106 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  63i,11n,80p,1239b,574s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -876,7 +885,7 @@ t/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts
 /times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/ut
 mr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
 
-Output written on BitcoinBoomerang.pdf (8 pages, 378892 bytes).
+Output written on BitcoinBoomerang.pdf (8 pages, 387121 bytes).
 PDF statistics:
  216 PDF objects out of 1000 (max. 8388607)
  143 compressed objects within 2 object streams
