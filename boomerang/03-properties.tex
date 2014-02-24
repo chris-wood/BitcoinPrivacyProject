@@ -65,9 +65,7 @@ From a performance perspective, our main goal is to minimize the overhead of Boo
 \subsection{Network Security Analysis}
 Analysis assumes a client’s first connection is to an honest node. If the client first connects to a malicious node, no security is possible as the malicious node will trivially keep the client in the malicious network. The adversary can use many long-lived identities to bias the distribution of nodes towards the malicious network. If the adversary controls a majority of nodes, no security guarantees are possible.  Therefore, security analysis will assume a client node to be connected to some honest nodes and the adversary does not control the majority of nodes.
 
-The adversary can introduce many invalid addresses into the network.  By using Boomerang messages to validate addresses, honest nodes can aggressively prune invalid addresses from their internal databases. In a similar fashion, Boomerang messages will prune nodes that improperly modify data that is routed through them.
-
-Due to the open nature of the Boomerang network, no solution to denial-of-service attacks are currently possible.
+The adversary can introduce many invalid addresses into the network. By using Boomerang messages to validate addresses, honest nodes can aggressively prune invalid addresses from their internal databases. In a similar fashion, Boomerang messages will prune nodes that improperly modify data that is routed through them. Due to the open nature of the Boomerang network, no solution to denial-of-service attacks are currently possible.
 
 % 4. Performance: Tarzan should maximize the performance of tunnel transmission, subject to our anonymity requirements, to make Tarzan a viable IP-level communication channel.
 
