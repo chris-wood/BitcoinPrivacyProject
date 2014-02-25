@@ -17,40 +17,27 @@ Inspired by Tarzan \cite{tarzan}, we analyze the anonymity properties of Boomera
 \end{center}
 \end{table*}
 
-% 2. Anonymity against malicious nodes: Tarzan should pro- vide sender or recipient anonymity against colluding nodes. That is, a particular host should not be uniquely linkable as the sender (recipient) of any message, or that a message should not be linkable to any sender (recipient) [20]. We consider these properties in terms of an anonymity set: the set of possible senders of a message. The larger this set, the “more” anonymous an initiator remains. These properties implies the weaker relationship anonymity: an adversary should not be able to identify a pair of hosts as communicating with each other, irrespective of which host is running Tarzan.
-
 One of the defining properties of Boomerang messages is that both encoded transactions and dummy messages are computationally indistinguishable. Therefore, an eavesdropping adversary cannot deterministically determine the type of messages based soley on passive observation, thus ensuring that the contents of each packet are not leaked in the network. Furthermore, even if an adversary successfully differentiates cover traffic from encoded (wrapped) transactions, an adversary cannot determine whether or not a compromised node is forwarding a transaction or is the original source of the transaction.
 
-More formally, the size of the sender anonymity set for any particular message is exponential in the path length, i.e., in a network of $N$ nodes comprised of $N_{bad}$ nodes, there are $((N - N_{bad}) / N)^{i-1}$ possible sending nodes (the size of the anonymity set) of a message at hop $i$ that could have generated the original message, assuming uniformly random and unbiased circuit creation. As a result, the probability that a node $n$ is the originator for a particular message $m$ if intercepted at hop $i$ in the circuit is $((N - N_{bad}) / N)^{-(i-1)}$. Building upon the anonymity analysis completed for Tarzan, we may quantify the confidence that a specific node in the anonymity set is the real sender is precisely as follows:
+More formally, the size of the sender anonymity set for any particular message is exponential in the path length, i.e., in a network of $N$ nodes comprised of $N_{bad}$ nodes, there are $((N - N_{bad}) / N)^{i}$ possible sending nodes (the size of the anonymity set) of a message at hop $i$ that could have generated the original message, assuming uniformly random and unbiased circuit creation. As a result, the probability that a node $n$ is the originator for a particular message $m$ if intercepted at hop $i$ in the circuit is $((N - N_{bad}) / N)^{-(i)}$. Building upon the anonymity analysis completed for Tarzan, we may quantify the confidence that a specific node in the anonymity set is the real sender is precisely as follows:
 \begin{align*}
-C_i = \frac{\Pr[I_i | H_{i+}]}{E(|AS_i|)},
+C_i = \frac{\Pr[H_i]}{E(|AS_i|) \times \Pr[H_{i+}]},
 \end{align*} 
-where $|AS_i| = ((N - N_{bad}) / N)^{i-1}$ and $\Pr[I_i | H_{i+}]$ is the probability that \emph{some} node preceding the node at hop $i$ is the sender. In this context, we use $I_i$ to denote the event that a node preceding node $i$ is the original sender, $H_i$ to denote the event that first compromised node occurs at the $i$-th hop, and $H_{i+}$ to be the event that the first compromised node occurs somewhere after the $i$-th hop. Mathematically, we may model the former probability as follows:
+where $|AS_i| = ((N - N_{bad}) / N)^{i}$ and $(\Pr[H_i] / \Pr[H_{i+}])$ is the probability that \emph{some} node preceding the node at hop $i$ is the sender. In this context, we use $H_i$ to denote the event that first compromised node occurs at the $i$-th hop and $H_{i+}$ to be the event that the first compromised node occurs somewhere after the $i$-th hop. Stated differently, $\Pr[H_i]$ is the probability that a message travels through $(i-1)$ uncompromised nodes prior to reaching the first malicious node. Analogously, $\Pr[H_{i+}]$ is the probability that a message traverses \emph{at least} $i$ honest nodes before reaching the first adversary. If the length of a circuit is $l \leq D$, and the average number of hops is at least $E(l)$, this means that $\Pr[H_i]$ is equivalent to the product of $((N - N_{bad}) / N)^{i-1}$ and $(N_{bad} / N)$ (i.e., the $i$-th hop is compromised) and the probability that the tunnel is at least $(i-1 + E(l))$ hops long; similar computations hold for $\Pr[H_{i+}]$. Stated formally, these probabilities can be computed as follows:
 \begin{align*}
-\Pr[I_i | H_{i+}] & = \frac{\Pr[H_i]}{\Pr[H_{i+}]},
+\Pr[H_i] & = \left( \frac{ \Pr[l \geq i - 1 + E(r)] } { \Pr[l \geq E(r)] }\right) \left(\frac{N - N_{bad}}{N}\right)^{i-1} \left( \frac{N_{bad}}{N}\right) \\
+\Pr[H_{i+}] & = \sum_{k=i-1}^{D} \left( \frac{ \Pr[l \geq k + E(r)] } { \Pr[l \geq E(r)] }\right) \left(\frac{N - N_{bad}}{N}\right)^{k} \left( \frac{N_{bad}}{N}\right)
 \end{align*}
-where
+A simple verification of this confidence equation can be seen by observing that as $N_{bad}/N \to 1$,  $C_1 \to 1$ as well, which implies that the adversary's confidence in successfully deanonymizing the original sender is 1.0 if they compromise the entire network. However, by the assumptions of the Bitcoin network, the number of honest nodes will always be a majority of the total nodes in the network. Making this substitution, we see that the expected size of the anonymity set $E(|AS_i|)$ is bounded above by $\left(1/2\right)^{i-1}$, in the worst case. $C_i$ also reduces to the following:
 \begin{align*}
-\Pr[H_i] = \left( \frac{ \Pr[l \geq i - 1 + E(r)] } { \Pr[l \geq E(r)] }\right) \left(\frac{N - N_{bad}}{N}\right)^{i-1} \left( \frac{N_{bad}}{N}\right)
+C_i & = \frac{\left( \frac{ \Pr[l \geq i - 1 + E(r)] } { \Pr[l \geq E(r)] }\right)}{\sum_{k=i-1}^{D} \left( \frac{ \Pr[l \geq k + E(r)] } { \Pr[l \geq E(r)] }\right) \left(\frac{N - N_{bad}}{N}\right)^{k}}
 \end{align*}
-and 
-\begin{align*}
-\Pr[H_{i+}] = \sum_{k=i-1}^{D} \left( \frac{ \Pr[l \geq k + E(r)] } { \Pr[l \geq E(r)] }\right) \left(\frac{N - N_{bad}}{N}\right)^{k} \left( \frac{N_{bad}}{N}\right),
-\end{align*}
-where $E(r)$ is the expected minimum length of the circuit and $l$ is the length of the circuit.
 
-Analyzing this confidence in the limit as $N_{bad}/N \to 1$, we can see $C_1 \to 1$ (see Figure \ref{fig:confidence-plot}). However, by the assumptions of the Bitcoin network, the number of honest nodes will always be a majority of the total nodes in the network. Making this substitution, we see that the expected size of the anonymity set is $E(|AS_i|) \leq \left(\frac{1}{2}\right)^{i-1}$, in the worst case. $C_i$ also reduces to the following:
-\begin{align*}
-C_i & = \frac{\Pr[I_i | H_{i+}]}{E(|AS_i|)} \\
-& = \frac{\left( \frac{ \Pr[l \geq i - 1 + E(r)] } { \Pr[l \geq E(r)] }\right)}{\sum_{k=i-1}^{D} \left( \frac{ \Pr[l \geq k + E(r)] } { \Pr[l \geq E(r)] }\right) \left(\frac{N - N_{bad}}{N}\right)^{k}}
-\end{align*}
+******
 
 %%% TODO: plot the above equation
-%%% TODO: change Pr(frac) to \Pr[path travels through i-1 honest nodes] and \Pr[path doesn't travel through k >= i nodes]
-%%% TODO: get rid of event I_i, just use H_i's (newly defined as above)
 
-% leakage in tunnels:
-% Cover traffic (dummy traffic) that is indistinguishable from data can prevent such analysis. First, an eavesdropper cannot determine whether a relay initiates new data or just sends cover packets. Sec- ond, an observer must back-trace the multiple sources of a node’s incoming traffic, creating a fan-out of possible senders.
+If an active adversary is strategic in the selection of their nodes to compromise, one may naively try to compromise the start and end nodes of a circuit to identify the sender. However, one of Boomerang's defining characteristics is that a circuit is use \emph{once} to broadcast a new transaction. Therefore, standard attacks such as packet relay, tagging, and reordering are ineffective since they all rely on persistent circuits present in anonymizing networks such as Tor \cite{tor}. 
 
 % exit/entrance nodes:
 % While cover traffic and layered encryption protects data traffic within tunnels, an adversary may attempt to leverage the fact that data exits the Tarzan network in clear-text. These network-edge attacks include packet replay, tagging, reordering, and flooding. They generally require an adversary to control some node or link on a tunnel and to observe a PNAT or the non-participating Internet host of interest. 
@@ -58,11 +45,13 @@ C_i & = \frac{\Pr[I_i | H_{i+}]}{E(|AS_i|)} \\
 % Lastly, an adversary may attempt to flood a node with packets. It hopes to reduce the number of other senders that can simultane- ously use the relay, and then try to identify its own outgoing pack- ets from those of others. Tarzan greatly reduces the effectiveness of such flooding. First, mimics encrypt messages between them, mak- ing it difficult for an adversary to identify its own packets. Second, cover traffic cannot be distinguished from the legitimate traffic of other nodes. Third, the rigid structure of the mimic overlay limits the set of nodes that an adversary attack: A malicious node can only flood mimics through a well-formed tunnel in the overlay.
 
 \subsection{System-Level Properties}
-From a systems perspective, Boomerang was designed with fault-tolerance and performance in mind. In particular, we (easily) claim that the Boomerang scheme is resistant to any adversarial attempt to leverage a successful denial of service (DoS) attack on the network. By the assumptions of the Bitcoin network, a majority of the participating nodes will always be honest (i.e., effectively uncompromised). Now, assume that there are $N_{total}$ total nodes in the Bitcoin network, at least $N_{total}/2$ such nodes are honest, and $N_{bad} \leq T/2 - 1$ nodes are compromised. By this claim, during node selection and circuit formation, $W$ nodes will be drawn at random without replacement, meaning that the probability of forming a circuit with at least one corrupt node, in the worst case, is
-
+From a systems perspective, Boomerang was designed with fault-tolerance and performance in mind. In particular, we (easily) claim that the Boomerang scheme is resistant to any adversarial attempt to leverage a successful denial of service (DoS) attack on the network. By the assumptions of the Bitcoin network, a majority of the participating nodes will always be honest (i.e., effectively uncompromised). Now, assume that there are $N$ total nodes in the Bitcoin network, at least $N/2$ such nodes are honest, and $N_{bad} \leq \lceil N/2 \rceil - 1$ nodes are compromised. By this fact, during node selection and circuit formation, $D$ nodes will be drawn at random without replacement, meaning that the probability of forming a circuit with at least one corrupt node $\Pr[\mathsf{BadCircuit}]$, in the worst case by the union bound, is at most
 \begin{align*}
-\sum_{i=1}^D \frac{N_{bad}}{(N_{total}/2) - 1 - i}
+\Pr[\mathsf{BadCircuit}] & = \\
+& \sum_{i=0}^{D-1} \left[ \frac{\lceil (N-1)/2 \rceil}{N - 1 - i}\left( \prod_{j=0}^{i-1} 1 - \frac{ \lceil (N-1)/2 \rceil}{N-j-1} \right) \right]
 \end{align*}
+
+\todo[inline]{plot how this behaves as function of N and D?}
 
 For reasonable measures of fault-tolerance, we require that this probability is kept as small as possible. However, for anonymity purposes, we require that $D$ is maximized to achieve optimal mixing (and thus, anonymity) throughout the network. 
 
@@ -77,7 +66,7 @@ From a performance perspective, our main goal is to minimize the overhead of Boo
 \end{itemize}
 
 \todo[inline]{How many messages should a node expect to receive in a set amount of time?}
-
+\todo[inline]{Discuss denial of service prevention here}
 
 \subsection{Network Security Analysis}
 Analysis assumes a client’s first connection is to an honest node. If the client first connects to a malicious node, no security is possible as the malicious node will trivially keep the client in the malicious network. The adversary can use many long-lived identities to bias the distribution of nodes towards the malicious network. If the adversary controls a majority of nodes, no security guarantees are possible.  Therefore, security analysis will assume a client node to be connected to some honest nodes and the adversary does not control the majority of nodes.
