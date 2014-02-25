@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  24 FEB 2014 20:20
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  25 FEB 2014 10:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -550,7 +550,7 @@ Package: amsthm 2004/08/06 v2.20
 )
 (./BitcoinBoomerang.aux
 
-LaTeX Warning: Label `fig:boomerang_message' multiply defined.
+LaTeX Warning: Label `tab:msg-header' multiply defined.
 
 )
 \openout1 = `BitcoinBoomerang.aux'.
@@ -713,65 +713,77 @@ LaTeX Warning: Reference `sec:validation' on page 3 undefined on input line 44.
 
 
 [3 <./images/boomerang_net.pdf>]
-<./images/boomerang_message.pdf, id=96, 672.5125pt x 97.36375pt>
-File: ./images/boomerang_message.pdf Graphic file (type pdf)
-
-<use ./images/boomerang_message.pdf>
-Package pdftex.def Info: ./images/boomerang_message.pdf used on input line 53.
-(pdftex.def)             Requested size: 235.38289pt x 34.0778pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 59--60
+Underfull \hbox (badness 10000) in paragraph at lines 71--72
 []\OT1/ptm/m/n/10 The pro-ce-dure to han-dle Boomerang mes-sages,
  []
 
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 143.
 
-Underfull \hbox (badness 7576) in paragraph at lines 134--135
+(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) [4]
+Missing character: There is no ¬ in font ptmr7t!
+Missing character: There is no † in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ú in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ù in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+
+Underfull \hbox (badness 7576) in paragraph at lines 219--220
 []\OT1/ptm/m/n/10 Efficient cho-sen plain-text se-cure (CPA-secure)
  []
 
 
-LaTeX Warning: Citation `nist-curves' on page 4 undefined on input line 138.
+LaTeX Warning: Citation `nist-curves' on page 5 undefined on input line 223.
 
 
-Underfull \hbox (badness 2799) in paragraph at lines 148--149
+Underfull \hbox (badness 2799) in paragraph at lines 233--234
 []\OT1/phv/m/n/10 Setup\OT1/ptm/m/n/10 : Gen-er-ate and out-put do-main pa-ram-
 e-ters
  []
 
-[4 <./images/boomerang_message.pdf>]
+[5]
 
-LaTeX Warning: Reference `fig:ctr_drbg_update' on page 5 undefined on input lin
-e 155.
+LaTeX Warning: Reference `fig:ctr_drbg_update' on page 6 undefined on input lin
+e 240.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [5]
-<./images/ctr_drbg_update.png, id=136, 610.28pt x 315.1775pt>
+<./images/ctr_drbg_update.png, id=111, 610.28pt x 315.1775pt>
 File: ./images/ctr_drbg_update.png Graphic file (type png)
 
 <use ./images/ctr_drbg_update.png>
-Package pdftex.def Info: ./images/ctr_drbg_update.png used on input line 159.
+Package pdftex.def Info: ./images/ctr_drbg_update.png used on input line 244.
 (pdftex.def)             Requested size: 213.6012pt x 110.31377pt.
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ô in font ptmr7t!
-) (./03-properties.tex
+) (./03-properties.tex [6 <./images/ctr_drbg_update.png>]
 Overfull \hbox (12.76425pt too wide) in paragraph at lines 30--30
 [] 
  []
 
 
-LaTeX Warning: Citation `tor' on page 6 undefined on input line 40.
+LaTeX Warning: Citation `tor' on page 7 undefined on input line 40.
 
-[6 <./images/ctr_drbg_update.png>]
+
 Overfull \hbox (4.05072pt too wide) in paragraph at lines 52--52
 [] 
  []
 
+[7]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
@@ -793,7 +805,7 @@ Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-<./images/tarzan_protocol.png, id=140, 739.70471pt x 768.04588pt>
+<./images/tarzan_protocol.png, id=119, 739.70471pt x 768.04588pt>
 File: ./images/tarzan_protocol.png Graphic file (type png)
 
 <use ./images/tarzan_protocol.png>
@@ -806,7 +818,7 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
 
-<./images/chord.png, id=141, 401.5pt x 401.5pt>
+<./images/chord.png, id=120, 401.5pt x 401.5pt>
 File: ./images/chord.png Graphic file (type png)
  <use ./images/chord.png>
 Package pdftex.def Info: ./images/chord.png used on input line 18.
@@ -827,18 +839,16 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 )
-[7]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 Underfull \hbox (badness 1466) in paragraph at lines 49--50
 []\OT1/ptm/m/n/8 Michael J. Freed-man and Robert Mor-ris. Tarzan: A Peer-to-Pee
 r
  []
 
+[8 <./images/tarzan_protocol.png>]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no î in font ptmr7t!
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -850,8 +860,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[8 <./images/tarzan_protocol.png> <./images/chord.png>] (./BitcoinBoomerang.aux
-)
+[9
+
+ <./images/chord.png>] (./BitcoinBoomerang.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -860,13 +871,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 12773 strings out of 493315
- 235547 string characters out of 6137904
- 294895 words of memory out of 5000000
- 15906 multiletter control sequences out of 15000+600000
- 54330 words of font info for 106 fonts, out of 8000000 for 9000
+ 12811 strings out of 493315
+ 236020 string characters out of 6137904
+ 293950 words of memory out of 5000000
+ 15939 multiletter control sequences out of 15000+600000
+ 55360 words of font info for 110 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 63i,11n,80p,1239b,577s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 63i,11n,80p,1636b,577s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texl
@@ -883,15 +894,15 @@ st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/fo
 nts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dis
-t/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts
-/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw
-/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/ut
-mr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-
-Output written on BitcoinBoomerang.pdf (8 pages, 390333 bytes).
+t/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/
+type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/u
+rw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/u
+tmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
+></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on BitcoinBoomerang.pdf (9 pages, 392364 bytes).
 PDF statistics:
- 216 PDF objects out of 1000 (max. 8388607)
- 143 compressed objects within 2 object streams
+ 197 PDF objects out of 1000 (max. 8388607)
+ 129 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 43 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
