@@ -38,6 +38,10 @@ public class Node
 	// Buffer things
 	public ArrayList<Message> msgQueue;
 	
+	// Address book
+	public ArrayList<Node> addressBook;
+	public ArrayList<Node> invalidNodes;
+	
 	// Local message identifier
 	public int coverMsgIndex = 0;
 	public int txMsgIndex = 0;
@@ -67,6 +71,9 @@ public class Node
 		this.txWait = 0L;
 		this.txSendStart = true;
 		this.resend = false;
+		
+		this.addressBook = new ArrayList<Node>();
+		this.invalidNodes = new ArrayList<Node>();
 	}
 	
 	public void doEvent()
