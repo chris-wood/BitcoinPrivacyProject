@@ -16,3 +16,6 @@ seed: 256
 outfileprefix: "config_10e5"
 path: "."
 genMatrices: false
+initialAddressSize: 250
+validNodeTransmitReq: 50
+addressBookSize: 1000

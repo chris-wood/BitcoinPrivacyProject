@@ -278,10 +278,34 @@ public class Boomerang implements Runnable
 		}
 	}
 	
+	public HashSet<Node> randomNodeSubset(int size)
+	{
+		HashSet<Node> subset = new HashSet<Node>();
+		SecureRandom rng = new SecureRandom();
+		for (int i = 0; i < size; i++)
+		{
+			int index = rng.nextInt(nodes.size());
+			while (subset.contains(nodes.get(index)) == false)
+			{
+				subset.add(nodes.get(index));
+			}
+		}
+		return subset;
+	}
+	
 	public void run()
 	{	
 		// Run the simulation for the specified amount of time
 		Util.error("Simulation starting...");
+		
+		// Initialize everyone's address book with some set of valid nodes
+		for (Node n : nodes)
+		{
+			for (Node nn : randomNodeSubset(config.initialAddressSize))
+			{
+				n.addressBook.addValidNode(nn);
+			}
+		}
 		
 		Clock clock = new Clock(); 
 		while (clock.time < config.simTime)

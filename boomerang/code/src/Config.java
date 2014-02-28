@@ -18,4 +18,7 @@ public class Config
 	public String outfileprefix;
 	public String path;
 	public boolean genMatrices;
+	public int initialAddressSize;
+	public int validNodeTransmitReq;
+	public int addressBookSize;
 }

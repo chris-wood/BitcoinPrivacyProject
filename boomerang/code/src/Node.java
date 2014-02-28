@@ -38,6 +38,12 @@ public class Node
 	// Buffer things
 	public ArrayList<Message> msgQueue;
 	
+	// Address book data structures
+	public AddressBook addressBook;
+	public HashSet<Node> validNodeStage;
+	public boolean rebuildingAddressBook;
+	public int rebuildWait;
+	
 	// Local message identifier
 	public int coverMsgIndex = 0;
 	public int txMsgIndex = 0;
@@ -67,223 +73,265 @@ public class Node
 		this.txWait = 0L;
 		this.txSendStart = true;
 		this.resend = false;
+		
+		this.addressBook = new AddressBook();
+		this.validNodeStage = new HashSet<Node>(); 
+		this.rebuildingAddressBook = false;
+		this.rebuildWait = 0;
 	}
 	
 	public void doEvent()
 	{
-		// Handle one message in each time interval
-		// TODO: should we flush all messages or just one?
-		if (msgQueue.size() > 0)
-		{
-			Message m = msgQueue.get(0);
-			msgQueue.remove(0);
-			mixBucket.add(m);
-		}
-		if (mixBucket.size() >= boom.config.buffSize)
-		{
-			forward = true;
-		}
+		// Handle address book updates
+		addressBook.update();
 		
-		// Handle forwarding
-		if (forward)
+		// Handle address book refresh events
+		if (!rebuildingAddressBook && (addressBook.getNumberOfInvalidNodes() < boom.config.validNodeTransmitReq && validNodeStage.size() == 0))
 		{
-			Collections.shuffle(mixBucket);
-			for (Message m : mixBucket)
+			// Reset validation nodes
+			Util.disp(this + " ADDRESS BOOK REFRESH");
+			validNodeStage.clear();
+			validNodeStage = boom.randomNodeSubset(boom.config.addressBookSize);
+			rebuildingAddressBook = true;
+			
+			// Set sleep time to be proportional to 4 * max distance (for VERSION, VERACK, GETADDR, ADDR message traversal) 
+			int max = 0;
+			for (Node staged : validNodeStage)
 			{
-				numForwarded++;
-				boom.numMessages++;
-				m.sendTime.add(Clock.time);
-				m.transmitMessage();
-				Util.disp(this.toString() + " FORWARD " + m.toString());
+				double distance = this.loc.distanceTo(staged.loc);
+				int tmp = (int)((int)distance / 10e8);
+				if (max < tmp)
+				{
+					max = tmp;
+				}
+			}
+			rebuildWait = 4 * (max + 1);
+		}
+		else if (rebuildingAddressBook) // sleep period while the address book is being updated
+		{
+			// Count down while we rebuild the address book
+			rebuildWait--;
+			if (rebuildWait <= 0)
+			{
+				rebuildingAddressBook = false;
+				addressBook.updateValidNodes(validNodeStage);
 			}
 		}
-		
-		// Handle cover generation
-		if (coverWait > 0)
+		else
 		{
-			coverWait--;
-		} 
-		else if (coverSendStart)
-		{
-			coverSendStart = false;
-			double sleep = rng.nextDouble() * boom.config.chaffGenRate;
-			sleep = sleep < 0 ? (sleep * -1) % boom.config.chaffGenRate : sleep;
-			coverWait = (long)sleep;
-			coverSendStart = false;
-		}
-		else // generate cover
-		{
-			// Build the m circuits of length n each
-			ArrayList<Message> messages = new ArrayList<Message>();
-			for (int m = 0; m < boom.config.circuitWidth; m++)
+			// Handle one message in each time interval
+			if (msgQueue.size() > 0)
 			{
-				ArrayList<Node> circuit = new ArrayList<Node>();
-				HashSet<Integer> seen = new HashSet<Integer>();
-				seen.add(id);
-				for (int n = 0; n < boom.config.circuitDepth - 1; n++)
+				Message m = msgQueue.get(0);
+				msgQueue.remove(0);
+				mixBucket.add(m);
+			}
+			if (mixBucket.size() >= boom.config.buffSize)
+			{
+				forward = true;
+			}
+			
+			// Handle forwarding
+			if (forward)
+			{
+				Collections.shuffle(mixBucket);
+				for (Message m : mixBucket)
 				{
-					// Pick a new node not already in this circuit
-					int nIndex = rng.nextInt(boom.getNumberOfNodes());
-					while (seen.contains(nIndex) == true)
+					numForwarded++;
+					boom.numMessages++;
+					m.sendTime.add(Clock.time);
+					m.transmitMessage();
+					Util.disp(this.toString() + " FORWARD " + m.toString());
+				}
+			}
+			
+			// Handle cover generation
+			if (coverWait > 0)
+			{
+				coverWait--;
+			} 
+			else if (coverSendStart)
+			{
+				coverSendStart = false;
+				double sleep = rng.nextDouble() * boom.config.chaffGenRate;
+				sleep = sleep < 0 ? (sleep * -1) % boom.config.chaffGenRate : sleep;
+				coverWait = (long)sleep;
+				coverSendStart = false;
+			}
+			else // generate cover
+			{
+				// Build the m circuits of length n each
+				ArrayList<Message> messages = new ArrayList<Message>();
+				for (int m = 0; m < boom.config.circuitWidth; m++)
+				{
+					ArrayList<Node> circuit = new ArrayList<Node>();
+					HashSet<Integer> seen = new HashSet<Integer>();
+					seen.add(id);
+					for (int n = 0; n < boom.config.circuitDepth - 1; n++)
 					{
-						nIndex = rng.nextInt(boom.getNumberOfNodes());
+						// Pick a new node not already in this circuit
+						int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+						while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
+						{
+							nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+						}
+						
+						Node node = addressBook.nodes.get(nIndex);
+						circuit.add(node);
+						seen.add(nIndex);
+						numChaffEncodings++;
 					}
 					
-					Node node = boom.getNode(nIndex);
-					circuit.add(node);
-					seen.add(nIndex);
-					numChaffEncodings++;
+					// New message to send
+					Message newMsg = new Message("CHAFF-" + id + "-" + coverMsgIndex++, boom, MessageType.COVER);
+					circuit.add(this);
+					newMsg.setHops(this, circuit);
+					messages.add(newMsg);					
+					boom.addMessage(newMsg);
 				}
 				
-				// New message to send
-				Message newMsg = new Message("CHAFF-" + id + "-" + coverMsgIndex++, boom, MessageType.COVER);
-				circuit.add(this);
-				newMsg.setHops(this, circuit);
-				messages.add(newMsg);					
-				boom.addMessage(newMsg);
-			}
-			
-			// Blast out each message at the same time
-			for (Message m : messages)
-			{
-				boom.numMessages++;
-				boom.numChaffGenerated++;
-				boom.startedChaff.add(m);
-				m.hops.add(0, this);
-				m.sendTime.add(Clock.time);
-				m.transmitMessage();
-				Util.disp(this.toString() + " CHAFF GEN " + m.toString());
-			}
-			
-			coverSendStart = true;
-		}
-		
-		// Handle TX generation
-		if (txWait > 0)
-		{
-			txWait--;
-		} 
-		else if (txSendStart)
-		{
-			txSendStart = false;
-			double sleep = rng.nextDouble() * boom.config.txGenRate;
-			sleep = sleep < 0 ? (sleep * -1) % boom.config.txGenRate : sleep;
-			txWait = (long)sleep;
-			Util.disp(this.toString() + " TX SLEEP " + txWait);
-		}
-		else if (txTimeoutWait > 0)
-		{	
-			for (Message m : lastSent)
-			{
-				// So long as one instance was broadcasted, move on to the next message 
-				if (m.broadcasted)
+				// Blast out each message at the same time
+				for (Message m : messages)
 				{
-					txTimeoutWait = 0;
-					txSendStart = true;
+					boom.numMessages++;
+					boom.numChaffGenerated++;
+					boom.startedChaff.add(m);
+					m.hops.add(0, this);
+					m.sendTime.add(Clock.time);
+					m.transmitMessage();
+					Util.disp(this.toString() + " CHAFF GEN " + m.toString());
 				}
+				
+				coverSendStart = true;
 			}
 			
-			if (!txSendStart)
+			// Handle TX generation
+			if (txWait > 0)
 			{
-				txTimeoutWait--;
-				if (txSendStart == false && txTimeoutWait == 0)
-				{
-					resend = true;
-				}
+				txWait--;
+			} 
+			else if (txSendStart)
+			{
+				txSendStart = false;
+				double sleep = rng.nextDouble() * boom.config.txGenRate;
+				sleep = sleep < 0 ? (sleep * -1) % boom.config.txGenRate : sleep;
+				txWait = (long)sleep;
+				Util.disp(this.toString() + " TX SLEEP " + txWait);
 			}
-		}
-		else if (resend)
-		{
-			// Blast out each message at the same time
-			resend = false;
-			numRetries++;
-			messages = new ArrayList<Message>();
-			for (int m = 0; m < boom.config.circuitWidth; m++)
-			{
-				ArrayList<Node> circuit = new ArrayList<Node>();
-				HashSet<Integer> seen = new HashSet<Integer>();
-				for (int n = 0; n < boom.config.circuitDepth; n++)
+			else if (txTimeoutWait > 0)
+			{	
+				for (Message m : lastSent)
 				{
-					// Pick a new node not already in this circuit
-					int nIndex = rng.nextInt(boom.getNumberOfNodes());
-					while (seen.contains(nIndex) == true)
+					// So long as one instance was broadcasted, move on to the next message 
+					if (m.broadcasted)
 					{
-						nIndex = rng.nextInt(boom.getNumberOfNodes());
+						txTimeoutWait = 0;
+						txSendStart = true;
+					}
+				}
+				
+				if (!txSendStart)
+				{
+					txTimeoutWait--;
+					if (txSendStart == false && txTimeoutWait == 0)
+					{
+						resend = true;
+					}
+				}
+			}
+			else if (resend)
+			{
+				// Blast out each message at the same time
+				resend = false;
+				numRetries++;
+				messages = new ArrayList<Message>();
+				for (int m = 0; m < boom.config.circuitWidth; m++)
+				{
+					ArrayList<Node> circuit = new ArrayList<Node>();
+					HashSet<Integer> seen = new HashSet<Integer>();
+					for (int n = 0; n < boom.config.circuitDepth; n++)
+					{
+						// Pick a new node not already in this circuit
+						int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+						while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
+						{
+							nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+						}
+						
+						Node node = addressBook.nodes.get(nIndex);
+						circuit.add(node);
+						seen.add(nIndex);
+						numTxEncodings++;
+						txMsgIndex++;
 					}
 					
-					Node node = boom.getNode(nIndex);
-					circuit.add(node);
-					seen.add(nIndex);
-					numTxEncodings++;
-					txMsgIndex++;
+					// New message to send
+					Message newMsg = new Message("TX-" + id + "-" + txMsgIndex, boom, MessageType.TX);
+					newMsg.setHops(this, circuit);
+					messages.add(newMsg);
+					boom.addMessage(newMsg);
 				}
 				
-				// New message to send
-				Message newMsg = new Message("TX-" + id + "-" + txMsgIndex, boom, MessageType.TX);
-				newMsg.setHops(this, circuit);
-				messages.add(newMsg);
-				boom.addMessage(newMsg);
-			}
-			
-			// Blast out each message at the same time
-			for (Message m : messages)
-			{
-				boom.numMessages++;
-				boom.numTxGenerated++;
-				boom.startedTx.add(m);
-				m.sendTime.add(Clock.time);
-				m.transmitMessage();
-				Util.disp(this.toString() + " TX RESEND " + m.toString());
-			}
-			
-			// Set timeout wait 
-			lastSent = messages;
-			txTimeoutWait = boom.config.retryLimit;
-		}
-		else // generate FRESH TX
-		{
-			resend = false;
-			messages = new ArrayList<Message>();
-			for (int m = 0; m < boom.config.circuitWidth; m++)
-			{
-				ArrayList<Node> circuit = new ArrayList<Node>();
-				HashSet<Integer> seen = new HashSet<Integer>();
-				for (int n = 0; n < boom.config.circuitDepth; n++)
+				// Blast out each message at the same time
+				for (Message m : messages)
 				{
-					// Pick a new node not already in this circuit
-					int nIndex = rng.nextInt(boom.getNumberOfNodes());
-					while (seen.contains(nIndex) == true)
+					boom.numMessages++;
+					boom.numTxGenerated++;
+					boom.startedTx.add(m);
+					m.sendTime.add(Clock.time);
+					m.transmitMessage();
+					Util.disp(this.toString() + " TX RESEND " + m.toString());
+				}
+				
+				// Set timeout wait 
+				lastSent = messages;
+				txTimeoutWait = boom.config.retryLimit;
+			}
+			else // generate FRESH TX
+			{
+				resend = false;
+				messages = new ArrayList<Message>();
+				for (int m = 0; m < boom.config.circuitWidth; m++)
+				{
+					ArrayList<Node> circuit = new ArrayList<Node>();
+					HashSet<Integer> seen = new HashSet<Integer>();
+					for (int n = 0; n < boom.config.circuitDepth; n++)
 					{
-						nIndex = rng.nextInt(boom.getNumberOfNodes());
+						// Pick a new node not already in this circuit
+						int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+						while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
+						{
+							nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+						}
+						
+						Node node = addressBook.nodes.get(nIndex);
+						circuit.add(node);
+						seen.add(nIndex);
+						numTxEncodings++;
 					}
 					
-					Node node = boom.getNode(nIndex);
-					circuit.add(node);
-					seen.add(nIndex);
-					numTxEncodings++;
+					// New message to send
+					Message newMsg = new Message("TX-" + id + "-" + txMsgIndex, boom, MessageType.TX);
+					newMsg.setHops(this, circuit);
+					messages.add(newMsg);
+					boom.addMessage(newMsg);
 				}
 				
-				// New message to send
-				Message newMsg = new Message("TX-" + id + "-" + txMsgIndex, boom, MessageType.TX);
-				newMsg.setHops(this, circuit);
-				messages.add(newMsg);
-				boom.addMessage(newMsg);
+				// Blast out each message at the same time
+				for (Message m : messages)
+				{
+					boom.numMessages++;
+					boom.numTxGenerated++;
+					boom.startedTx.add(m);
+					m.sendTime.add(Clock.time);
+					m.transmitMessage();
+					Util.disp(this.toString() + " TX GEN " + m.toString());
+				}
+				
+				// Set timeout wait 
+				lastSent = messages;
+				txTimeoutWait = boom.config.retryLimit;
 			}
-			
-			// Blast out each message at the same time
-			for (Message m : messages)
-			{
-				boom.numMessages++;
-				boom.numTxGenerated++;
-				boom.startedTx.add(m);
-				m.sendTime.add(Clock.time);
-				m.transmitMessage();
-				Util.disp(this.toString() + " TX GEN " + m.toString());
-			}
-			
-			// Set timeout wait 
-			lastSent = messages;
-			txTimeoutWait = boom.config.retryLimit;
 		}
 	}
 	
