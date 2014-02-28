@@ -160,49 +160,52 @@ public class Node
 			}
 			else // generate cover
 			{
-				// Build the m circuits of length n each
-				ArrayList<Message> messages = new ArrayList<Message>();
-				for (int m = 0; m < boom.config.circuitWidth; m++)
+				if (addressBook.getNumberOfValidNodes() > 0)
 				{
-					ArrayList<Node> circuit = new ArrayList<Node>();
-					HashSet<Integer> seen = new HashSet<Integer>();
-					seen.add(id);
-					for (int n = 0; n < boom.config.circuitDepth - 1; n++)
+					// Build the m circuits of length n each
+					ArrayList<Message> messages = new ArrayList<Message>();
+					for (int m = 0; m < boom.config.circuitWidth; m++)
 					{
-						// Pick a new node not already in this circuit
-						int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
-						while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
+						ArrayList<Node> circuit = new ArrayList<Node>();
+						HashSet<Integer> seen = new HashSet<Integer>();
+						seen.add(id);
+						for (int n = 0; n < boom.config.circuitDepth - 1; n++)
 						{
-							nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							// Pick a new node not already in this circuit
+							int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
+							{
+								nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							}
+							
+							Node node = addressBook.nodes.get(nIndex);
+							circuit.add(node);
+							seen.add(nIndex);
+							numChaffEncodings++;
 						}
 						
-						Node node = addressBook.nodes.get(nIndex);
-						circuit.add(node);
-						seen.add(nIndex);
-						numChaffEncodings++;
+						// New message to send
+						Message newMsg = new Message("CHAFF-" + id + "-" + coverMsgIndex++, boom, MessageType.COVER);
+						circuit.add(this);
+						newMsg.setHops(this, circuit);
+						messages.add(newMsg);					
+						boom.addMessage(newMsg);
 					}
 					
-					// New message to send
-					Message newMsg = new Message("CHAFF-" + id + "-" + coverMsgIndex++, boom, MessageType.COVER);
-					circuit.add(this);
-					newMsg.setHops(this, circuit);
-					messages.add(newMsg);					
-					boom.addMessage(newMsg);
+					// Blast out each message at the same time
+					for (Message m : messages)
+					{
+						boom.numMessages++;
+						boom.numChaffGenerated++;
+						boom.startedChaff.add(m);
+						m.hops.add(0, this);
+						m.sendTime.add(Clock.time);
+						m.transmitMessage();
+						Util.disp(this.toString() + " CHAFF GEN " + m.toString());
+					}
+					
+					coverSendStart = true;
 				}
-				
-				// Blast out each message at the same time
-				for (Message m : messages)
-				{
-					boom.numMessages++;
-					boom.numChaffGenerated++;
-					boom.startedChaff.add(m);
-					m.hops.add(0, this);
-					m.sendTime.add(Clock.time);
-					m.transmitMessage();
-					Util.disp(this.toString() + " CHAFF GEN " + m.toString());
-				}
-				
-				coverSendStart = true;
 			}
 			
 			// Handle TX generation
