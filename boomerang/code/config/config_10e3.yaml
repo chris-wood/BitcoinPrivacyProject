@@ -6,9 +6,9 @@ gridHeight: 10000
 gridWidth: 10000
 chaffGenRate: 5000
 txGenRate: 7500
-circuitWidth: 4
+circuitWidth: 2
 circuitDepth: 6
-retryLimit: 1000
+retryLimit: 7500
 buffSize: 10
 mixDelay: 50
 pktSize: 1024
