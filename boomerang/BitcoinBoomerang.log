@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  1 MAR 2014 12:12
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  1 MAR 2014 13:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -782,16 +782,17 @@ Overfull \hbox (4.05072pt too wide) in paragraph at lines 50--50
 [] 
  []
 
-<./images/badcircuit_plot.png, id=120, 361.35pt x 322.95656pt>
-File: ./images/badcircuit_plot.png Graphic file (type png)
+<./images/badcircuit.png, id=120, 374.90062pt x 302.63063pt>
+File: ./images/badcircuit.png Graphic file (type png)
 
-<use ./images/badcircuit_plot.png>
-Package pdftex.def Info: ./images/badcircuit_plot.png used on input line 54.
-(pdftex.def)             Requested size: 234.87471pt x 209.91927pt.
+<use ./images/badcircuit.png>
+Package pdftex.def Info: ./images/badcircuit.png used on input line 54.
+(pdftex.def)             Requested size: 243.68251pt x 196.70757pt.
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
-) (./05-performance.tex [8 <./images/badcircuit_plot.png>]) (./06-related.tex
+) (./05-performance.tex) (./06-related.tex
+[8 <./images/badcircuit.png>]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
@@ -873,7 +874,7 @@ LaTeX Warning: There were multiply-defined labels.
  ) 
 Here is how much of TeX's memory you used:
  12773 strings out of 493315
- 235111 string characters out of 6137904
+ 235086 string characters out of 6137904
  296846 words of memory out of 5000000
  15901 multiletter control sequences out of 15000+600000
  53600 words of font info for 108 fonts, out of 8000000 for 9000
@@ -903,7 +904,7 @@ pe1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw
 /times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utm
 bi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><
 /usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on BitcoinBoomerang.pdf (9 pages, 442922 bytes).
+Output written on BitcoinBoomerang.pdf (9 pages, 434143 bytes).
 PDF statistics:
  210 PDF objects out of 1000 (max. 8388607)
  138 compressed objects within 2 object streams

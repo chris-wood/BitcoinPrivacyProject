@@ -10,7 +10,6 @@ for l in fin:
 	if (lineNum % 1000 == 0):
 		data = l.strip().split(",")
 		print >> sys.stderr, data
-		# if (dTarget == data[1]):
 		n = float(data[0])
 		d = int(data[1])
 		bad = float(data[2])
