@@ -28,7 +28,7 @@ Email: ChrisHVu@gmail.com}}
 \maketitle
 
 \begin{abstract}
-TODO
+Sender anonymity is important in the design of several ``cryptographically-enhanced'' variations of Bitcoin, such as ZeroCoin \cite{zerocoin}. Consequently, such variations often state that users install and use network-layer anonymity layers such as Tor \cite{tor} alongside their existing Bitcoin clients when introducing new transactions into the network. Such requirements make such variations less appealing from a usability perspective. Furthermore, since low-latency anonymity layers like Tor are susceptible to strategic timing attacks by adaptive global adversaries, and transactions do not have real-time constraints in which they must be broadcasted throughout the network, mixnets are a more appropriate solution for achieving sender anonymity. To this end, we introduce Bitcoin Boomerang, a distribtued, collaborative, application-level protocol for achieving mixnet-like behavior to increase sender anonymity. Boomerang is intended to run at the application-layer \emph{within} Bitcoin software clients as an extension of the Bitcoin protocol. We analyze the anonymity properties of Boomerang, and assess the induced performance overhead using a custom simulator that emulates the behavior of Bitcoin nodes (software clients) using the protocol. Our results indicate that with appropriate parameter tuning, increased sender anonymity can be achieved at the cost of increased computational overhead and network bandwidth consumption for each participating Bitcoin user.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -59,6 +59,8 @@ TODO
 \bibitem{bitcoin-tor-wiki} Tor. Bitcoin Wiki. Available online at \url{https://en.bitcoin.it/wiki/Tor}. Last accessed: 1/25/14.
 
 \bibitem{nist-prng} Elaine Barker and John Kelsey. Recommendation for Random Number Generation Using Deterministic Random Bit Generators. 2012. Available online at: \url{http://csrc.nist.gov/publications/nistpubs/800-90A/SP800-90A.pdf}. Last accessed: 2/10/14. 
+
+\bibitem{tor} Roger Dingledine, Nick Mathewson, and Paul Syverson. Tor: The Second-Generation Onion Router. \emph{Naval Research Lab Washington DC} (2004).
 
 % \bibitem{Androulaki12-privacy} Elli Androulaki, Ghassan O. Karame, Marc Roeschlin, Tobias Scherer, and Srdjan Capkun. Evaluating User Privacy in Bitcoin. \emph{IACR Cryptology ePrint Archive} 596 (2012).
 

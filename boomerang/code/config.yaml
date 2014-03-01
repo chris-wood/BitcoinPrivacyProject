@@ -1,4 +1,4 @@
-simTime: 1000
+simTime: 250
 numNodes: 1000
 enterRate: 750
 exitRate: 750
@@ -8,7 +8,7 @@ chaffGenRate: 2500
 txGenRate: 7500
 circuitWidth: 4
 circuitDepth: 5
-retryLimit: 1
+retryLimit: 7500
 buffSize: 5
 mixDelay: 5
 pktSize: 1024
@@ -19,3 +19,4 @@ genMatrices: false
 initialAddressSize: 250
 validNodeTransmitReq: 50
 addressBookSize: 1000
+keepInMemory: false

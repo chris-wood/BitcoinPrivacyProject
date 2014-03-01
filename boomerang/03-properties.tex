@@ -33,8 +33,6 @@ A simple verification of this confidence equation can be seen by observing that 
 C_i & = \frac{\left( \frac{ \Pr[l \geq i - 1 + E(r)] } { \Pr[l \geq E(r)] }\right)}{\sum_{k=i-1}^{D} \left( \frac{ \Pr[l \geq k + E(r)] } { \Pr[l \geq E(r)] }\right) \left(\frac{N - N_{bad}}{N}\right)^{k}}
 \end{align*}
 
-******
-
 %%% TODO: plot the above equation
 
 If an active adversary is strategic in the selection of their nodes to compromise, one may naively try to compromise the start and end nodes of a circuit to identify the sender. However, one of Boomerang's defining characteristics is that a circuit is use \emph{once} to broadcast a new transaction. Therefore, standard attacks such as packet relay, tagging, and reordering are ineffective since they all rely on persistent circuits present in anonymizing networks such as Tor \cite{tor}. 
@@ -51,27 +49,18 @@ From a systems perspective, Boomerang was designed with fault-tolerance and perf
 & \sum_{i=0}^{D-1} \left[ \frac{\lceil (N-1)/2 \rceil}{N - 1 - i}\left( \prod_{j=0}^{i-1} 1 - \frac{ \lceil (N-1)/2 \rceil}{N-j-1} \right) \right]
 \end{align*}
 
-\todo[inline]{plot how this behaves as function of N and D?}
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.65]{./images/badcircuit_plot.png}
+\caption{$\Pr[\mathsf{BadCircuit}]$ behavior as a function of $N$ and $D$ (assuming $W = 1$). As expected, the probability of forming a bad circuit, i.e., one with at least one compromised node, grows logarithmically with the number of compromised nodes in the network.}
+\label{fig:bitcoin_peer_protocol}
+\end{center}
+\end{figure}
 
-For reasonable measures of fault-tolerance, we require that this probability is kept as small as possible. However, for anonymity purposes, we require that $D$ is maximized to achieve optimal mixing (and thus, anonymity) throughout the network. 
-
-\todo[inline]{need to quantify anonymity in terms of $N$ and $T$.}
-
-From a performance perspective, our main goal is to minimize the overhead of Boomerang message encoding, transmission, and forwarding while maximizing the anonymity properties discussed in the previous section. To that end, we discuss how the performance varies based on system-wide parameters that influence such anonymity properties. Based on the Boomerang design it is clear that the performance of the Boomerang scheme is tightly coupled to the following paramters:
-\begin{itemize}
-	\item $W$ - the circuit width,
-	\item $D$ - the circuit depth,
-	\item $\sigma$ - the average cover traffic generation rate, and
-	\item $\pi$ - the average rate at which new transactions are made.
-\end{itemize}
-
-\todo[inline]{How many messages should a node expect to receive in a set amount of time?}
-\todo[inline]{Discuss denial of service prevention here}
+For reasonable measures of fault-tolerance, we require that this probability is kept as small as possible. However, for anonymity purposes, we require that $D$ is maximized to achieve optimal mixing (and thus, anonymity) throughout the network. To make this selection in an actual deployment of Boomerang, we would require some apriori knowledge about the expected number of compromised nodes at any given point in time. We are currently not aware of any means of acquiring or estimating this number. Therefore, assuming a reasonable majority of honest nodes, we recommend the selection of $D \in \{4, 5, 6, 7, 8\}$ in order to increase sender anonymity. 
 
 \subsection{Network Security Analysis}
 Analysis assumes a client’s first connection is to an honest node. If the client first connects to a malicious node, no security is possible as the malicious node will trivially keep the client in the malicious network. The adversary can use many long-lived identities to bias the distribution of nodes towards the malicious network. If the adversary controls a majority of nodes, no security guarantees are possible.  Therefore, security analysis will assume a client node to be connected to some honest nodes and the adversary does not control the majority of nodes.
 
 The adversary can introduce many invalid addresses into the network. By using Boomerang messages to validate addresses, honest nodes can aggressively prune invalid addresses from their internal databases. In a similar fashion, Boomerang messages will prune nodes that improperly modify data that is routed through them. Due to the open nature of the Boomerang network, no solution to denial-of-service attacks are currently possible.
-
-% 4. Performance: Tarzan should maximize the performance of tunnel transmission, subject to our anonymity requirements, to make Tarzan a viable IP-level communication channel.
 

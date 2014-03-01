@@ -13,6 +13,7 @@ public class Message
 	public boolean startTransmit;
 	public long waitTime;
 	public boolean broadcasted = false;
+	public boolean inTransit = false;
 	public Boomerang boom;
 	
 	// Stats
@@ -32,6 +33,7 @@ public class Message
 		this.broadcastTime = -1;
 		this.startTransmit = false;
 		this.firstTransmit = true;
+		this.inTransit = false;
 		this.hops = new ArrayList<Node>();
 	}
 	
@@ -63,8 +65,9 @@ public class Message
 				broadcasted = false;
 				waitTime = (long)((long)distance / 10e8);
 			}
-			else
+			else if (inTransit)
 			{
+				inTransit = false;
 				nextHop.acceptMessage(this);
 			}
 		}
@@ -94,6 +97,7 @@ public class Message
 	public void transmitMessage()
 	{
 		startTransmit = true;
+		inTransit = true;
 		
 		// Don't overwrite the time
 		if (firstTransmit)
@@ -101,6 +105,43 @@ public class Message
 			spawnTime = Clock.time;
 			firstTransmit = false;
 		}
+	}
+	
+	public String toDataString()
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append(this.toString());
+		
+		// Append circuit
+		builder.append(" & ");
+		for (int i = 0; i < circuit.size() - 1; i++)
+		{
+			builder.append(circuit.get(i).toString() + ",");
+		}
+		builder.append(circuit.get(circuit.size() - 1).toString());
+		
+		// Append start times
+		builder.append(" & ");
+		for (int i = 0; i < sendTime.size() - 1; i++)
+		{
+			builder.append(sendTime.get(i).toString() + ",");
+		}
+		builder.append(sendTime.get(sendTime.size() - 1).toString());
+		
+		// Append arrive times
+		builder.append(" & ");
+		for (int i = 0; i < arriveTime.size() - 1; i++)
+		{
+			builder.append(arriveTime.get(i).toString() + ",");
+		}
+		builder.append(arriveTime.get(arriveTime.size() - 1).toString());
+		
+		// Append transmit latency
+		builder.append(" & ");
+		builder.append(latency);
+		
+		return builder.toString();
 	}
 	
 	@Override

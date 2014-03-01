@@ -21,4 +21,7 @@ public class Config
 	public int initialAddressSize;
 	public int validNodeTransmitReq;
 	public int addressBookSize;
+	
+	// Default to true
+	public boolean keepInMemory = true;
 }

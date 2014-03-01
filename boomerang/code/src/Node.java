@@ -30,10 +30,10 @@ public class Node
 	public boolean resend;
 	
 	// State
-	public ArrayList<Message> mixBucket;
-	public ArrayList<Message> lastSent;
+	public HashSet<Message> mixBucket;
+	public HashSet<Message> lastSent;
 	public long txTimeoutWait;
-	public ArrayList<Message> messages;
+	public HashSet<Message> messages;
 	
 	// Buffer things
 	public ArrayList<Message> msgQueue;
@@ -58,8 +58,8 @@ public class Node
 		this.loc = loc;
 		this.rng = new SecureRandom();
 		this.msgQueue = new ArrayList<Message>();
-		this.mixBucket = new ArrayList<Message>();
-		this.lastSent = new ArrayList<Message>();
+		this.mixBucket = new HashSet<Message>();
+		this.lastSent = new HashSet<Message>();
 		
 		this.numRetries = 0;
 		this.numForwarded = 0;
@@ -134,7 +134,6 @@ public class Node
 			// Handle forwarding
 			if (forward)
 			{
-				Collections.shuffle(mixBucket);
 				for (Message m : mixBucket)
 				{
 					numForwarded++;
@@ -247,7 +246,7 @@ public class Node
 				// Blast out each message at the same time
 				resend = false;
 				numRetries++;
-				messages = new ArrayList<Message>();
+				messages = new HashSet<Message>();
 				for (int m = 0; m < boom.config.circuitWidth; m++)
 				{
 					ArrayList<Node> circuit = new ArrayList<Node>();
@@ -295,7 +294,7 @@ public class Node
 				if (addressBook.getNumberOfValidNodes() > 0)
 				{
 					resend = false;
-					messages = new ArrayList<Message>();
+					messages = new HashSet<Message>();
 					for (int m = 0; m < boom.config.circuitWidth; m++)
 					{
 						ArrayList<Node> circuit = new ArrayList<Node>();

@@ -12,7 +12,7 @@ import org.ho.yaml.Yaml;
 
 public class Boomerang implements Runnable
 {
-	public static final long FLOOD_TIME_THRESHOLD = 5000; //30000;
+	public static final long FLOOD_TIME_THRESHOLD = 30000;
 	
 	// Parameter collection
 	Config config;
@@ -32,8 +32,11 @@ public class Boomerang implements Runnable
 	public int numTxCompleted;
 	
 	public ArrayList<Message> completedMessages;
+	public PrintWriter completedMessageWriter;
 	public ArrayList<Message> completedChaff;
+	public PrintWriter completedChaffWriter;
 	public ArrayList<Message> completedTx;
+	public PrintWriter completedTxWriter;
 	public ArrayList<Message> startedChaff;
 	public ArrayList<Message> startedTx;
 	
@@ -88,11 +91,24 @@ public class Boomerang implements Runnable
 		messages = new HashSet<Message>();
 		messagesToRemove = new HashSet<Message>();
 		
+		// Containers
 		completedMessages = new ArrayList<Message>();
 		completedChaff = new ArrayList<Message>();
 		startedChaff = new ArrayList<Message>();
 		completedTx = new ArrayList<Message>();
 		startedTx = new ArrayList<Message>();
+		
+		// File dumps
+		try
+		{
+			completedMessageWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_completedMessage.txt")));
+			completedChaffWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_completedChaff.txt")));
+			completedTxWriter = new PrintWriter(new BufferedWriter(new FileWriter(config.path + "/" + config.outfileprefix + "_completedTx.txt")));
+		}
+		catch (IOException e)
+		{
+			System.err.println(e);
+		}
 	}
 	
 	public void computeStats() throws IOException
@@ -129,6 +145,17 @@ public class Boomerang implements Runnable
 				+ "," + avgForwarded + "," + avgRetries);
 		statsWriter.flush();
 		statsWriter.close();
+		
+		// Flush and close the other writers, if necessary
+		if (!config.keepInMemory)
+		{
+			completedMessageWriter.flush();
+			completedMessageWriter.close();
+			completedChaffWriter.flush();
+			completedChaffWriter.close();
+			completedTxWriter.flush();
+			completedTxWriter.close();
+		}
 		
 		// Only generate matrices if specified to do so
 		if (config.genMatrices)
@@ -351,18 +378,47 @@ public class Boomerang implements Runnable
 	
 	public void finalizeMessage(Message m)
 	{	
+		// Handle in-progress things
 		messagesToRemove.add(m);
-		completedMessages.add(m);
 		switch (m.type)
 		{
 			case TX:
-				completedTx.add(m);
 				startedTx.remove(m);
 				break;
 			case COVER:
-				completedChaff.add(m);
 				startedChaff.remove(m);
 				break;
+		}
+		
+		// Determine how to handle completions
+		if (config.keepInMemory)
+		{
+			completedMessages.add(m);
+			switch (m.type)
+			{
+				case TX:
+					completedTx.add(m);
+					startedTx.remove(m);
+					break;
+				case COVER:
+					completedChaff.add(m);
+					startedChaff.remove(m);
+					break;
+			}
+		}
+		else
+		{
+			System.out.println("Writing.... " + m.toDataString());
+			completedMessageWriter.println(m.toDataString());
+			switch (m.type)
+			{
+				case TX:
+					completedTxWriter.println(m.toDataString());
+					break;
+				case COVER:
+					completedChaffWriter.println(m.toDataString());
+					break;
+			}
 		}
 	}
 	

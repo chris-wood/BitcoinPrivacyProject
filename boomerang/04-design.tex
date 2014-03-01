@@ -60,10 +60,10 @@ At the heart of the Bitcoin protocol is the ability to encode new transactions a
 \caption{Boomerang encoded message format.}
 \label{tab:msg-header}
     \begin{tabular}{|c|c|c|l|} \hline
-    \textbf{Field Size} & {\bf Description} & {\bf Data Type} & {\bf Comments} \\ \hline
-    ~ & ~ & ~ & ~ \\
-    ~ & ~ & ~ & ~ \\
-    ~ & ~ & ~ & ~ \\ \hline
+    \textbf{Field Size (bits)} & {\bf Description} & {\bf Data Type} & {\bf Comments} \\ \hline
+    $256$ & Seed scratch & uint8\_t[32] & This field is an element on the elliptic curve over the field $\mathbb{F}_p$. \\
+    $512D$ & Encrypted address vector & uint8\_t[$D$][64] & Encryption of the address vector used to define the circuit trajectory. \\
+    $*$ & Encoded transaction & uint8\_t[] & Encoded transaction field with width equal to the maximum encoded transaction size. \\ \hline
     \end{tabular}
 \end{center}
 \end{table*}
@@ -208,7 +208,7 @@ There are two types of Boomerang messages: peer discovery and maintenance messag
 To connect to a remote node, the client sends a version message, which contains Bitcoin network information, Boomerang version, and a hash of the client’s public key. If the remote node accepts the information in the version message, it will reply with a verack message that contains the remote node’s public key as well as its own version message.  The client will reply with a verack message, which contains the client public key, if it accepts both messages from the remote node.  Both nodes then add the address, public key, and time in their respective internal databases.
 
 \subsection{Node Validation}
-Boomerang clients draw from a pool of validated addresses for sending Boomerang transactions.  If this pool is less than 1,000, Boomerang will begin to use dummy Boomerang messages to validate new addresses.  The pool of addresses to be validated is equal to the number of validated addresses needed to reach the 1,000 address cap and is comprised of the most recently active non-validated addresses. If the pool of addresses is too small, Boomerang will begin sending getaddr queries to increase the pool size. An address is considered non-validated if it either has an invalid validation timestamp or a timestamp older than 3 hours. When a remote node’s address is added to the pool of addresses to be validated, the client must check if it has the node’s public key.  If the address was added from a relayed addr message, the client must connect to the remote node in order to obtain the public key. If the connection could not be made, then the address is removed from the internal database and pool.
+Boomerang clients draw from a pool of validated addresses for sending Boomerang transactions. If this pool is less than 1,000, Boomerang will begin to use dummy Boomerang messages to validate new addresses. The pool of addresses to be validated is equal to the number of validated addresses needed to reach the 1,000 address cap and is comprised of the most recently active non-validated addresses. If the pool of addresses is too small, Boomerang will begin sending getaddr queries to increase the pool size. An address is considered non-validated if it either has an invalid validation timestamp or a timestamp older than 3 hours. When a remote node’s address is added to the pool of addresses to be validated, the client must check if it has the node’s public key. If the address was added from a relayed addr message, the client must connect to the remote node in order to obtain the public key. If the connection could not be made, then the address is removed from the internal database and pool.
 
 In order to validate addresses, dummy Boomerang messages will be routed through the addresses chosen from the pool of “addresses to be validated” as well as validated addresses. If the Boomerang message returns to the client and decrypts correctly, the nodes along the message’s route are marked as verified with a second timestamp in the internal database. Both first timestamp, which keeps track of when the node was last seen as active, and the second validation timestamp are updated with the time the message arrived plus a small random number (from 0 to an hour). Boomerang will also update the timestamps if a transaction message sent by the client is heard over the Bitcoin network. Boomerang clients will only relay address information from addresses verified in the last 3 hours and never reveal the validation timestamp.
 
@@ -220,7 +220,7 @@ Based on the {\sf EncodeTransaction} and {\sf BoomerangMessageHandler} procedure
 	\item Deterministic PRG whose input is an element in the range specified by the public-key encryption scheme.
 \end{enumerate}
 
-To satisfy the first primitive for public-key encryption and decryption, Boomerang leverages standard public-key elliptic curve cryptosystem over the NIST-recommended field $\mathbb{F}_{p}$, where $|p| \in \{256\}$ (the size of prime $p$ in bits) \cite{nist-curves}. The domain parameters for the Boomerang encryption scheme are specified below:
+To satisfy the first primitive for public-key encryption and decryption, Boomerang leverages standard public-key elliptic curve cryptosystem over the NIST-recommended field $\mathbb{F}_{p}$, where $|p| = 256$ (the size of prime $p$ in bits) \cite{nist-curves}. The domain parameters for the Boomerang encryption scheme are specified below:
 \begin{itemize}
 	\item $p$ - the prime number defining the finite field over which all elliptic curve operations are performed.
 	\item $a, b$ - the coefficients that define the elliptic curve - $y^2 = x^3 +ax + b \mod p$.
@@ -237,16 +237,16 @@ For completeness, we provide a brief (and modified) description of the setup, ke
 \end{itemize}
 Traditionally, the element $S$ is used to generate a symmetric key used to encrypt some message $m$. In our modified scheme, the element $S$ \emph{is used to generate a one-time pad} of the message $m$ using a deterministic pseudorandom bit generator (DPRG), and $R$ is used to recover the seed to remove this pad. Since $r$ is chosen uniformly at random, the seed to the DPRG is uniformly random, and by definition the encryption $m \oplus DPRG(S)$ is CPA-secure. 
 
-To satisfy the second primitive for the PRG, Boomerang leverages the counter mode deterministic pseudorandom bit generator ({\sf CTR-DRBG}) algorithm as specified in \cite{nist-prng} with AES-128 security strength (there is no security reason why this is chosen over {\sf Hash-DRBG} or {\sf HMAC-DRBG}). The {\sf CTR-DRBG} takes as input a $256$-bit seed to achieve AES-128 security (a seed derivation function could be used, but we omit this from the design). To use {\sf CTR-DRBG}, a node must instantiate the state of the algorithm by specifying an entropy input, personalization string (fixed), and security strength parameter (optional, but assumed to be AES-128). To pump out pseudorandom bits, the update procedure is invoked using the state of the algorithm and the specified seed, as shown in Figure \ref{fig:ctr_drbg_update}, to produce the required number of output bits $V$ (note that the internal state value for $Key$ is populated when the algorithm is instantiated). 
+To satisfy the second primitive for the PRG, Boomerang leverages the counter mode deterministic pseudorandom bit generator (CTR-DRBG) algorithm as specified in \cite{nist-prng} with AES-128 security strength (there is no security reason why this is chosen over Hash-DRBG or HMAC-DRBG). The CTR-DRBG takes as input a $256$-bit seed to achieve AES-128 security (a seed derivation function could be used, but we omit this from the design). To use CTR-DRBG, a node must instantiate the state of the algorithm by specifying an entropy input, personalization string (fixed), and security strength parameter (optional, but assumed to be AES-128). To pump out pseudorandom bits, the update procedure is invoked using the state of the algorithm and the specified seed, as shown in Figure \ref{fig:ctr_drbg_update}, to produce the required number of output bits $V$ (note that the internal state value for $Key$ is populated when the algorithm is instantiated). 
 
 \begin{figure}[ht!]
 \begin{center}
 \includegraphics[scale=0.35]{./images/ctr_drbg_update.png}
-\caption{{\sf CTR-DRBG} update procedure.}
+\caption{CTR-DRBG update procedure.}
 \label{fig:boomerang_message}
 \end{center}
 \end{figure}
 
-% TODO: gossip protocol, duration of Boomerang public/private key pairs, what else?
-
+\subsection{Boomerang Congestion Control}
+An obvious downside of the Boomerang design is that improper parameter selection (i.e., cover traffic generation rates, lengthy circuits, etc) can lead to network congestion and self-induced denial of service attacks. To this end, we propose the following congestion control strategy, motivated by the window-based congestion control algorithm in TCP Reno. Each node will maintain a window 
 
