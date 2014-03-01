@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-
 public class AddressBook
 {
 	public static final double VALID_THRESHOLD = 0.5;

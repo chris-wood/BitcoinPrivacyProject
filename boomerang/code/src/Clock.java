@@ -1,4 +1,3 @@
-
 public class Clock
 {
 	public static long time;
@@ -11,6 +10,6 @@ public class Clock
 	public void tick()
 	{
 		time++;
-		System.err.println("Time: " + time);
+		Util.error("Time: " + time);
 	}
 }
