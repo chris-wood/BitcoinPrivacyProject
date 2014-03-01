@@ -1,6 +1,7 @@
 public class Clock
 {
 	public static long time;
+	public boolean tick = true;
 	
 	public Clock()
 	{
@@ -10,6 +11,8 @@ public class Clock
 	public void tick()
 	{
 		time++;
-		Util.error("Time: " + time);
+		if (tick) Util.error("tick...");
+		else Util.error("tock...");
+		tick = !tick;
 	}
 }
