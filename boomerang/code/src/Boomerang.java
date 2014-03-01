@@ -12,7 +12,7 @@ import org.ho.yaml.Yaml;
 
 public class Boomerang implements Runnable
 {
-	public static final long FLOOD_TIME_THRESHOLD = 1000; //30000;
+	public static final long FLOOD_TIME_THRESHOLD = 5000; //30000;
 	
 	// Parameter collection
 	Config config;
