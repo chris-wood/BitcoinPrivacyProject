@@ -11,5 +11,6 @@ public class Clock
 	public void tick()
 	{
 		time++;
+		System.err.println("Time: " + time);
 	}
 }

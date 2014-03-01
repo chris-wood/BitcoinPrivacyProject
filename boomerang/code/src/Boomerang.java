@@ -12,6 +12,8 @@ import org.ho.yaml.Yaml;
 
 public class Boomerang implements Runnable
 {
+	public static final long FLOOD_TIME_THRESHOLD = 1000; //30000;
+	
 	// Parameter collection
 	Config config;
 	
@@ -307,9 +309,13 @@ public class Boomerang implements Runnable
 			}
 		}
 		
-		Clock clock = new Clock(); 
+		long start = 0L;
+		long end = 0L;
+		
+		Clock clock = new Clock();
 		while (clock.time < config.simTime)
 		{	
+			start = System.currentTimeMillis();
 			for (Node n : nodes)
 			{
 				n.doEvent();
@@ -327,6 +333,13 @@ public class Boomerang implements Runnable
 			messagesToRemove.clear();
 			
 			doEvent();
+			
+			end = System.currentTimeMillis();
+			if ((end - start) > FLOOD_TIME_THRESHOLD)
+			{
+				Util.error("Network flooding detected.");
+				break;
+			}
 			
 			// Advance time
 			clock.tick();
