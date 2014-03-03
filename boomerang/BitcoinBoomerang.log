@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  1 MAR 2014 13:21
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 MAR 2014 15:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -555,6 +555,12 @@ LaTeX Warning: Label `tab:msg-header' multiply defined.
 
 LaTeX Warning: Label `fig:bitcoin_peer_protocol' multiply defined.
 
+
+LaTeX Warning: Label `fig:boomerang_message' multiply defined.
+
+
+LaTeX Warning: Label `fig:boomerang_message' multiply defined.
+
 )
 \openout1 = `BitcoinBoomerang.aux'.
 
@@ -791,8 +797,30 @@ Package pdftex.def Info: ./images/badcircuit.png used on input line 54.
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-) (./05-performance.tex) (./06-related.tex
-[8 <./images/badcircuit.png>]
+) (./05-performance.tex
+<./images/sim_1_complete.png, id=121, 578.16pt x 433.62pt>
+File: ./images/sim_1_complete.png Graphic file (type png)
+
+<use ./images/sim_1_complete.png>
+Package pdftex.def Info: ./images/sim_1_complete.png used on input line 21.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+Overfull \hbox (36.02942pt too wide) in paragraph at lines 21--22
+ [] 
+ []
+
+<./images/sim_2_complete.png, id=123, 578.16pt x 433.62pt>
+File: ./images/sim_2_complete.png Graphic file (type png)
+
+<use ./images/sim_2_complete.png>
+Package pdftex.def Info: ./images/sim_2_complete.png used on input line 29.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+Overfull \hbox (36.02942pt too wide) in paragraph at lines 29--30
+ [] 
+ []
+
+) (./06-related.tex [8 <./images/badcircuit.png>]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
@@ -810,7 +838,7 @@ Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-<./images/tarzan_protocol.png, id=126, 739.70471pt x 768.04588pt>
+<./images/tarzan_protocol.png, id=129, 739.70471pt x 768.04588pt>
 File: ./images/tarzan_protocol.png Graphic file (type png)
 
 <use ./images/tarzan_protocol.png>
@@ -823,7 +851,7 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
 
-<./images/chord.png, id=127, 401.5pt x 401.5pt>
+<./images/chord.png, id=130, 401.5pt x 401.5pt>
 File: ./images/chord.png Graphic file (type png)
  <use ./images/chord.png>
 Package pdftex.def Info: ./images/chord.png used on input line 18.
@@ -844,6 +872,8 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 )
+[9 <./images/sim_1_complete.png> <./images/sim_2_complete.png> <./images/tarzan
+_protocol.png>]
 Underfull \hbox (badness 1466) in paragraph at lines 49--50
 []\OT1/ptm/m/n/8 Michael J. Freed-man and Robert Mor-ris. Tarzan: A Peer-to-Pee
 r
@@ -863,8 +893,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[9 <./images/tarzan_protocol.png> <./images/chord.png>] (./BitcoinBoomerang.aux
-)
+[10
+
+ <./images/chord.png>] (./BitcoinBoomerang.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -873,10 +904,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 12773 strings out of 493315
- 235086 string characters out of 6137904
- 296846 words of memory out of 5000000
- 15901 multiletter control sequences out of 15000+600000
+ 12784 strings out of 493315
+ 235393 string characters out of 6137904
+ 296857 words of memory out of 5000000
+ 15910 multiletter control sequences out of 15000+600000
  53600 words of font info for 108 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  63i,11n,57p,1636b,303s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -904,10 +935,10 @@ pe1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw
 /times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utm
 bi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><
 /usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on BitcoinBoomerang.pdf (9 pages, 434143 bytes).
+Output written on BitcoinBoomerang.pdf (10 pages, 461418 bytes).
 PDF statistics:
- 210 PDF objects out of 1000 (max. 8388607)
- 138 compressed objects within 2 object streams
+ 217 PDF objects out of 1000 (max. 8388607)
+ 140 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 43 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,5 +1,5 @@
 simTime: 2500
-numNodes: 100
+numNodes: 250
 enterRate: 750
 exitRate: 750
 gridHeight: 10000
@@ -13,7 +13,7 @@ buffSize: 10
 mixDelay: 50
 pktSize: 1024
 seed: 256
-outfileprefix: "sim1"
+outfileprefix: "sim4"
 path: "."
 genMatrices: false
 initialAddressSize: 250

@@ -16,6 +16,26 @@ To assess the expected overhead introduced by Boomerang we implemented a custom 
 \subsection{Performance Metrics}
 TODO: plots, charts, graphs here
 
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics[scale=0.5]{./images/sim_2_complete.png}
+\caption{TODO.}
+\label{fig:boomerang_message}
+\end{center}
+\end{figure}
+
+\begin{table*}
+\begin{center}
+\caption{TODO}
+\label{tab:sim-results}
+    \begin{tabular}{|l|l|l|l|l|} \hline
+    {\bf E[Message Latency]} & {\bf E[Chaff Encryptions]} & {\bf E[Transaction Encryptions]} & {\bf E[Forwarded Messages]} & {\bf E[Retries]} \\ \hline
+    ~ & 35.25 & 18.91 & 16468.7 & 0.04 \\
+    ~ & 29.59 & 20.75 & 13750.8 & 0.015 \\ \hline
+    \end{tabular}
+\end{center}
+\end{table*}
+
 \subsection{Parameter Selection}
 
 From a performance perspective, our main goal is to minimize the overhead of Boomerang message encoding, transmission, and forwarding while maximizing the anonymity properties discussed in the previous section. To that end, we discuss how the performance varies based on system-wide parameters that influence such anonymity properties. Based on the Boomerang design it is clear that the performance of the Boomerang scheme is tightly coupled to the following paramters:
