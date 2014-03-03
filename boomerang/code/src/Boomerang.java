@@ -408,7 +408,6 @@ public class Boomerang implements Runnable
 		}
 		else
 		{
-			System.out.println("Writing.... " + m.toDataString());
 			completedMessageWriter.println(m.toDataString());
 			switch (m.type)
 			{
