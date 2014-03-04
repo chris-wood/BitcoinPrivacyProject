@@ -10,6 +10,31 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 
+\usepackage{listings}
+
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}% list your attributes here
+}
+
 \begin{document}
 
 \title{Bitcoin Boomerang \\ {\LARGE Collaborative Anonymity for Transaction Broadcasting}}
@@ -61,6 +86,8 @@ Sender anonymity is important in the design of several ``cryptographically-enhan
 \bibitem{nist-prng} Elaine Barker and John Kelsey. Recommendation for Random Number Generation Using Deterministic Random Bit Generators. 2012. Available online at: \url{http://csrc.nist.gov/publications/nistpubs/800-90A/SP800-90A.pdf}. Last accessed: 2/10/14. 
 
 \bibitem{tor} Roger Dingledine, Nick Mathewson, and Paul Syverson. Tor: The Second-Generation Onion Router. \emph{Naval Research Lab Washington DC} (2004).
+
+\bibitem{jyaml} JYaml - Yaml library for the Java language. Available online at \url{http://jyaml.sourceforge.net/}. Last accessed: 2/10/14. 
 
 % \bibitem{Androulaki12-privacy} Elli Androulaki, Ghassan O. Karame, Marc Roeschlin, Tobias Scherer, and Srdjan Capkun. Evaluating User Privacy in Bitcoin. \emph{IACR Cryptology ePrint Archive} 596 (2012).
 
