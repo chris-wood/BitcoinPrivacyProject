@@ -15,7 +15,7 @@ else:
 	for fname in filedumpfile:
 		print >> sys.stderr, "Running: " + fname
 		prefix = os.path.basename(fname).split(".")[0] # drop extension
-		p = subprocess.Popen('java -cp "./jyaml-1.3.jar:." Boomerang ' + fname, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		p = subprocess.Popen('java -Xmx12g -cp "./jyaml-1.3.jar:." Boomerang ' + fname, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		fout = open(prefix + ".out", 'w')
 		for line in p.stdout.readlines():
 			line = line.strip()
