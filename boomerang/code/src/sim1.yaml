@@ -16,6 +16,7 @@ seed: 256
 outfileprefix: "sim1"
 path: "."
 genMatrices: false
+keepInMemory: false
 initialAddressSize: 250
 validNodeTransmitReq: 50
 addressBookSize: 1000

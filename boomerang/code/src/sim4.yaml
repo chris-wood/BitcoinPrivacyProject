@@ -19,5 +19,6 @@ genMatrices: false
 initialAddressSize: 250
 validNodeTransmitReq: 50
 addressBookSize: 1000
+keepInMemory: false
 
 # java -classpath ../jyaml-1.3.jar:. -Xmx6g Boomerang ../config/config_10e3.yaml
