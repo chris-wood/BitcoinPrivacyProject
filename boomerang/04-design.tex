@@ -7,6 +7,7 @@ In the following sections we detail the core protocol and several important desi
 \begin{table*}[ht!]
 \begin{center}
 \caption{Boomerang Protocol Notation}
+\label{tab:notation}
 	\begin{tabular}{|l|l|}\hline
 	\textbf{Symbol} & \textbf{Description} \\ \hline
 	$W$ & Local number of parallel circuits constructed to emit a new transaction. \\
@@ -15,9 +16,11 @@ In the following sections we detail the core protocol and several important desi
 	$\bar{T}$ & An encrypted boomerang transaction \\ 
 	$M$ & A (dummy or encoded transaction) Boomerang message sent over the wire. \\
 	~ & A message is treated as an indexable array with fields shown in Figure \ref{fig:boomerang_message}. \\
-	$\mathbf{C}$ & Set of valid nodes from which to build a circuit. \\
+	$\mathbf{C}$ & Set of valid nodes in a node's address book from which to build a circuit. \\
 	$\mathsf{AV}$ & Address vector element of a Boomerang message. \\
 	$\mathsf{addr}$ & Network address of a Bitcoin node. \\
+	$B$ & Minimum Boomerang buffer size. \\
+	$\mathsf{Buffer}$ & Boomerang message node buffer. \\
 	$E_{pk}(\cdot)$ & ECC-based encryption of some plaintext under the public key $pk$. \\	
 	$D_{sk}(\cdot)$ & ECC-based decryption of some ciphertext under the private key $sk$. \\ \hline
 	\end{tabular}
@@ -41,7 +44,7 @@ Boomerang peer discovery is done in a similar manner to the Bitcoin peer discove
 
 \subsection{Transaction Encode and Broadcast Protocol} \label{sec:broadcast-protocol}
 
-At the heart of the Bitcoin protocol is the ability to encode new transactions as Boomerang messages and then ripple them throughout the network. We describe the complete procedure for message encoding, {\sf EncodeTransaction}, in Algorithm \ref{alg:encode}, where the notation contained therein is defined in Table \ref{tab:notation}. This procedure takes only two parameters - a transaction $T$ to encode and a set of valid nodes $\mathbf{C}$ to be used in the circuit(s) creation, where $\mathbf{C}$ is created by randomly sampling from the set of valid nodes in the address book (see Section \ref{sec:validation} for a description of how the address book is managed). An encoded Boomerang message has a very well-defined format, as shown in Figure \ref{fig:boomerang_message}, composed of seed element, encrypted address vector, encrypted message identifier (used internally during message validation), and the encrypted transaction. In particular, the message is composed of the following:
+At the heart of the Bitcoin protocol is the ability to encode new transactions as Boomerang messages and then ripple them throughout the network. We describe the complete procedure for message encoding, {\sf EncodeTransaction}, in Algorithm \ref{alg:encode}, where the notation contained therein is defined in Table \ref{tab:notation}. This procedure takes only two parameters - a transaction $T$ to encode and a set of valid nodes $\mathbf{C}$ from which the circuit can be created, where nodes in the circuit are randomly sampled from this set (see Section \ref{sec:validation} for a more detailed description of how the address book is managed). An encoded Boomerang message has a very well-defined format, as shown in Figure \ref{fig:boomerang_message}, composed of seed element, encrypted address vector, encrypted message identifier (used internally during message validation), and the encrypted transaction. In particular, the message is composed of the following:
 \begin{enumerate}
 	\item A potentially re-encrypted seed. By the description of {\sf EncodeTransaction}, it is required that the public-key encryption scheme used to mask these seeds has the same domain and range. This is needed because the decrypted seed for one hop will be used as decrypted seed on the previous hop, very much like onion layers of encryption.
 	\item An encrypted address vector that is used by each hop to learn the next hop in the circuit without learning any other information about the nodes in the circuit. More specifically, a router can only learn about the immediate source and destination of a Boomerang message (the security and anonymity implications of this are discussed in the following section).
@@ -68,7 +71,7 @@ At the heart of the Bitcoin protocol is the ability to encode new transactions a
 \end{center}
 \end{table*}
 
-The procedure to handle Boomerang messages, {\sf BoomerangMessageHandler}, is provided in Algorithm \ref{alg:handler}. 
+The asynchronous procedure to handle incoming Boomerang messages, {\sf BoomerangMessageHandler}, is provided in Algorithm \ref{alg:handler}. This method will collect incoming Boomerang messages into the node's buffer, $\mathsf{Buffer}$. When the number of messages in this buffer meets or exceeds $B$, the minimum buffer size, the {\sf BoomerangMessageForwarder} asynchronous procedure will be invoked to shuffle the buffer, which is stored internally as a linked list, and then for each message peel off a layer of encryption on the transaction slot and transmit the result to the specified destination address.
 
 \begin{algorithm}[t!]
 \caption{{\sf EncodeTransaction}($T, \mathbf{C}$)}
@@ -77,28 +80,28 @@ The procedure to handle Boomerang messages, {\sf BoomerangMessageHandler}, is pr
 
 \For{$i = 1$ to $W$}
 	\State $\bar{T} := T$
-	\State $s \gets \{0,1\}^{\tau}$
-	\For{$j = 1$ \textbf{to} $D_i$}
+	\State $s \gets $ random element from $\mathbb{F}_p$
+	\For{$j = 1$ \textbf{to} $D$}
 		\State $p := \mathsf{PRG}(s)$
 		\State $\bar{T} := \bar{T} \oplus p$
 		\State $s \gets E_{pk_{i,j}}(s)$
 	\EndFor
 
 	% populate the address vector
-	\State $\mathsf{index} \gets \{0,\dots,2D_i\}$ % random address vector index
-	\State $\mathsf{AV} := [2D_i]$ % address vector
-	\For{$j = D_i$ \textbf{downto} $2$}
-		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{i,j}}(\mathsf{addr}_{D_j})$
-		\State $\mathsf{index} := \mathsf{index} + 1 (\mod N_m)$
-		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{i,j}}(\mathsf{addr}_{D_{j-1}})$
-		\State $\mathsf{index} := \gets \{0,\dots,2D_i\}$
-		\While {$\mathsf{index} \mod 2 \not= 0$ \text{ and } $\mathsf{AV}[\mathsf{index}] \not= \bot \text{ and } \mathsf{AV}[\mathsf{index + 1 (\mod D_i)}] \not= \bot$}
-			\State $\mathsf{index} \gets \{0,\dots,2D_i\}$
-		\EndWhile
+	\State $R \gets$ random set of $D$ nodes from $\mathbf{C}$
+	\State $\mathsf{index} :=$ random even index from $[0,\dots,2D]$ % random address vector index
+	\State $\mathsf{AV} := [2D]$ % address vector
+	\State $\mathsf{addr}_0 := Nil$
+	\For{$j = D$ \textbf{downto} $1$}
+		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{i,j}}(\mathsf{addr}_{R[j]})$
+		\State $\mathsf{index} := \mathsf{index} + 1 (\mod D)$
+		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{i,j}}(\mathsf{addr}_{R[j-1]})$
+		\State $\mathsf{index} :=$ unpopulated index slot from $[0,\dots,2D]$
+		\State $\mathsf{addr}_0 := \mathsf{addr}_{R[j]}$
 	\EndFor
 
 	\State $M := \mathsf{Pack}(s, \mathsf{AV}, \bar{T})$
-	\State $\mathsf{Transmit}(M)$
+	\State $\mathsf{\mathsf{Transmit}}(\mathsf{addr}_0, M)$
 \EndFor
 
 \end{algorithmic}
@@ -116,23 +119,64 @@ The procedure to handle Boomerang messages, {\sf BoomerangMessageHandler}, is pr
 \ElsIf {$\bar{T}$ destination address is $\mathsf{addr}_j$}
 	\State Discard $\bar{T}$; return;
 \Else
+	\State $s := M[0]$
 	\State $\mathsf{AV} := M[1]$
 	\State $i := 1$
 	\While {$i < \mathsf{len}(\mathsf{AV})$}
 		\State $\mathsf{addr}_{src} := D_{pk_j}(AV[j])$
 		\If {$\mathsf{addr}_{src} = \mathsf{addr}_j$}
 			\State $\mathsf{addr}_{dst} := D_{pk_j}(AV[j + 1])$
-			\State $M := \mathsf{Pack}(s, \mathsf{AV}, \bar{T})$
-			\If {$|Buffer| \geq B$}
-				\State $\mathsf{Transmit}(M)$
-			\Else
-				\State $B.add(M)$
-			\EndIf
+			\State $\mathsf{Buffer} := \mathsf{append}(\mathsf{Buffer}, (s, T, \mathsf{addr}_{dst}))$
 		\Else
 			\State $i := i + 2$
 		\EndIf
 	\EndWhile
 \EndIf
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[t!]
+\caption{{\sf BoomerangMessageForwarder}($j$)}
+\label{alg:handler}
+\begin{algorithmic}[1]
+
+\State Lock $\mathsf{Buffer}$ (block new additions)
+\State Shuffle $\mathsf{Buffer}$
+\For {$i = 1$ to $|\mathsf{Buffer}|$}
+	\State $(s, T, \mathsf{addr}_{dst}) := \mathsf{head}(\mathsf{Buffer})$
+	\State $s' := D_{pk_j}(s)$
+	\State $p := \mathsf{PRG}(s')$
+	\State $T' := T \oplus p$
+	\State $\mathsf{Transmit}(\mathsf{addr}_{dst}, T')$
+	\State $\mathsf{head}(\mathsf{Buffer}) := \mathsf{next}(\mathsf{head}(\mathsf{Buffer}))$
+\EndFor
+\State Unlock $\mathsf{Buffer}$ (allow additions)
+
+% \State $s := D_{sk_{j}}(M[0])$
+% \State $\bar{T} := M[2] \oplus PRG(s)$
+% \If {$\bar{T}$ is a well formed transaction}
+% 	\State $\mathsf{Broadcast}(\bar{T})$ to the Bitcoin network
+% \ElsIf {$\bar{T}$ destination address is $\mathsf{addr}_j$}
+% 	\State Discard $\bar{T}$; return;
+% \Else
+% 	\State $\mathsf{AV} := M[1]$
+% 	\State $i := 1$
+% 	\While {$i < \mathsf{len}(\mathsf{AV})$}
+% 		\State $\mathsf{addr}_{src} := D_{pk_j}(AV[j])$
+% 		\If {$\mathsf{addr}_{src} = \mathsf{addr}_j$}
+% 			\State $\mathsf{addr}_{dst} := D_{pk_j}(AV[j + 1])$
+% 			\State $M := \mathsf{Pack}(s, \mathsf{AV}, \bar{T})$
+% 			\If {$|\mathsf{Buffer}| \geq B$}
+% 				\State $\mathsf{\mathsf{Transmit}}(M)$
+% 			\Else
+% 				\State $B.add(M)$
+% 			\EndIf
+% 		\Else
+% 			\State $i := i + 2$
+% 		\EndIf
+% 	\EndWhile
+% \EndIf
 
 \end{algorithmic}
 \end{algorithm}
@@ -207,7 +251,7 @@ There are two types of Boomerang messages: peer discovery and maintenance messag
 \subsection{Node Connections}
 To connect to a remote node, the client sends a version message, which contains Bitcoin network information, Boomerang version, and a hash of the client’s public key. If the remote node accepts the information in the version message, it will reply with a verack message that contains the remote node’s public key as well as its own version message.  The client will reply with a verack message, which contains the client public key, if it accepts both messages from the remote node.  Both nodes then add the address, public key, and time in their respective internal databases.
 
-\subsection{Node Validation}
+\subsection{Node Validation} \label{sec:validation}
 Boomerang clients draw from a pool of validated addresses for sending Boomerang transactions. If this pool is less than 1,000, Boomerang will begin to use dummy Boomerang messages to validate new addresses. The pool of addresses to be validated is equal to the number of validated addresses needed to reach the 1,000 address cap and is comprised of the most recently active non-validated addresses. If the pool of addresses is too small, Boomerang will begin sending getaddr queries to increase the pool size. An address is considered non-validated if it either has an invalid validation timestamp or a timestamp older than 3 hours. When a remote node’s address is added to the pool of addresses to be validated, the client must check if it has the node’s public key. If the address was added from a relayed addr message, the client must connect to the remote node in order to obtain the public key. If the connection could not be made, then the address is removed from the internal database and pool.
 
 In order to validate addresses, dummy Boomerang messages will be routed through the addresses chosen from the pool of “addresses to be validated” as well as validated addresses. If the Boomerang message returns to the client and decrypts correctly, the nodes along the message’s route are marked as verified with a second timestamp in the internal database. Both first timestamp, which keeps track of when the node was last seen as active, and the second validation timestamp are updated with the time the message arrived plus a small random number (from 0 to an hour). Boomerang will also update the timestamps if a transaction message sent by the client is heard over the Bitcoin network. Boomerang clients will only relay address information from addresses verified in the last 3 hours and never reveal the validation timestamp.

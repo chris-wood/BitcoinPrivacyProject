@@ -1,0 +1,3 @@
+java -Xmx2g -cp jyaml-1.jar:. Boomerang ../config/config_10e3.yaml
+
+java -Xmx2g -cp jyaml-1.3.jar:. Boomerang ../config/config_10e3.yaml > out_3_20140227.txt

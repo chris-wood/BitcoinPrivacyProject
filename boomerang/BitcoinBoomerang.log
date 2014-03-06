@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 MAR 2014 15:56
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  5 MAR 2014 19:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -575,16 +575,19 @@ Package: listings 2007/02/22 1.4 (Carsten Heinz)
 
 (./BitcoinBoomerang.aux
 
+LaTeX Warning: Label `alg:handler' multiply defined.
+
+
 LaTeX Warning: Label `tab:msg-header' multiply defined.
 
 
 LaTeX Warning: Label `fig:bitcoin_peer_protocol' multiply defined.
 
 
-LaTeX Warning: Label `fig:boomerang_message' multiply defined.
-
-
 LaTeX Warning: Label `tab:sim-results' multiply defined.
+
+
+LaTeX Warning: Label `fig:boomerang_message' multiply defined.
 
 )
 \openout1 = `BitcoinBoomerang.aux'.
@@ -728,36 +731,42 @@ File: ./images/boomerang_net.pdf Graphic file (type pdf)
 Package pdftex.def Info: ./images/boomerang_net.pdf used on input line 37.
 (pdftex.def)             Requested size: 164.86552pt x 162.6071pt.
 ) (./04-design.tex
-Underfull \hbox (badness 10000) in paragraph at lines 39--40
+Underfull \hbox (badness 10000) in paragraph at lines 42--43
 []\OT1/ptm/m/n/10 Boomerang mes-sages: The des-ti-na-tion of a
  []
 
 
-Underfull \hbox (badness 1502) in paragraph at lines 39--40
+Underfull \hbox (badness 1502) in paragraph at lines 42--43
 \OT1/ptm/m/n/10 des-ti-na-tion node and ex-change ad-dress database
  []
 
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 44.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 47.
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
-)
-
-LaTeX Warning: Reference `tab:notation' on page 3 undefined on input line 44.
-
-
-LaTeX Warning: Reference `sec:validation' on page 3 undefined on input line 44.
-
-
-[3 <./images/boomerang_net.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 71--72
-[]\OT1/ptm/m/n/10 The pro-ce-dure to han-dle Boomerang mes-sages,
+) [3 <./images/boomerang_net.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
+[]\OT1/ptm/m/n/10 The asyn-chronous pro-ce-dure to han-dle in-com-ing
  []
 
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 143.
 
-(/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+Underfull \hbox (badness 7851) in paragraph at lines 74--75
+\OT1/ptm/m/n/10 Boomerang mes-sages, \OT1/phv/m/n/10 BoomerangMes-sage-Han-dler
+\OT1/ptm/m/n/10 , is
+ []
+
+
+LaTeX Warning: Text page 4 contains only floats.
+
+
+Overfull \vbox (0.8178pt too high) has occurred while \output is active []
+
+
+[4]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 187.
+
+ (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [4]
+)
 Missing character: There is no ¬ in font ptmr7t!
 Missing character: There is no † in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
@@ -781,31 +790,31 @@ Missing character: There is no ù in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-
-Underfull \hbox (badness 7576) in paragraph at lines 219--220
+ [5]
+Underfull \hbox (badness 7576) in paragraph at lines 263--264
 []\OT1/ptm/m/n/10 Efficient cho-sen plain-text se-cure (CPA-secure)
  []
 
 
-LaTeX Warning: Citation `nist-curves' on page 5 undefined on input line 223.
+LaTeX Warning: Citation `nist-curves' on page 6 undefined on input line 267.
 
-[5]
-Underfull \hbox (badness 2799) in paragraph at lines 233--234
+
+Underfull \hbox (badness 2799) in paragraph at lines 277--278
 []\OT1/phv/m/n/10 Setup\OT1/ptm/m/n/10 : Gen-er-ate and out-put do-main pa-ram-
 e-ters
  []
 
 
 LaTeX Warning: Reference `fig:ctr_drbg_update' on page 6 undefined on input lin
-e 240.
+e 284.
 
-<./images/ctr_drbg_update.png, id=112, 610.28pt x 315.1775pt>
+[6] <./images/ctr_drbg_update.png, id=113, 610.28pt x 315.1775pt>
 File: ./images/ctr_drbg_update.png Graphic file (type png)
 
 <use ./images/ctr_drbg_update.png>
-Package pdftex.def Info: ./images/ctr_drbg_update.png used on input line 244.
+Package pdftex.def Info: ./images/ctr_drbg_update.png used on input line 288.
 (pdftex.def)             Requested size: 213.6012pt x 110.31377pt.
- [6]) (./03-properties.tex
+) (./03-properties.tex
 Overfull \hbox (12.76425pt too wide) in paragraph at lines 30--30
 [] 
  []
@@ -815,7 +824,7 @@ Overfull \hbox (4.05072pt too wide) in paragraph at lines 50--50
 [] 
  []
 
-<./images/badcircuit.png, id=120, 374.90062pt x 302.63063pt>
+<./images/badcircuit.png, id=118, 374.90062pt x 302.63063pt>
 File: ./images/badcircuit.png Graphic file (type png)
 
 <use ./images/badcircuit.png>
@@ -829,16 +838,32 @@ Missing character: There is no ô in font ptmr7t!
 LaTeX Warning: Reference `tab:experiments' on page 9 undefined on input line 56
 .
 
-<./images/sim_2_complete.png, id=126, 578.16pt x 433.62pt>
-File: ./images/sim_2_complete.png Graphic file (type png)
+<./images/sim1_completedMessage_complete.png, id=124, 578.16pt x 433.62pt>
+File: ./images/sim1_completedMessage_complete.png Graphic file (type png)
 
-<use ./images/sim_2_complete.png>
-Package pdftex.def Info: ./images/sim_2_complete.png used on input line 106.
+<use ./images/sim1_completedMessage_complete.png>
+Package pdftex.def Info: ./images/sim1_completedMessage_complete.png used on in
+put line 106.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
-Overfull \hbox (36.02942pt too wide) in paragraph at lines 106--107
- [] 
- []
+<./images/sim1_completedMessage_tx.png, id=126, 578.16pt x 433.62pt>
+File: ./images/sim1_completedMessage_tx.png Graphic file (type png)
+
+<use ./images/sim1_completedMessage_tx.png>
+Package pdftex.def Info: ./images/sim1_completedMessage_tx.png used on input li
+ne 107.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+<./images/sim1_completedMessage_chaff.png, id=127, 578.16pt x 433.62pt>
+File: ./images/sim1_completedMessage_chaff.png Graphic file (type png)
+
+<use ./images/sim1_completedMessage_chaff.png>
+Package pdftex.def Info: ./images/sim1_completedMessage_chaff.png used on input
+ line 108.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+
+LaTeX Warning: Float too large for page by 2.81026pt on input line 112.
 
 ) (./06-related.tex
 Missing character: There is no ‚ in font ptmr7t!
@@ -870,8 +895,8 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-
-<./images/chord.png, id=129, 401.5pt x 401.5pt>
+ [9 <./images/tarzan_protocol.png>]
+<./images/chord.png, id=132, 401.5pt x 401.5pt>
 File: ./images/chord.png Graphic file (type png)
  <use ./images/chord.png>
 Package pdftex.def Info: ./images/chord.png used on input line 18.
@@ -892,7 +917,6 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 )
-[9 <./images/sim_2_complete.png>]
 Underfull \hbox (badness 1466) in paragraph at lines 74--75
 []\OT1/ptm/m/n/8 Michael J. Freed-man and Robert Mor-ris. Tarzan: A Peer-to-Pee
 r
@@ -901,7 +925,6 @@ r
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no î in font ptmr7t!
-[10 <./images/tarzan_protocol.png> <./images/chord.png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -913,8 +936,8 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[11
-
+[10 <./images/chord.png>] [11 <./images/sim1_completedMessage_complete.png> <./
+images/sim1_completedMessage_tx.png> <./images/sim1_completedMessage_chaff.png>
 ] (./BitcoinBoomerang.aux)
 
 LaTeX Warning: There were undefined references.
@@ -924,10 +947,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 13969 strings out of 493315
- 252813 string characters out of 6137904
- 317726 words of memory out of 5000000
- 17083 multiletter control sequences out of 15000+600000
+ 13973 strings out of 493315
+ 253205 string characters out of 6137904
+ 317750 words of memory out of 5000000
+ 17085 multiletter control sequences out of 15000+600000
  54115 words of font info for 110 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  63i,11n,57p,1636b,864s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -940,25 +963,23 @@ e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/
 2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/20
 13/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2013
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2013/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2013/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2013/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2013/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2013/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/fonts/t
-ype1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dist/fon
-ts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2013/texmf-dist/
-fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/ty
-pe1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw
-/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utm
-bi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on BitcoinBoomerang.pdf (11 pages, 454545 bytes).
+exmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2013/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2013/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2013/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/fo
+nts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dis
+t/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2013/texmf-
+dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2013/texmf-dist/fon
+ts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type
+1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/time
+s/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.
+pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on BitcoinBoomerang.pdf (11 pages, 935637 bytes).
 PDF statistics:
- 218 PDF objects out of 1000 (max. 8388607)
- 142 compressed objects within 2 object streams
+ 214 PDF objects out of 1000 (max. 8388607)
+ 136 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 
