@@ -90,11 +90,11 @@ Generally speaking, solutions to address the anonymity issues in Bitcoin roughly
 
 \subsection{Anonymity Layers}
 
-\todo[inline]{TOR discussion here}
-
 The basic design and use of mix networks is credited to Chaum and dates back to more than three decades \cite{Chaum81-Mix}. The essential idea of a mix network is illustrated in Figure \ref{fig:mix-design}. Senders wrap their message in layers of encryption using the public keys of randomly selected mixing service nodes (mix node), who then receive a set of encrypted messages, decrypt and shuffle the messages, and then send them to another mix node or the intended recipient. Clearly, the role of each mix node is to hide the source of original messages by obfuscating their flow through the network. To initiate an untraceable message (email) in the original design, which was intended to be used for untraceable email, Alice encrypts a message to Bob with Bob’s public key, appends Bob’s address, and then encrypts the entire message with the mix server’s public key. The mix server receives the message, decrypts it with the mix server’s private key, and then sends the message to Bob after waiting some non-deterministic amount of time. The order of outgoing messages is hidden by the fact that the mix server receives messages that are uniformly sized and rearranges them in lexicographical order.  Bob receives the message from the mix server and decrypts it with his private key.
 
 A ``cascade'' or series of mixes (see Figure \ref{fig:mix-design}) can increase the secrecy of the messages as all of them must be compromised before a message can be traced.  The protocol is similar to a single mix with the exception that messages are encrypted with all the mix server’s private keys.
+
+Since mixnet services are not generally available, Bitcoin users are often suggested to use Tor \cite{tor} to achieve similar anonymity properties with strong (but not perfect) protection against eavesdropping and traffic analysis attacks. To use Tor with Bitcoin, a separate software client must be installed which establishes circuits from a pool of anonymizing routers through which all Bitcoin traffic can flow. To redirect this traffic, the user's Bitcoin client must be configured to send all traffic through the local Tor proxy using the SOCKS protocol (i.e., 127.0.0.1:9050, where 9050 is the default Tor port number). Despite the popularity of Tor as a network anonymity layer, it is intended for low-latency, high-throughput traffic that is susceptible to targeted attacks by active adversaries \cite{tor-attack1,tor-attack2}.  
 
 %%%%
 

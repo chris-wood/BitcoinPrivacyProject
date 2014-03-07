@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 MAR 2014 17:25
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  7 MAR 2014 15:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -605,6 +605,16 @@ LaTeX Warning: Citation `news articles' on page 1 undefined on input line 4.
 
 LaTeX Warning: Citation `8' on page 1 undefined on input line 6.
 
+
+LaTeX Warning: Reference `sec:adversaries' on page 1 undefined on input line 12
+.
+
+
+LaTeX Warning: Reference `sec:attack' on page 1 undefined on input line 12.
+
+
+LaTeX Warning: Reference `sec:solutions' on page 1 undefined on input line 12.
+
 ) (./02-overview.tex [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updm
 ap/pdftex.map}
 
@@ -629,7 +639,7 @@ Overfull \hbox (3.10258pt too wide) in paragraph at lines 29--30
  []
 
 [2 <./images/transaction_io.pdf> <./images/transaction_create.pdf>]
-<./images/transaction_pow.pdf, id=138, 526.96875pt x 331.2375pt>
+<./images/transaction_pow.pdf, id=136, 526.96875pt x 331.2375pt>
 File: ./images/transaction_pow.pdf Graphic file (type pdf)
 
 <use ./images/transaction_pow.pdf>
@@ -640,7 +650,7 @@ Overfull \hbox (10.43385pt too wide) in paragraph at lines 41--42
 [][] 
  []
 
-<./images/transaction_block_pow.pdf, id=139, 510.90875pt x 157.58875pt>
+<./images/transaction_block_pow.pdf, id=137, 510.90875pt x 157.58875pt>
 File: ./images/transaction_block_pow.pdf Graphic file (type pdf)
 
 <use ./images/transaction_block_pow.pdf>
@@ -659,8 +669,8 @@ LaTeX Warning: Citation `bitcoin-shadow-addresses' on page 3 undefined on input
 
 LaTeX Warning: Citation `tor' on page 3 undefined on input line 58.
 
-) (./03-security.tex) (./04-attacks.tex [3 <./images/transaction_pow.pdf> <./im
-ages/transaction_block_pow.pdf>]
+) (./03-security.tex [3 <./images/transaction_pow.pdf> <./images/transaction_bl
+ock_pow.pdf>]) (./04-attacks.tex
 
 LaTeX Warning: Citation `?' on page 4 undefined on input line 38.
 
@@ -670,7 +680,7 @@ File: images/tor_attack.pdf Graphic file (type pdf)
 <use images/tor_attack.pdf>
 Package pdftex.def Info: images/tor_attack.pdf used on input line 42.
 (pdftex.def)             Requested size: 231.66139pt x 138.91653pt.
- [4 <./images/tor_attack.pdf>] [5]
+ [4] [5 <./images/tor_attack.pdf>]
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
@@ -691,10 +701,14 @@ Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
 
 
-LaTeX Warning: Reference `fig:mix-bitcoin' on page 6 undefined on input line 10
+LaTeX Warning: Citation `tor' on page 6 undefined on input line 97.
+
+[6]
+
+LaTeX Warning: Reference `fig:mix-bitcoin' on page 7 undefined on input line 10
 8.
 
-<images/mix_design.pdf, id=356, 748.7975pt x 490.83376pt>
+<images/mix_design.pdf, id=359, 748.7975pt x 490.83376pt>
 File: images/mix_design.pdf Graphic file (type pdf)
 
 <use images/mix_design.pdf>
@@ -705,13 +719,13 @@ Overfull \hbox (9.03319pt too wide) in paragraph at lines 112--113
  [] 
  []
 
-<images/mix_bitcoin.pdf, id=357, 545.03625pt x 536.0025pt>
+<images/mix_bitcoin.pdf, id=360, 545.03625pt x 536.0025pt>
 File: images/mix_bitcoin.pdf Graphic file (type pdf)
 
 <use images/mix_bitcoin.pdf>
 Package pdftex.def Info: images/mix_bitcoin.pdf used on input line 120.
 (pdftex.def)             Requested size: 190.76555pt x 187.60368pt.
- [6] [7 <./images/mix_design.pdf> <./images/mix_bitcoin.pdf>]
+ [7 <./images/mix_design.pdf> <./images/mix_bitcoin.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 151--152
 []\OT1/ptm/m/n/10 A client $\OML/cmm/m/it/10 A$ \OT1/ptm/m/n/10 gen-er-ates a t
 u-ple $\OML/cmm/m/it/10 T \OT1/cmr/m/n/10 =
@@ -821,7 +835,7 @@ Missing character: There is no ™ in font ptmr7t!
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ™ in font ptmr7t!
-) (./07-conclusion.tex) [11]
+[11]) (./07-conclusion.tex)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -833,9 +847,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[12
-
-] (./WoodVu_BitcoinPrivacy_Survey.aux)
+[12] (./WoodVu_BitcoinPrivacy_Survey.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -844,13 +856,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 11795 strings out of 493315
- 222563 string characters out of 6137904
- 277246 words of memory out of 5000000
- 14970 multiletter control sequences out of 15000+600000
+ 11801 strings out of 493315
+ 222621 string characters out of 6137904
+ 276230 words of memory out of 5000000
+ 14976 multiletter control sequences out of 15000+600000
  45417 words of font info for 89 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 63i,10n,80p,2109b,574s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 63i,10n,80p,2109b,573s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texl
@@ -870,7 +882,7 @@ ts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/u
 rw/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/
 utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on WoodVu_BitcoinPrivacy_Survey.pdf (12 pages, 463884 bytes).
+Output written on WoodVu_BitcoinPrivacy_Survey.pdf (12 pages, 466346 bytes).
 PDF statistics:
  589 PDF objects out of 1000 (max. 8388607)
  363 compressed objects within 4 object streams
