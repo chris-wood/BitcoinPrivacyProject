@@ -1,4 +1,4 @@
-simTime: 10000
+simTime: 30000
 numNodes: 1000
 enterRate: 750
 exitRate: 750
