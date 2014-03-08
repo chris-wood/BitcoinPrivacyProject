@@ -9,9 +9,9 @@
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}}
 \citation{AnonymityTerms}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Review of the Bitcoin Peer-to-Peer Network}{2}}
-\@writefile{toc}{\contentsline {section}{\numberline {III}Boomerang Overview}{2}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Bitcoin connection setup.}}{2}}
 \newlabel{fig:bitcoin_peer_protocol}{{1}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Boomerang Overview}{2}}
 \citation{Chaum81-Mix}
 \citation{tarzan}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Visual depiction of the traffic flow in a Boomerang network.}}{3}}
@@ -19,11 +19,11 @@
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Boomerang Design}{3}}
 \newlabel{sec:design}{{IV}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-A}}Boomerang Peer-to-Peer Network Design}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}Transaction Encode and Broadcast Protocol}{3}}
+\newlabel{sec:broadcast-protocol}{{\unhbox \voidb@x \hbox {IV-B}}{3}}
 \citation{tarzan}
 \@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Boomerang Protocol Notation}}{4}}
 \newlabel{tab:notation}{{I}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}Transaction Encode and Broadcast Protocol}{4}}
-\newlabel{sec:broadcast-protocol}{{\unhbox \voidb@x \hbox {IV-B}}{4}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces {\sf  EncodeTransaction}($T, \mathbf  {C}$)}}{4}}
 \newlabel{alg:encode}{{1}{4}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces {\sf  BoomerangMessageHandler}($j$, $M$)}}{4}}
@@ -36,6 +36,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-D}}Node Connections}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-E}}Node Validation}{5}}
 \newlabel{sec:validation}{{\unhbox \voidb@x \hbox {IV-E}}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-F}}Cryptographic Primitives}{5}}
 \citation{nist-curves}
 \citation{nist-prng}
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Message header format.}}{6}}
@@ -46,7 +47,6 @@
 \newlabel{tab:msg-verack}{{V}{6}}
 \@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces {\tt  Addr} message format.}}{6}}
 \newlabel{tab:msg-addr}{{VI}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-F}}Cryptographic Primitives}{6}}
 \citation{tarzan}
 \citation{tor}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces CTR-DRBG update procedure.}}{7}}
@@ -64,12 +64,17 @@
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Simulations and Performance Analysis}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-A}}Simulation Design}{8}}
 \citation{jyaml}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-B}}Performance Metrics}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-C}}Parameter Selection}{9}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Related Works}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Tarzan gossip and validation protocol.}}{9}}
-\newlabel{fig:tarzan_protocol}{{6}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-B}}Performance Metrics and System Parameters}{9}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Related Work}{9}}
 \bibcite{bitcoin}{1}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Subset of experimental parameters explored with the Boomerang simulator.}}{10}}
+\newlabel{tab:experiments}{{VIII}{10}}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Simulation results gathered from the experiment configurations listed in Table VIII\hbox {}. Since message latency is not a goal of Boomerang (i.e., the timeliness of transaction broadcasts is not of critical importance), this measurement is omitted for brevity. All simulations were run for a }}{10}}
+\newlabel{tab:sim-results}{{IX}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Tarzan gossip and validation protocol.}}{10}}
+\newlabel{fig:tarzan_protocol}{{6}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces A Chord network with ``finger'' table entries highlighted.}}{10}}
+\newlabel{fig:chord}{{7}{10}}
 \bibcite{Chaum81-Mix}{2}
 \bibcite{tarzan}{3}
 \bibcite{AnonymityTerms}{4}
@@ -80,12 +85,6 @@
 \bibcite{nist-prng}{9}
 \bibcite{tor}{10}
 \bibcite{jyaml}{11}
-\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces TODO}}{10}}
-\newlabel{tab:sim-results}{{VIII}{10}}
-\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces TODO}}{10}}
-\newlabel{tab:sim-results}{{IX}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces A Chord network with ``finger'' table entries highlighted.}}{10}}
-\newlabel{fig:chord}{{7}{10}}
-\@writefile{toc}{\contentsline {section}{References}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Flow of dummy messages and forwarded from Experiment \#1. Nodes have directed edges between them if some message was sent between them during the lifetime of the simulation. The coverage of nodes is clearly uniformly distributed, as desired.}}{11}}
-\newlabel{fig:boomerang_message}{{5}{11}}
+\@writefile{toc}{\contentsline {section}{References}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The top figure shows the flow of both dummy messages and forwarded transactions from Experiment \#1, the middle figure shows only the transaction messages, and the bottom figure shows the cover traffic. Nodes have directed edges between them if some message was sent between them during the lifetime of the simulation. The coverage of nodes is clearly uniformly distributed, as desired.}}{12}}
+\newlabel{fig:flow}{{5}{12}}

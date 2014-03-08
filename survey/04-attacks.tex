@@ -1,4 +1,4 @@
-\section{Deanonymization Attacks and Their Implications}
+\section{Deanonymization Attacks and Their Implications} \label{sec:attacks}
 In this section we survey deanonymization attacks on Bitcoin users. Such attacks can be roughly characterized into the following four categories based on the source of information used to carry out the attack:
 \begin{enumerate}
 	\item Multi-input transaction attacks,
@@ -80,7 +80,7 @@ Given these privacy measurements and supporting metrics, the authors then quanti
 \todo[inline]{On Bitcoins and Red Balloons - fix this summary}
 The peer-to-peer design of the Bitcoin system relies on information sharing.  However, because confirming transactions has a monetary reward, it is not in a node’s interest to share information about transactions.  A possible solution is to introduce a referral reward for all the nodes that notified the node which confirmed the transaction.  This solution introduces the problem of Sybil attacks where a node will create clones in order to receive the reward for the both the confirmation and the referral.  The solution is to create a situation where it is most rewarding for a node to share information and never to clone itself.  Let the node which announces the transaction be the root of a directed graph.  The graph is a directed graph as knowledge of the transaction only flows one way from the root.  Let the node which confirms the transaction, v, be a distance h away from the root.  In order to facilitate sharing, every node on the path from the root to v is given a reward of B.  However, if h is greater than H, an arbitrary distance, then no node is awarded any reward.  If h is less than H, then v receives a reward of 1+B*(H-h+).  This is to mimic the reward v would have gotten if it duplicated itself H-h times.  If external competition is low, nodes would prefer to clone themselves in order to receive the maximum payout.  However, if knowledge of the transaction is high, a node would prefer not to clone itself to increase the chance of being in the reward chain.  With a sufficiently high number of seeds and a reward value relative to 1/H, the system encourages information transfer without cloning or Sybil attacks.
 
-\section{Proposed Solutions}
+\section{Proposed Solutions} \label{sec:solutions}
 Generally speaking, solutions to address the anonymity issues in Bitcoin roughly fall into one of the following three categories:
 \begin{enumerate}
 	\item Use an anonymity layer to obfsucate the source IP address of Bitcoin users,

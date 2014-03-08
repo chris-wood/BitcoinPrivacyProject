@@ -52,15 +52,17 @@ The {\tt genMatrices} and {\tt keepInMemory} flags are used to ensure that the J
 {\small \tt java -cp ./jyaml-1.3.jar:. -Xmx8g Boomerang config.yaml}
 \end{center}
 
-\subsection{Performance Metrics}
-Using our simulation, we performed a series of small and large experiments with properties summarized in Table \ref{tab:experiments}. Due to physical memory limitations and the initial single-threaded nature design of our simulator, we could not conduct experiments beyond $N \approx 25000$. We will address this shortcoming in our simulation design for future work.
+\subsection{Performance Metrics and System Parameters}
+Using our simulation, we performed a series of small and large experiments; the properties and simulation results for a subset of such experiments are summarized in Tables \ref{tab:experiments} and \ref{tab:sim-results}, respectively. Due to physical memory limitations and the initial single-threaded nature design of our simulator, we could not conduct experiments beyond $N \approx 25000$. We will address this shortcoming in our simulation design for future work. An illustration of cover and transaction messages flowing through the network during the entire duration of Experiment \#1 is shown in Figure \ref{fig:flow}, and a series of smaller windows during which this information is captured is shown in Figure \ref{fig:small-flow}. As expected, the flow of messages appears to be uniformly distributed across all nodes, even when analyzed in small time windows. 
 
-TODO: discuss the graphs/charts here
+Based on the experimental results and the Boomerang design it is clear that the performance of the Boomerang scheme is tightly coupled to $W$, $D$, and the rate at which cover traffic and new encoded transactions generation ($\sigma$ and $\pi$, respectively). Furthermore, given our anonymity analysis and these performance results, it is clear that we wish to maximize $D$ (circuit depth) and minimize $W$ (circuit width - or the number of independent circuits) so as to reduce the overall work performed by a node while also improving anonymity. However, observe that with few independent circuits of larger depth, the likelihood that a transaction needs to be re-transmitted is increased. This result appeals to intuition since a larger number of hops will ultimately reduce the overall message latency.
+
+To summarize, we recommend that $D$ is maximized, $W$ is minimized, and $\sigma$ is maximized subject to node computational limitations and the expected congestion of the network. Choosing an appropriate value for $\sigma$ should be tied to the expected transaction generation rate $\pi$, which is ultimately controlled by the users, i.e., it is not a system parameter. Unfortunately, we do not have the means to estimate this rate, and thus we leave the selection of the system parameters as future work dependent on such an analysis. 
 
 \begin{table*}
 \begin{center}
-\caption{TODO}
-\label{tab:sim-results}
+\caption{Subset of experimental parameters explored with the Boomerang simulator.}
+\label{tab:experiments}
     \begin{tabular}{|c|c|c|c|c|c|} \hline
     {\bf Experiment \#} & $N$ & $D$ & $W$ & $\sigma_{max}$ & $\pi_{max}$ \\ \hline
     1 & 50     & 6 & 2 & 5000 & 7500 \\ 
@@ -77,8 +79,6 @@ TODO: discuss the graphs/charts here
     12 & 250   & 8 & 1 & 5000 & 15000 \\ 
     13 & 1000  & 8 & 1 & 5000 & 15000 \\ 
     14 & 10000 & 8 & 1 & 5000 & 15000 \\ 
-
-
     \hline
     \end{tabular}
 \end{center}
@@ -86,17 +86,26 @@ TODO: discuss the graphs/charts here
 
 \begin{table*}
 \begin{center}
-\caption{TODO}
+\caption{Simulation results gathered from the experiment configurations listed in Table \ref{tab:experiments}. Since message latency is not a goal of Boomerang (i.e., the timeliness of transaction broadcasts is not of critical importance), this measurement is omitted for brevity. All simulations were run for a }
 \label{tab:sim-results}
-    \begin{tabular}{|c|c|c|c|c|c|} \hline
-    {\bf Experiment \#} & {\bf E[Message Latency]} & {\bf E[Chaff Encryptions]} & {\bf E[Transaction Encryptions]} & {\bf E[Forwarded Messages]} & {\bf E[Retries]} \\ \hline
-    1 & ~ & ~ & ~ & ~ & ~ \\ 
-    2 & ~ & ~ & ~ & ~ & ~ \\ 
-    3 & ~ & ~ & ~ & ~ & ~ \\ 
-    4 & ~ & ~ & ~ & ~ & ~ \\ 
-    5 & ~ & ~ & ~ & ~ & ~ \\ 
-    6 & ~ & 35.25 & 18.91 & 16468.7 & 0.04 \\
-    7 & ~ & 29.59 & 20.75 & 13750.8 & 0.02 \\ \hline
+% chaff, transaction, num forwarded, number of retries
+    \begin{tabular}{|c|c|c|c|c|} \hline
+    {\bf Experiment \#} & {\bf Avg. Chaff Generated} & {\bf Avg. Transactions Encoded} & {\bf Avg. Forwarded Messages} & {\bf Avg. Retries} \\ \hline
+    1 & 17.95 & 8.92 & 6008.27 & 0.05 \\ 
+    2 & 24.12 & 11.36 & 6236.65 & 0.11 \\ 
+    3 & 29.03 & 14.33 & 9713.91 & 0.06 \\ 
+    4 & 31.63 & 14.77 & 11466.87 & 0.09 \\ 
+    5 & 35.32 & 18.70 & 15970.75 & 0.043 \\ 
+    6 & 35.25 & 18.91 & 16468.7 & 0.04 \\
+    7 & 29.59 & 20.75 & 13750.8 & 0.02 \\ 
+    8 & 8.63 & 4.27 & 1262.12 & 0.10 \\ 
+    9 & 11.93 & 4.35 & 1098.63 & 0.09 \\ 
+    10 & 12.45 & 5.5 & 1025.23 & 0.14 \\ 
+    11 & 12.34 & 5.40 & 1442.89 & 0.15 \\ 
+    12 & 13.70 & 4.92 & 1198.61 & 0.07 \\ 
+    13 & 15.39 & 6.38 & 1203.95 & 0.17 \\ 
+    \cellcolor{green!25}14 & \cellcolor{green!25}16.21 & \cellcolor{green!25}6.49 & \cellcolor{green!25}1106.63 & \cellcolor{green!25}0.09 \\ 
+    \hline
     \end{tabular}
 \end{center}
 \end{table*}
@@ -107,15 +116,10 @@ TODO: discuss the graphs/charts here
 \includegraphics[scale=0.5]{./images/sim1_completedMessage_tx.png}
 \includegraphics[scale=0.5]{./images/sim1_completedMessage_chaff.png}
 \caption{The top figure shows the flow of both dummy messages and forwarded transactions from Experiment \#1, the middle figure shows only the transaction messages, and the bottom figure shows the cover traffic. Nodes have directed edges between them if some message was sent between them during the lifetime of the simulation. The coverage of nodes is clearly uniformly distributed, as desired.}
-\label{fig:boomerang_message}
+\label{fig:flow}
 \end{center}
 \end{figure*}
 
-\subsection{Parameter Selection}
-
-From a performance perspective, our main goal is to minimize the overhead of Boomerang message encoding, transmission, and forwarding while maximizing the anonymity properties discussed in the previous section. To that end, we discuss how the performance varies based on system-wide parameters that influence such anonymity properties. Based on the Boomerang design it is clear that the performance of the Boomerang scheme is tightly coupled to $W$, $D$, and the rate at which cover traffic and new encoded transactions generation.
-
-Using the custom simulator developed for this project, we propose ****
 
 % cover traffic generation rate (random variable)
 % mix buffer delay (random variable)

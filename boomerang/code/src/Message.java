@@ -63,7 +63,7 @@ public class Message
 				nextHop = hops.get(0);
 				double distance = source.loc.distanceTo(nextHop.loc);
 				broadcasted = false;
-				waitTime = (long)((long)distance / 10e8);
+				waitTime = (long)((long)distance) + 50L;
 			}
 			else if (inTransit)
 			{

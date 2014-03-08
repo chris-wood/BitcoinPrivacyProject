@@ -23,9 +23,9 @@ At its heart, Boomerang is a peer-to-peer mixnet that can be leveraged by any an
 
 The main design goals of Boomerang are as follows:
 \begin{description}
-	\item[Sender anonymity]: \\A node achieves \emph{sender anonymity} if a node cannot be (uniquely) identified, or linked, to a particular transaction that is broadcast at the end of a Boomerang circuit (see Section \ref{sec:design}) \cite{AnonymityTerms}. 
-	\item[Fault-tolerance via redundancy]: \\Compromised or mobile nodes should not lead to significant delays in transaction introduction or compromise mixnet deadlocks.
-	\item[Performance]: \\Nodes in the network should incur minimal overhead from using Boomerang messages while maximizing their anonymity.
+	\item[{\bf Sender anonymity}]: \\A node achieves \emph{sender anonymity} if a node cannot be (uniquely) identified, or linked, to a particular transaction that is broadcast at the end of a Boomerang circuit (see Section \ref{sec:design}) \cite{AnonymityTerms}. 
+	\item[{\bf Fault-tolerance via redundancy}]: \\Compromised or mobile nodes should not lead to significant delays in transaction introduction or compromise mixnet deadlocks.
+	\item[{\bf Performance}]: \\Nodes in the network should incur minimal overhead from using Boomerang messages while maximizing their anonymity.
 \end{description}
 
 We now provide a brief overview of how Boomerang is used by clients for transaction broadcast anonymity; A complete description of the protocol is provided in Section 4. To broadcast a new transaction $T$ using Boomerang, a client $C$ first creates a set of $W$ individual mixing circuits of length $D_1,D_2,\dots,D_W$, where $W \geq 1$ and $D_i \geq 2$. Let $K = \sum_{i=1}^WD_i$ be the total number of nodes selected as mixing services for the circuits. With knowledge of the public keys for each of the $K$ nodes, $C$ then wraps $T$ in $D_i$ layers of encryption for each circuit $i = 1,\dots,W$. Each layer of encryption also includes a forward pointer to the subsequent hop in the circuit so that decrypting nodes may forward the transaction to the appropriate location, or broadcast the plaintext transaction $T$ if they are the last hop in the circuit. 

@@ -140,8 +140,9 @@ public class Node
 					boom.numMessages++;
 					m.sendTime.add(Clock.time);
 					m.transmitMessage();
-					Util.disp(this.toString() + " FORWARD " + m.toString());
+					Util.disp(this.toString() + " FORWARD " + m.toString() + " TO " + m.hops.get(0));
 				}
+				mixBucket.clear();
 			}
 			
 			// Handle cover generation
