@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  9 MAR 2014 10:37
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  9 MAR 2014 16:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -698,7 +698,7 @@ Package pdftex.def Info: images/mixcoin_deanon.pdf used on input line 190.
 Underfull \vbox (badness 1558) has occurred while \output is active []
 
  [10])
-(./05-problems.tex) (./06-related.tex
+(./05-problems.tex) (./06-related.tex [11]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
@@ -725,7 +725,7 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 
-<images/digicash.png, id=523, 821.89412pt x 449.20764pt>
+<images/digicash.png, id=526, 821.89412pt x 449.20764pt>
 File: images/digicash.png Graphic file (type png)
 
 <use images/digicash.png>
@@ -797,7 +797,6 @@ Missing character: There is no ¬ in font ptmr7t!
 Missing character: There is no † in font ptmr7t!
 Missing character: There is no ¬ in font ptmr7t!
 Missing character: There is no † in font ptmr7t!
- [11 <./images/digicash.png>]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
@@ -837,8 +836,8 @@ Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-
-<images/hashcash.png, id=527, 654.68118pt x 512.9753pt>
+ [12 <./images/digicash.png>]
+<images/hashcash.png, id=531, 654.68118pt x 512.9753pt>
 File: images/hashcash.png Graphic file (type png)
 
 <use images/hashcash.png>
@@ -870,7 +869,6 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-[12 <./images/hashcash.png>]
 <images/ripple.png, id=532, 936.67589pt x 273.49236pt>
 File: images/ripple.png Graphic file (type png)
  <use images/ripple.png>
@@ -888,10 +886,21 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-) (./07-conclusion.tex)
+) (./07-conclusion.tex) [13 <./images/hashcash.png>]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ì in font ptmr7t!
+
+Underfull \hbox (badness 10000) in paragraph at lines 104--105
+\OT1/ptm/m/n/8 on-line at: $http : / / www . forbes . com / sites / andygreenbe
+rg / 2014 / 01 / 13 /
+ []
+
+
+Overfull \hbox (3.99614pt too wide) in paragraph at lines 104--105
+\OT1/ptm/m/n/8 bitcoin-[]anonymity-[]upgrade-[]zerocoin-[]to-[]become-[]its-[]o
+wn-[]cryptocurrency/$.
+ []
 
 
 ** Conference Paper **
@@ -904,16 +913,16 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[13] [14 <./images/ripple.png>] (./WoodVu_BitcoinPrivacy_Survey.aux)
+[14 <./images/ripple.png>] (./WoodVu_BitcoinPrivacy_Survey.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 11774 strings out of 493315
- 221919 string characters out of 6137904
- 277267 words of memory out of 5000000
- 14946 multiletter control sequences out of 15000+600000
+ 11777 strings out of 493315
+ 221953 string characters out of 6137904
+ 277279 words of memory out of 5000000
+ 14949 multiletter control sequences out of 15000+600000
  44310 words of font info for 88 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  63i,10n,57p,2109b,317s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -936,7 +945,7 @@ ts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/u
 rw/times/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/
 utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on WoodVu_BitcoinPrivacy_Survey.pdf (14 pages, 523646 bytes).
+Output written on WoodVu_BitcoinPrivacy_Survey.pdf (14 pages, 528313 bytes).
 PDF statistics:
  599 PDF objects out of 1000 (max. 8388607)
  368 compressed objects within 4 object streams
