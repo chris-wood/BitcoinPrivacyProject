@@ -7,10 +7,9 @@
 \citation{litecoin}
 \citation{ripple}
 \citation{bitcoin}
-\citation{news articles}
 \citation{ReidHarrigan13}
 \citation{Androulaki12-privacy}
-\citation{8}
+\citation{elias}
 \citation{chaumain}
 \citation{zerocoin}
 \citation{pinocchio}
@@ -23,8 +22,6 @@
 \newlabel{fig:transaction-io}{{1}{2}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Visual depction of the steps to create a transaction $T_3$ from user $A$ to user $B$ using two input transactions, $T_1$ and $T_2$.}}{2}}
 \newlabel{fig:transaction-create}{{2}{2}}
-\citation{bitcoin-shadow-addresses}
-\citation{tor}
 \citation{bitcoin-tor-wiki}
 \citation{Androulaki12-privacy}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Proof-of-work computational procedure using the transactions of a block, the digest of the previous block, and the sampled proof $p$.}}{3}}
@@ -34,6 +31,7 @@
 \newlabel{fig:block}{{4}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {II-C}}Standard Bitcoin Anonymity Practices}{3}}
 \@writefile{toc}{\contentsline {section}{\numberline {III}Definitions and Adversarial Assumptions}{3}}
+\newlabel{sec:adversaries}{{III}{3}}
 \citation{ReidHarrigan13}
 \citation{BetterToBitter}
 \citation{Fistful12}
@@ -42,13 +40,14 @@
 \citation{kaminsky}
 \citation{kaminsky}
 \citation{ReidHarrigan13}
-\citation{?}
+\citation{tor-attack2}
 \citation{bitcoin-tor-wiki}
 \citation{Fistful12}
 \citation{Shamir13-bitcoingraph}
 \citation{ReidHarrigan13}
 \citation{Fistful12}
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Deanonymization Attacks and Their Implications}{4}}
+\newlabel{sec:attacks}{{IV}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-A}}Attack Vectors}{4}}
 \newlabel{sec:vectors}{{\unhbox \voidb@x \hbox {IV-A}}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {IV-B}}Anonymization Attacks and Analysis Techniques}{4}}
@@ -64,28 +63,27 @@
 \citation{privacy-19}
 \citation{privacy-20}
 \citation{Chaum81-Mix}
-\@writefile{tdo}{\contentsline {todo}{On Bitcoins and Red Balloons - fix this summary}{6}}
-\pgfsyspdfmark {pgfid1}{11496193}{8476251}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Proposed Solutions}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}Anonymity Layers}{6}}
 \citation{tor}
 \citation{tor-attack1}
 \citation{tor-attack2}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Proposed Solutions}{6}}
+\newlabel{sec:solutions}{{V}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}Anonymity Layers}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}Coin Mixing Services}{6}}
 \citation{BetterToBitter}
 \@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Adversarial advantage when given partial knowledge of users in the (simulated) Bitcoin network.}}{7}}
 \newlabel{tab:eval-privacy-results}{{I}{7}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Mixnet cascade.}}{7}}
 \newlabel{fig:mix-design}{{6}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}Coin Mixing Services}{7}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Bitcoin fund mixing service node.}}{7}}
-\newlabel{fig:mix-design}{{7}{7}}
+\newlabel{fig:mix-bitcoin}{{7}{7}}
 \citation{mixcoin}
 \citation{nist-beacon}
 \citation{coinjoin}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Visual depiction of an active deanonymization attack in Mixcoin.}}{9}}
 \newlabel{fig:mix-design}{{8}{9}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-C}}Cryptographically Enhanced Anonymization Techniques}{10}}
 \citation{pinocchio}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-C}}Cryptographically Enhanced Anonymization Techniques}{10}}
 \citation{pinocchio}
 \citation{zkpdl}
 \citation{digicash}
@@ -100,6 +98,10 @@
 \newlabel{sec:open}{{VI}{11}}
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Related Cryptocurrencies}{11}}
 \newlabel{sec:related}{{VII}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Digicash protocol.}}{11}}
+\newlabel{fig:tor-end-to-end}{{9}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Hashcash protocol.}}{12}}
+\newlabel{fig:tor-end-to-end}{{10}{12}}
 \bibcite{bitcoin}{1}
 \bibcite{Chaum81-Mix}{2}
 \bibcite{chaumain}{3}
@@ -118,7 +120,18 @@
 \bibcite{privacy-19}{16}
 \bibcite{privacy-20}{17}
 \bibcite{zkpdl}{18}
-\bibcite{tor-attack1}{19}
-\bibcite{tor-attack2}{20}
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion}{12}}
-\@writefile{toc}{\contentsline {section}{References}{12}}
+\bibcite{tor}{19}
+\bibcite{tor-attack1}{20}
+\bibcite{tor-attack2}{21}
+\bibcite{ecash}{22}
+\bibcite{digicash}{23}
+\bibcite{hashcash}{24}
+\bibcite{namecoin}{25}
+\bibcite{peercoin}{26}
+\bibcite{litecoin}{27}
+\bibcite{ripple}{28}
+\bibcite{elias}{29}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion}{13}}
+\@writefile{toc}{\contentsline {section}{References}{13}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Ripple debt network.}}{14}}
+\newlabel{fig:tor-end-to-end}{{11}{14}}
