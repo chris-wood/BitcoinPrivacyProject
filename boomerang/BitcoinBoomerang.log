@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  10 MAR 2014 09:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  10 MAR 2014 12:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -586,6 +586,7 @@ File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
 File: listings.cfg 2007/02/22 1.4 listings configuration
 ))
 Package: listings 2007/02/22 1.4 (Carsten Heinz)
+\c@eqn=\count145
 
 (./BitcoinBoomerang.aux
 
@@ -600,30 +601,30 @@ LaTeX Warning: Label `fig:bitcoin_peer_protocol' multiply defined.
 )
 \openout1 = `BitcoinBoomerang.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 57.
+LaTeX Font Info:    ... okay on input line 57.
  (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count145
+\scratchcounter=\count146
 \scratchdimen=\dimen179
 \scratchbox=\box42
-\nofMPsegments=\count146
-\nofMParguments=\count147
+\nofMPsegments=\count147
+\nofMParguments=\count148
 \everyMPshowfont=\toks43
-\MPscratchCnt=\count148
+\MPscratchCnt=\count149
 \MPscratchDim=\dimen180
-\MPnumerator=\count149
-\makeMPintoPDFobject=\count150
+\MPnumerator=\count150
+\makeMPintoPDFobject=\count151
 \everyMPtoPDFconversion=\toks44
 ) ABD: EveryShipout initializing macros
 (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
@@ -674,7 +675,7 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\c@lstlisting=\count151
+\c@lstlisting=\count152
 
 (./01-introduction.tex
 
@@ -844,7 +845,7 @@ Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 ) (./05-performance.tex [8 <./images/badcircuit.png>]
 
-LaTeX Warning: Reference `fig:small-flow' on page 9 undefined on input line 56.
+LaTeX Warning: Reference `fig:small-flow' on page 9 undefined on input line 60.
 
 
 <./images/sim1_completedMessage_complete.png, id=124, 578.16pt x 433.62pt>
@@ -852,7 +853,7 @@ File: ./images/sim1_completedMessage_complete.png Graphic file (type png)
 
 <use ./images/sim1_completedMessage_complete.png>
 Package pdftex.def Info: ./images/sim1_completedMessage_complete.png used on in
-put line 115.
+put line 117.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 <./images/sim1_completedMessage_tx.png, id=126, 578.16pt x 433.62pt>
@@ -860,7 +861,7 @@ File: ./images/sim1_completedMessage_tx.png Graphic file (type png)
 
 <use ./images/sim1_completedMessage_tx.png>
 Package pdftex.def Info: ./images/sim1_completedMessage_tx.png used on input li
-ne 116.
+ne 118.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 <./images/sim1_completedMessage_chaff.png, id=127, 578.16pt x 433.62pt>
@@ -868,12 +869,95 @@ File: ./images/sim1_completedMessage_chaff.png Graphic file (type png)
 
 <use ./images/sim1_completedMessage_chaff.png>
 Package pdftex.def Info: ./images/sim1_completedMessage_chaff.png used on input
- line 117.
+ line 119.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
-LaTeX Warning: Float too large for page by 11.81026pt on input line 121.
+LaTeX Warning: Float too large for page by 11.81026pt on input line 123.
 
+<images/sim2_1_complete.png, id=128, 578.16pt x 433.62pt>
+File: images/sim2_1_complete.png Graphic file (type png)
+
+<use images/sim2_1_complete.png>
+Package pdftex.def Info: images/sim2_1_complete.png used on input line 128.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_2_complete.png, id=129, 578.16pt x 433.62pt>
+File: images/sim2_2_complete.png Graphic file (type png)
+
+<use images/sim2_2_complete.png>
+Package pdftex.def Info: images/sim2_2_complete.png used on input line 129.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_3_complete.png, id=130, 578.16pt x 433.62pt>
+File: images/sim2_3_complete.png Graphic file (type png)
+
+<use images/sim2_3_complete.png>
+Package pdftex.def Info: images/sim2_3_complete.png used on input line 130.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_4_complete.png, id=131, 578.16pt x 433.62pt>
+File: images/sim2_4_complete.png Graphic file (type png)
+
+<use images/sim2_4_complete.png>
+Package pdftex.def Info: images/sim2_4_complete.png used on input line 132.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_5_complete.png, id=132, 578.16pt x 433.62pt>
+File: images/sim2_5_complete.png Graphic file (type png)
+
+<use images/sim2_5_complete.png>
+Package pdftex.def Info: images/sim2_5_complete.png used on input line 133.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_6_complete.png, id=133, 578.16pt x 433.62pt>
+File: images/sim2_6_complete.png Graphic file (type png)
+
+<use images/sim2_6_complete.png>
+Package pdftex.def Info: images/sim2_6_complete.png used on input line 134.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_7_complete.png, id=134, 578.16pt x 433.62pt>
+File: images/sim2_7_complete.png Graphic file (type png)
+
+<use images/sim2_7_complete.png>
+Package pdftex.def Info: images/sim2_7_complete.png used on input line 136.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_8_complete.png, id=135, 578.16pt x 433.62pt>
+File: images/sim2_8_complete.png Graphic file (type png)
+
+<use images/sim2_8_complete.png>
+Package pdftex.def Info: images/sim2_8_complete.png used on input line 137.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_9_complete.png, id=136, 578.16pt x 433.62pt>
+File: images/sim2_9_complete.png Graphic file (type png)
+
+<use images/sim2_9_complete.png>
+Package pdftex.def Info: images/sim2_9_complete.png used on input line 138.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_10_complete.png, id=137, 578.16pt x 433.62pt>
+File: images/sim2_10_complete.png Graphic file (type png)
+
+<use images/sim2_10_complete.png>
+Package pdftex.def Info: images/sim2_10_complete.png used on input line 140.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_11_complete.png, id=138, 578.16pt x 433.62pt>
+File: images/sim2_11_complete.png Graphic file (type png)
+
+<use images/sim2_11_complete.png>
+Package pdftex.def Info: images/sim2_11_complete.png used on input line 141.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
+
+<images/sim2_12_complete.png, id=139, 578.16pt x 433.62pt>
+File: images/sim2_12_complete.png Graphic file (type png)
+
+<use images/sim2_12_complete.png>
+Package pdftex.def Info: images/sim2_12_complete.png used on input line 142.
+(pdftex.def)             Requested size: 144.53964pt x 108.40472pt.
 ) (./06-related.tex
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
@@ -886,13 +970,14 @@ Underfull \hbox (badness 6510) in paragraph at lines 2--3
 []\OT1/ptm/m/n/10 Tarzans P2P net-work is much more se-cure than
  []
 
+[9]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-<./images/tarzan_protocol.png, id=128, 739.70471pt x 768.04588pt>
+ <./images/tarzan_protocol.png, id=144, 739.70471pt x 768.04588pt>
 File: ./images/tarzan_protocol.png Graphic file (type png)
 
 <use ./images/tarzan_protocol.png>
@@ -904,8 +989,8 @@ Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
- [9]
-<./images/chord.png, id=132, 401.5pt x 401.5pt>
+
+<./images/chord.png, id=145, 401.5pt x 401.5pt>
 File: ./images/chord.png Graphic file (type png)
  <use ./images/chord.png>
 Package pdftex.def Info: ./images/chord.png used on input line 18.
@@ -928,8 +1013,8 @@ Missing character: There is no ô in font ptmr7t!
 )
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [10 <./images/tarzan_protocol.png> <./images/chord.png>]
-Underfull \hbox (badness 1466) in paragraph at lines 76--77
+ [10 <./images/tarzan_protocol.png>]
+Underfull \hbox (badness 1466) in paragraph at lines 93--94
 []\OT1/ptm/m/n/8 Michael J. Freed-man and Robert Mor-ris. Tarzan: A Peer-to-Pee
 r
  []
@@ -950,8 +1035,13 @@ Before submitting the final camera ready copy, remember to:
 
 [11
 
-] [12 <./images/sim1_completedMessage_complete.png> <./images/sim1_completedMes
-sage_tx.png> <./images/sim1_completedMessage_chaff.png>]
+ <./images/chord.png>] [12 <./images/sim1_completedMessage_complete.png> <./ima
+ges/sim1_completedMessage_tx.png> <./images/sim1_completedMessage_chaff.png>] [
+13 <./images/sim2_1_complete.png> <./images/sim2_2_complete.png> <./images/sim2
+_3_complete.png> <./images/sim2_4_complete.png> <./images/sim2_5_complete.png> 
+<./images/sim2_6_complete.png> <./images/sim2_7_complete.png> <./images/sim2_8_
+complete.png> <./images/sim2_9_complete.png> <./images/sim2_10_complete.png> <.
+/images/sim2_11_complete.png> <./images/sim2_12_complete.png>]
 (./BitcoinBoomerang.aux)
 
 LaTeX Warning: There were undefined references.
@@ -961,13 +1051,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14066 strings out of 493315
- 254365 string characters out of 6137904
- 323690 words of memory out of 5000000
- 17172 multiletter control sequences out of 15000+600000
+ 14134 strings out of 493315
+ 256141 string characters out of 6137904
+ 326791 words of memory out of 5000000
+ 17227 multiletter control sequences out of 15000+600000
  54115 words of font info for 110 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 63i,12n,57p,1636b,864s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 63i,15n,57p,1636b,864s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texl
@@ -983,17 +1073,18 @@ ist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2013/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2013/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2013/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/texmf-dist/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dis
-t/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2013/texmf-
-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2013/texmf-dist/fon
-ts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type
-1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/time
-s/utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.
-pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on BitcoinBoomerang.pdf (12 pages, 938056 bytes).
+nts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2013/texmf-dist/font
+s/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2013/texmf-dist/
+fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts
+/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/
+urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/
+utmbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pf
+b></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on BitcoinBoomerang.pdf (13 pages, 2071525 bytes).
 PDF statistics:
- 217 PDF objects out of 1000 (max. 8388607)
- 138 compressed objects within 2 object streams
+ 249 PDF objects out of 1000 (max. 8388607)
+ 144 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 58 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 
