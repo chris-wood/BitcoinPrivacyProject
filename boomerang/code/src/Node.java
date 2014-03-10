@@ -248,47 +248,50 @@ public class Node
 				resend = false;
 				numRetries++;
 				messages = new HashSet<Message>();
-				for (int m = 0; m < boom.config.circuitWidth; m++)
+				if (addressBook.getNumberOfValidNodes() > 0)
 				{
-					ArrayList<Node> circuit = new ArrayList<Node>();
-					HashSet<Integer> seen = new HashSet<Integer>();
-					for (int n = 0; n < boom.config.circuitDepth; n++)
+					for (int m = 0; m < boom.config.circuitWidth; m++)
 					{
-						// Pick a new node not already in this circuit
-						int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
-						while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
+						ArrayList<Node> circuit = new ArrayList<Node>();
+						HashSet<Integer> seen = new HashSet<Integer>();
+						for (int n = 0; n < boom.config.circuitDepth; n++)
 						{
-							nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							// Pick a new node not already in this circuit
+							int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
+							{
+								nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							}
+							
+							Node node = addressBook.nodes.get(nIndex);
+							circuit.add(node);
+							seen.add(nIndex);
+							numTxEncodings++;
+							txMsgIndex++;
 						}
 						
-						Node node = addressBook.nodes.get(nIndex);
-						circuit.add(node);
-						seen.add(nIndex);
-						numTxEncodings++;
-						txMsgIndex++;
+						// New message to send
+						Message newMsg = new Message("TX-" + id + "-" + txMsgIndex, boom, MessageType.TX);
+						newMsg.setHops(this, circuit);
+						messages.add(newMsg);
+						boom.addMessage(newMsg);
 					}
 					
-					// New message to send
-					Message newMsg = new Message("TX-" + id + "-" + txMsgIndex, boom, MessageType.TX);
-					newMsg.setHops(this, circuit);
-					messages.add(newMsg);
-					boom.addMessage(newMsg);
+					// Blast out each message at the same time
+					for (Message m : messages)
+					{
+						boom.numMessages++;
+						boom.numTxGenerated++;
+						boom.startedTx.add(m);
+						m.sendTime.add(Clock.time);
+						m.transmitMessage();
+						Util.disp(this.toString() + " TX RESEND " + m.toString());
+					}
+					
+					// Set timeout wait 
+					lastSent = messages;
+					txTimeoutWait = boom.config.retryLimit;
 				}
-				
-				// Blast out each message at the same time
-				for (Message m : messages)
-				{
-					boom.numMessages++;
-					boom.numTxGenerated++;
-					boom.startedTx.add(m);
-					m.sendTime.add(Clock.time);
-					m.transmitMessage();
-					Util.disp(this.toString() + " TX RESEND " + m.toString());
-				}
-				
-				// Set timeout wait 
-				lastSent = messages;
-				txTimeoutWait = boom.config.retryLimit;
 			}
 			else // generate FRESH TX
 			{
