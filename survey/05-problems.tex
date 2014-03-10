@@ -1,17 +1,35 @@
-\section{Open Problems} \label{sec:open}
+\section{Fundamental Problems and New Ideas} \label{sec:open}
 
+Based on our review of the literature, it is quite clear that Bitcoin is far from being a completely anonymous form of currency. Before first attempting to derive such a currency, it is important to explicitly capture what it means for a currency system to provide its users anonymity.Ideally, an anonymous form of (digital) currency would have the following properties:
+\begin{enumerate}
+	\item Users should be able to validate the monetary value associated with a coin (or bill) without learning any additional information. This is akin to validating the monetary value of a \$20 dollar bill found on the ground - one cannot determine (with reasonable effort) where the bill came from or who previously owned said bill. 
+	\item The system should enable users to possess coins without learning who owns what coins. Using the dollar metaphor, this is again similar to the case where the any person is able to acquire and spend bills as they see fit, but the US treasury and other people are not able to see what bills are owned by a specific user unless they attempt to make a payment. 
+	\item Users should be able to prove ownership of a coin without revealing their identity. 
+\end{enumerate}
 
-TODO: identify issues in the bitcoin protocol that need to be addressed, and propose some solutions here
+Enumerating the goals in this manner makes it quite easy to see why the Zerocoin extension to Bitcoin is such a natural solution to anonymous currency. Zerocoin supports all three properties through cryptographic techniques such as accumulators and zero knowledge proofs of knowledge, which, when used according to the protocol, enable coins to be spent anonymously. Recall that Zerocoin achieves this through the use of a virtual ``bulliten board'' of transaction committments, where the value of a transaction is verified by churning out the result of an accumulator and the proof of ownership is done via a zero-knowledge proof of knowledge of the secret information needed to reveal \emph{one} committment on the bulliten board. However, the development of Pinocchio Coin \cite{pinocchio} to enhance the Zerocoin protocol with alternative cryptographic primitives that yield the same behavior is an indication that this anonymity comes at a price. Furthermore, since these techinques are more sophisticated than native Bitcoin protocol ``operations,'' the chance of an implementation or engineering error leading to an exploitable side channel through which to conduct a deanonymization attack is greatly increased. 
 
-- downside: mixing services help break the link from transaction graph, but compromised services can still lead to leaking information about client inputs and client outputs (engineering limitation)
-- plusside: can be built using existing protocol
-- plusside: Zerocoin doesnt suffer from that implementation problem
-- downside: not supported, needs to be a new form of cryptocurrency, or use Bitcoin or something else as backing currency 
-- downside: computationlal complexity and increased liklihood of error
+Such risks may be unavoidable, however, as even the next-best, low-cost, natively supported solutions for anonymity in Bitcoin (e.g., mixing services) do not provide perfect anonymity. In particular, while mixing serices may bend and break the links in transaction graph, masking the original generator of a particular transaction, compromised services can still lead to client input and output information leakage if implemented poorly. 
 
-\begin{itemize}
-	\item need to unlink transactions from users - this is an inherent problem that comes with the block chain
-	\item transaction graph essentially serves as a means for people to check whether or not the funds for an address were at some point transferred to that address -> this is why ZK proofs as digital committments and accumulators are such an intuitive solution
-\end{itemize}
+To date, we believe that Zerocoin is the most popular form of completely anonymous currency proposed. While it is still too early to tell whether or not Zerocoin will see widespread adoption. However, reports indicate that the first Zerocoins will become available in May 2014 \cite{zerocoin-press}. Until then, it may still be worthwhile to investigate alterantive means for creating anonymious currency. We now propose one such idea: Suppose that instead of transactions being associated with a single sender, they were associated with a group of $k$ users. That is, each transaction was signed by $k$ distinct users using some aggregate signature technique \cite{aggrsig1}. Among this set of $k$ users there exists exactly one user who is the generator of the transaction, but the members of the group cannot identify said user. This property can be achieved by having the single generating user $U$ send the transaction $T$ to each member of the group using the Dining Cryptographer's Protocol \cite{dining}. This protocol enables $U$ to multicast $T$ to the other $k-1$ members of the group with \emph{complete information-theoretic anonymity}. When $T$ has been retrieved by all $k$ users, they would then engage in an aggregate signature computation over $T$ before broadcasting it to the rest of the network. Alternatively, one single user may inject a \emph{group signature} in $T$ where the verification key is associated with the $k$ users. This approach has the drawback that $k$-size groups must be predefined and keys must be carefully managed. 
+
+Observe that, if the transaction $T$ is distributed throughout the $k$-group using an anonymity-preserving protocol, then the anonymity set of the transaction is effectively $k$, the set of all users who participate in the aggregate (or group) signature. Based on prior transaction graph analysis attacks, this would help circumvent deanonymization attacks on single users based on transaction clustering. Of course, this property comes at the cost of efficiency, as the communication and computation complexity of performing an anonymous multicast and aggregate signature is quite high depending on the particular techniques used. If, however, nodes can spare these cycles and network resources, this may be a viable solution worth pursuing. 
+
+% idea: assign each transaction a k-bit ID, and then have small clusters perform DC protocol k times to send transactions to everyone in the cluster, and then when done, every node in that cluster broadcasts the transaction -> |T| determines complexity of the approach
+% 	-> when broadcasted, the cluster ID (or set of addresses) is included in the transaction, anonymity set is the size of the cluster
+% 	-> hides who originally created the transaction
+% 	-> analogous to a group securely generating a new transaction, as opposed to a single user
+% 	-> group performs aggregate signature after the message has been transmitted and appends that to the transaction
+
+% - downside: mixing services help break the link from transaction graph, but compromised services can still lead to leaking information about client inputs and client outputs (engineering limitation)
+% - plusside: can be built using existing protocol
+% - plusside: Zerocoin doesnt suffer from that implementation problem
+% - downside: not supported, needs to be a new form of cryptocurrency, or use Bitcoin or something else as backing currency 
+% - downside: computationlal complexity and increased liklihood of error
+
+% \begin{itemize}
+% 	\item need to unlink transactions from users - this is an inherent problem that comes with the block chain
+% 	\item transaction graph essentially serves as a means for people to check whether or not the funds for an address were at some point transferred to that address -> this is why ZK proofs as digital committments and accumulators are such an intuitive solution
+% \end{itemize}
 
 
