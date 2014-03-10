@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 simTime: 250000
+=======
+simTime: 30000
+>>>>>>> FETCH_HEAD
 numNodes: 150
 enterRate: 750
 exitRate: 750
