@@ -173,9 +173,11 @@ public class Node
 						{
 							// Pick a new node not already in this circuit
 							int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							if (nIndex < 0) return;
 							while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
 							{
 								nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+								if (nIndex < 0) return;
 							}
 							
 							Node node = addressBook.nodes.get(nIndex);
@@ -258,9 +260,11 @@ public class Node
 						{
 							// Pick a new node not already in this circuit
 							int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							if (nIndex < 0) return;
 							while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
 							{
 								nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+								if (nIndex < 0) return;
 							}
 							
 							Node node = addressBook.nodes.get(nIndex);
@@ -307,9 +311,11 @@ public class Node
 						{
 							// Pick a new node not already in this circuit
 							int nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+							if (nIndex < 0) return;
 							while (seen.contains(nIndex) == true && addressBook.isValid(nIndex))
 							{
 								nIndex = rng.nextInt(addressBook.getNumberOfValidNodes());
+								if (nIndex < 0) return;
 							}
 							
 							Node node = addressBook.nodes.get(nIndex);
