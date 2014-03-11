@@ -72,7 +72,7 @@ Email: ChrisHVu@gmail.com}}
 \maketitle
 
 \begin{abstract}
-Sender anonymity is important in the design of several ``cryptographically-enhanced'' variations of Bitcoin, such as ZeroCoin \cite{zerocoin}. Consequently, such variations often state that users install and use network-layer anonymity layers such as Tor \cite{tor} alongside their existing Bitcoin clients when introducing new transactions into the network. Such requirements make such variations less appealing from a usability perspective. Furthermore, since low-latency anonymity layers like Tor are susceptible to strategic timing attacks by adaptive global adversaries, and transactions do not have real-time constraints in which they must be broadcasted throughout the network, mixnets are a more appropriate solution for achieving sender anonymity. To this end, we introduce Bitcoin Boomerang, a distribtued, collaborative, application-level protocol for achieving mixnet-like behavior to increase sender anonymity. Boomerang is intended to run at the application-layer \emph{within} Bitcoin software clients as an extension of the Bitcoin protocol. We analyze the anonymity properties of Boomerang, and assess the induced performance overhead using a custom simulator that emulates the behavior of Bitcoin nodes (software clients) using the protocol. Our results indicate that with appropriate parameter tuning, increased sender anonymity can be achieved at the cost of increased computational overhead and network bandwidth consumption for each participating Bitcoin user.
+Sender anonymity is important in the design of several ``cryptographically-enhanced'' variations of Bitcoin, such as ZeroCoin \cite{zerocoin}. Consequently, they often state that users install and use network-layer anonymity layers such as Tor \cite{tor} alongside their existing Bitcoin clients when introducing new transactions into the network. Such requirements make such variations less appealing from a usability perspective. Furthermore, since low-latency anonymity layers like Tor are susceptible to strategic timing attacks by adaptive global adversaries, and transactions do not have real-time constraints in which they must be broadcasted throughout the network, mixnets are a more appropriate solution for achieving sender anonymity. To this end, we introduce Bitcoin Boomerang, a distribtued, collaborative, application-level protocol for achieving mixnet-like behavior to increase sender anonymity. Boomerang is intended to run at the application-layer \emph{within} Bitcoin software clients as an extension of the Bitcoin protocol. We analyze the anonymity properties of Boomerang, and assess the induced performance overhead using a custom simulator that emulates the behavior of Bitcoin nodes (software clients) adhering to the protocol. Our preliminary results indicate that with appropriate parameter tuning, increased sender anonymity with a single software client can be achieved for the small price of increased computational overhead and network bandwidth consumption for each participating Bitcoin user.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -114,16 +114,18 @@ Sender anonymity is important in the design of several ``cryptographically-enhan
 
 % \bibitem{ReidHarrigan13} Fergal Reid and Martin Harrigan. An Analysis of Anonymity in the Bitcoin System. \emph{Security and Privacy in Social Networks}, Springer New York (2013), 197-223.
 
-% \bibitem{BetterToBitter} Simon Barber, Xavier Boyen, Elaine Shi, and Ersin Uzun. Bitter to Better -- How to Make Bitcoin a Better Currency. \emph{Financial Cryptography and Data Security}, Springer Berlin Heidelberg (2012), 399-414.
+\bibitem{BetterToBitter} Simon Barber, Xavier Boyen, Elaine Shi, and Ersin Uzun. Bitter to Better -- How to Make Bitcoin a Better Currency. \emph{Financial Cryptography and Data Security}, Springer Berlin Heidelberg (2012), 399-414.
 
 % \bibitem{Fistful12} Sarah Meiklejohn, Marjori Pomarole, Grant Jordan, Kirill Levchenko, Damon McCoyy, Geoffrey M. Voelker, and  Stefan Savage. A Fistful of Bitcoins: Characterizing Payments Among Men with No Names. In \emph{Proceedings of the 2013 Conference on Internet Measurement Conference}, ACM (2013).
 
 % \bibitem{coinjoin} G. Maxwell. Coinjoin: Bitcoin Privacy for the Real World. Available online at \url{https://bitcointalk.
 % org/index.php?topic=279249.0}. Last accessed: 1/31/14.
 
-% \bibitem{pinocchio} George Danezis, C\'{e}dric Fournet, Markulf Kohlweiss, Bryan Parno. Pinocchio Coin: Building Zerocoin from a Succinct Pairing-Based Proof System. In \emph{Proceedings of the First ACM Workshop on Language Support for Privacy-Enhancing Technologies}, ACM (2013).
+\bibitem{pinocchio} George Danezis, C\'{e}dric Fournet, Markulf Kohlweiss, Bryan Parno. Pinocchio Coin: Building Zerocoin from a Succinct Pairing-Based Proof System. In \emph{Proceedings of the First ACM Workshop on Language Support for Privacy-Enhancing Technologies}, ACM (2013).
 
-% \bibitem{mixcoin} Joseph Bonneau, Arvind Narayan, Andrew Miller, Jeremy Clark, and Joshua A. Kroll. Mixcoin - Anonymity for Bitcoin with accountable mixes. Preprint available online at: \url{http://cs.umd.edu/~amiller/mix.pdf}.
+\bibitem{mixcoin} Joseph Bonneau, Arvind Narayan, Andrew Miller, Jeremy Clark, and Joshua A. Kroll. Mixcoin - Anonymity for Bitcoin with accountable mixes. Preprint available online at: \url{http://cs.umd.edu/~amiller/mix.pdf}.
+
+\bibitem{nist-curves} Darrel Hankerson and Alfred Menezes. NIST Elliptic Curves. \emph{Encyclopedia of Cryptography and Security} (2011), 843-844.
 
 % \bibitem{nist-beacon} NIST Randomness Beacon. Available online at: \url{http://www.nist.gov/itl/csd/ct/nist_beacon.cfm}. Last accessed: 2/5/14.
 

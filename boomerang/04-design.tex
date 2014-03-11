@@ -1,8 +1,8 @@
 \section{Boomerang Design} \label{sec:design}
 
-As previously discussed, the Boomerang protocol enhancement for Bitcoin is motivated by the need to hide the source from which transactions are introduced into the network. Furthermore, this should be done in a transparent way so that any other form of anonymous coin extension on top of Bitcoin (e.g., Zerocoin) can leverage the service for transaction anonymity. Boomerang is \emph{not} intended to support regular Bitcoin traffic; once a transaction becomes public knowledge, Boomerang no longer plays a role in its distribution. 
+As previously discussed, the Boomerang protocol enhancement for Bitcoin is motivated by the need to hide the source from which transactions are introduced into the network. Furthermore, this should be done in a transparent way so that any other form of anonymous coin extension on top of Bitcoin (e.g., Zerocoin) can leverage the service for transaction anonymity. Boomerang is \emph{not} intended to support regular Bitcoin traffic; once a transaction is broadcasted and becomes public knowledge, Boomerang no longer plays a role in its distribution. 
 
-In the following sections we detail the core protocol and several important design and security tradeoffs that can be made in practice when using Boomerang. A formal analysis of the security and performance of Boomerang-enhanced Bitcoin is provided in Sections X and Y. 
+In the following sections we detail the core protocol and several important design and security tradeoffs that can be made in practice when using Boomerang. A formal analysis of the security and performance of Boomerang-enhanced Bitcoin is provided in Sections 4 and 5, respectively. 
 
 \begin{table*}[ht!]
 \begin{center}
@@ -27,7 +27,7 @@ In the following sections we detail the core protocol and several important desi
 \end{center}
 \end{table*}
 
-\subsection{Boomerang Peer-to-Peer Network Design}
+\subsection{Boomerang Peer-to-Peer Discovery}
 Boomerang peer discovery is done in a similar manner to the Bitcoin peer discovery process described above with a few exceptions. Boomerang nodes can also query Bitcoin nodes after connecting to the Bitcoin network. Boomerang nodes can also learn the address of other nodes by routing Boomerang messages. The Boomerang peer discovery methods are:
 
 \begin{enumerate}
@@ -44,10 +44,10 @@ Boomerang peer discovery is done in a similar manner to the Bitcoin peer discove
 
 \subsection{Transaction Encode and Broadcast Protocol} \label{sec:broadcast-protocol}
 
-At the heart of the Bitcoin protocol is the ability to encode new transactions as Boomerang messages and then ripple them throughout the network. We describe the complete procedure for message encoding, {\sf EncodeTransaction}, in Algorithm \ref{alg:encode}, where the notation contained therein is defined in Table \ref{tab:notation}. This procedure takes only two parameters - a transaction $T$ to encode and a set of valid nodes $\mathbf{C}$ from which the circuit can be created, where nodes in the circuit are randomly sampled from this set (see Section \ref{sec:validation} for a more detailed description of how the address book is managed). An encoded Boomerang message has a very well-defined format, as shown in Figure \ref{fig:boomerang_message}, composed of seed element, encrypted address vector, encrypted message identifier (used internally during message validation), and the encrypted transaction. In particular, the message is composed of the following:
+At the heart of the Bitcoin protocol is the ability to encode new transactions as Boomerang messages and then ripple them throughout the network. We describe a high-levle overview of the procedure for message encoding, {\sf EncodeTransaction}, in Algorithm \ref{alg:encode}, where the notation contained therein is defined in Table \ref{tab:notation}. The exact details of transaction encoding are given in Section \ref{sec:crypto}, since they depend on the specific type of public-key encryption scheme. This procedure takes only two parameters - a transaction $T$ to encode and a set of valid nodes $\mathbf{C}$ from which the circuit can be created, where nodes in the circuit are randomly sampled from this set (see Section \ref{sec:validation} for a more detailed description of how the address book of valid nodes is managed). An encoded Boomerang message has a very well-defined format, as shown in Table \ref{tab:encoded-tx-format}, composed of seed element, encrypted address vector, encrypted message identifier (used internally during message validation), and the encrypted transaction. Details of these fields are given below:
 \begin{enumerate}
-	\item A potentially re-encrypted seed. By the description of {\sf EncodeTransaction}, it is required that the public-key encryption scheme used to mask these seeds has the same domain and range. This is needed because the decrypted seed for one hop will be used as decrypted seed on the previous hop, very much like onion layers of encryption.
-	\item An encrypted address vector that is used by each hop to learn the next hop in the circuit without learning any other information about the nodes in the circuit. More specifically, a router can only learn about the immediate source and destination of a Boomerang message (the security and anonymity implications of this are discussed in the following section).
+	\item A potentially re-encrypted seed. By the description of {\sf EncodeTransaction}, it is required that the public-key encryption scheme used to mask these seeds has the same domain and range. This is needed because the decrypted seed for one hop is the encrypted seed for the next hop, very much like onion layers of encryption.
+	\item An encrypted address vector that is used by each hop to learn the next hop in the circuit without learning any other information about the nodes in the circuit. More specifically, a router can only learn about the immediate source and destination of a Boomerang message.
 	\item A potentially re-encrypted transaction message block. This block either stores the encrypted transcaction, where the encryption is done by XORing with a pseudorandom bit string generated by the decrypted seed value, or the plaintext transaction that is to be broadcast throughout the network.
 \end{enumerate}
 
@@ -61,17 +61,20 @@ At the heart of the Bitcoin protocol is the ability to encode new transactions a
 \begin{table*}
 \begin{center}
 \caption{Boomerang encoded message format.}
-\label{tab:msg-header}
+\label{tab:encoded-tx-format}
     \begin{tabular}{|c|c|c|l|} \hline
     \textbf{Field Size (bits)} & {\bf Description} & {\bf Data Type} & {\bf Comments} \\ \hline
     $256$ & Seed scratch & uint8\_t[32] & This field is an element on the elliptic curve over the field $\mathbb{F}_p$. \\
     $512D$ & Encrypted address vector & uint8\_t[$D$][64] & Encryption of the address vector used to define the circuit trajectory. \\
+    $128$ & Message ID & uint8\_t[16] & Unique identifier for a newly generated transaction. \\
     $*$ & Encoded transaction & uint8\_t[] & Encoded transaction field with width equal to the maximum encoded transaction size. \\ \hline
     \end{tabular}
 \end{center}
 \end{table*}
 
-The asynchronous procedure to handle incoming Boomerang messages, {\sf BoomerangMessageHandler}, is provided in Algorithm \ref{alg:handler}. This method will collect incoming Boomerang messages into the node's buffer, $\mathsf{Buffer}$. When the number of messages in this buffer meets or exceeds $B$, the minimum buffer size, the {\sf BoomerangMessageForwarder} asynchronous procedure will be invoked to shuffle the buffer, which is stored internally as a linked list, and then for each message peel off a layer of encryption on the transaction slot and transmit the result to the specified destination address.
+This procedure is run again if the transaction $T$ is not broadcasted within a certain time frame. We refer to this event as a transaction retransmission. 
+
+The asynchronous procedure to handle incoming Boomerang messages, {\sf BoomerangMessageHandler}, is provided in Algorithm \ref{alg:handler}. This method will collect incoming Boomerang messages into the node's buffer, $\mathsf{Buffer}$. When the number of messages in this buffer meets or exceeds $B$, the minimum buffer size, the {\sf BoomerangMessageForwarder} asynchronous procedure will be invoked to shuffle the buffer, which is stored internally as a linked list, and then for each message peel off a layer of encryption on the transaction slot and transmit the result to the specified destination address acquired from the address vector $\mathsf{AV}$.
 
 \begin{algorithm}[t!]
 \caption{{\sf EncodeTransaction}($T, \mathbf{C}$)}
@@ -79,28 +82,30 @@ The asynchronous procedure to handle incoming Boomerang messages, {\sf Boomerang
 \begin{algorithmic}[1]
 
 \For{$i = 1$ to $W$}
-	\State $\bar{T} := T$
+	\State $ID \gets $ random unique ID
+	\State Persist $ID$ to this node's internal state
+	\State $(\bar{ID} || \bar{T}) := (ID || T)$
 	\State $s \gets $ random element from $\mathbb{F}_p$
 	\For{$j = 1$ \textbf{to} $D$}
 		\State $p := \mathsf{PRG}(s)$
-		\State $\bar{T} := \bar{T} \oplus p$
+		\State $(\bar{ID} || \bar{T}) := (\bar{ID} || \bar{T}) \oplus p$
 		\State $s \gets E_{pk_{i,j}}(s)$
 	\EndFor
 
 	% populate the address vector
 	\State $R \gets$ random set of $D$ nodes from $\mathbf{C}$
-	\State $\mathsf{index} :=$ random even index from $[0,\dots,2D]$ % random address vector index
+	\State $\mathsf{index} :=$ random even index from $[0,\dots,2D - 1]$ % random address vector index
 	\State $\mathsf{AV} := [2D]$ % address vector
 	\State $\mathsf{addr}_0 := Nil$
 	\For{$j = D$ \textbf{downto} $1$}
-		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{i,j}}(\mathsf{addr}_{R[j]})$
-		\State $\mathsf{index} := \mathsf{index} + 1 (\mod D)$
-		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{i,j}}(\mathsf{addr}_{R[j-1]})$
-		\State $\mathsf{index} :=$ unpopulated index slot from $[0,\dots,2D]$
+		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{R[j]}}(\mathsf{addr}_{R[j]})$
+		\State $\mathsf{index} := \mathsf{index} + 1$
+		\State $\mathsf{AV}[\mathsf{index}] := E_{pk_{R[j]}}(\mathsf{addr}_{R[j-1]})$
+		\State $\mathsf{index} :=$ unpopulated index slot from $[0,\dots,2D-1]$
 		\State $\mathsf{addr}_0 := \mathsf{addr}_{R[j]}$
 	\EndFor
 
-	\State $M := \mathsf{Pack}(s, \mathsf{AV}, \bar{T})$
+	\State $M := \mathsf{Pack}(s, \mathsf{AV}, (\bar{ID} || \bar{T}))$
 	\State $\mathsf{\mathsf{Transmit}}(\mathsf{addr}_0, M)$
 \EndFor
 
@@ -113,20 +118,20 @@ The asynchronous procedure to handle incoming Boomerang messages, {\sf Boomerang
 \begin{algorithmic}[1]
 
 \State $s := D_{sk_{j}}(M[0])$
-\State $\bar{T} := M[2] \oplus PRG(s)$
+\State $(\bar{ID} || \bar{T}) := M[2] \oplus PRG(s)$
 \If {$\bar{T}$ is a well formed transaction}
 	\State $\mathsf{Broadcast}(\bar{T})$ to the Bitcoin network
-\ElsIf {$\bar{T}$ destination address is $\mathsf{addr}_j$}
-	\State Discard $\bar{T}$; return;
+\ElsIf {$\bar{ID}$ is in this node's internal state}
+	\State Drop the message
 \Else
 	\State $s := M[0]$
 	\State $\mathsf{AV} := M[1]$
 	\State $i := 1$
 	\While {$i < \mathsf{len}(\mathsf{AV})$}
-		\State $\mathsf{addr}_{src} := D_{pk_j}(AV[j])$
+		\State $\mathsf{addr}_{src} := D_{sk_j}(AV[i])$
 		\If {$\mathsf{addr}_{src} = \mathsf{addr}_j$}
-			\State $\mathsf{addr}_{dst} := D_{pk_j}(AV[j + 1])$
-			\State $\mathsf{Buffer} := \mathsf{append}(\mathsf{Buffer}, (s, T, \mathsf{addr}_{dst}))$
+			\State $\mathsf{addr}_{dst} := D_{sk_j}(AV[i + 1])$
+			\State $\mathsf{Buffer} := \mathsf{append}(\mathsf{Buffer}, (s, p, (\bar{ID} || \bar{T}), \mathsf{addr}_{dst}))$
 		\Else
 			\State $i := i + 2$
 		\EndIf
@@ -144,10 +149,8 @@ The asynchronous procedure to handle incoming Boomerang messages, {\sf Boomerang
 \State Lock $\mathsf{Buffer}$ (block new additions)
 \State Shuffle $\mathsf{Buffer}$
 \For {$i = 1$ to $|\mathsf{Buffer}|$}
-	\State $(s, T, \mathsf{addr}_{dst}) := \mathsf{head}(\mathsf{Buffer})$
-	\State $s' := D_{pk_j}(s)$
-	\State $p := \mathsf{PRG}(s')$
-	\State $T' := T \oplus p$
+	\State $(s, p, (\bar{ID} || \bar{T}), \mathsf{addr}_{dst}) := \mathsf{head}(\mathsf{Buffer})$
+	\State $(ID' || T') := (\bar{ID} || \bar{T}) \oplus p$
 	\State $\mathsf{Transmit}(\mathsf{addr}_{dst}, T')$
 	\State $\mathsf{head}(\mathsf{Buffer}) := \mathsf{next}(\mathsf{head}(\mathsf{Buffer}))$
 \EndFor
@@ -181,10 +184,10 @@ The asynchronous procedure to handle incoming Boomerang messages, {\sf Boomerang
 \end{algorithmic}
 \end{algorithm}
 
-Similar to the Tarzan P2P mixnet, a critical part of the Boomerang protocol is the inclusion of cover traffic that is indistinguishable from legitimate encoded Boomerang transaction messages \cite{tarzan}. This traffic is needed for two reasons: (1) to keep legitimate transactions moving through mixnet circuits, and (2) to obfuscate the flow of legitimate transactions through the network. To support this cover traffic with minimal changes to the protocol, nodes in the network will \emph{reuse} and \emph{re-encode} old transactions to be sent throughout the network, with the exception that the destination node for the mixnet circuit (as specified in the {\sf EncodeTransaction} procedure) will be the same as the sender. This is because the sender can easily discover when a transaction message has looped through the network and back to themselves, at which point they can then simply discard the transaction. Clearly, the rate at which this cover traffic is generated plays a critical role in the overall performance of the system when using Boomerang. We discuss the selection of parameters that achieve optimal performance without sacrificing security in Section 5. 
+Similar to the Tarzan P2P mixnet, a critical part of the Boomerang protocol is the inclusion of cover traffic that is indistinguishable from legitimate encoded Boomerang transaction messages \cite{tarzan}. This traffic is needed for two reasons: (1) to keep legitimate transactions moving through mixnet circuits (i.e., prevent deadlocks when no new transactions are being generated), and (2) to obfuscate the flow of legitimate transactions through the network. To support this cover traffic with minimal changes to the protocol, nodes in the network will \emph{reuse} and \emph{re-encode} old transactions to be sent throughout the network, with the exception that the destination node for the mixnet circuit (as specified in the {\sf EncodeTransaction} procedure) will be the same as the sender. This is because the sender can easily discover when a transaction message has looped through the network and back to themselves, at which point they can then simply discard the transaction. Clearly, the rate at which this cover traffic is generated plays a critical role in the overall performance of the system when using Boomerang. We discuss the selection of parameters that achieve optimal performance without sacrificing security in Section 5. 
 
 \subsection{Peer Discovery Messages}
-There are two types of Boomerang messages: peer discovery and maintenance messages, and encoded transaction and dummy messages. The encoded transaction and dummy messages were already described in Section \ref{sec:broadcast-protocol}. Here, we describe the format of the following peer discovery and maintenance messages: {\tt Version}, {\tt VerAck}, {\tt GetAddr}, and {\tt Addr}. Every one of such messages is prepended with a standard header whose format is shown in Table \ref{tab:msg-header}. The {\tt Version} message is used to establish a connection with a remote node, relay address information about a remote node, and verify Bitcoin protocol compatibility. Version messages are composed of the standard message header and the fields listed in Table \ref{tab:msg-version}. In response to a {\tt Version} message, {\tt VerAck} messages are sent from the recipient to the original sender. These messages include the standard message header and the fields listed in Table \ref{tab:msg-verack}. The {\tt GetAddr} messages are composed of just the standard header - the body of the message is empty. Intuitively, one may think of these as short messages broadcasted throughout the group. Finally, the {\tt Addr} message contains information about active nodes on the network. An active node is a node that has been validated within the last 3 hours (this time parameter may differ on a per-client basis). The {\tt Addr} message contains the standard message header and the fields listed in Table \ref{tab:msg-addr}. 
+There are two types of Boomerang messages: peer discovery and maintenance messages, and encoded transaction and dummy (cover traffic) messages. The encoded transaction and dummy messages were already described in Section \ref{sec:broadcast-protocol}. Here, we describe the format of the following peer discovery and maintenance messages: {\tt Version}, {\tt VerAck}, {\tt GetAddr}, and {\tt Addr}. Every one of such messages is prepended with a standard header whose format is shown in Table \ref{tab:msg-header}. The {\tt Version} message is used to establish a connection with a remote node, relay address information about a remote node, and verify Bitcoin protocol compatibility. {\tt Version} messages are composed of the standard message header and the fields listed in Table \ref{tab:msg-version}. In response to a {\tt Version} message, {\tt VerAck} messages are sent from the recipient to the original sender. These messages include the standard message header and the fields listed in Table \ref{tab:msg-verack}. The {\tt GetAddr} messages are composed of just the standard header - the body of the message is empty. Intuitively, one may think of these as short messages broadcasted throughout the group. Finally, the {\tt Addr} message contains information about active nodes on the network. An active node is a node that has been validated within the last 3 hours (this time parameter may differ on a per-client basis). The {\tt Addr} message contains the standard message header and the fields listed in Table \ref{tab:msg-addr}. 
 
 \begin{table*}
 \begin{center}
@@ -207,16 +210,16 @@ There are two types of Boomerang messages: peer discovery and maintenance messag
 \label{tab:msg-version}
     \begin{tabular}{|c|c|c|l|} \hline
     \textbf{Field Size} & {\bf Description} & {\bf Data Type} & {\bf Comments} \\ \hline
-    4 & version & int32\_t & Identifies protocol version being used by the node \\
+    4 & {\tt Version} & int32\_t & Identifies protocol {\tt Version} being used by the node \\
     8 & services & uint64\_t & bitfield of features to be enabled for this connection \\
     8 & timestamp & int64\_t & standard UNIX timestamp in seconds \\
     26 & addr\_recv & net\_addr & The network address of the node receiving this message \\
     26 & addr\_from & net\_addr & The network address of the node emitting this message \\
-    8 & nonce & uint64\_t & Node random nonce, randomly generated every time a version packet is sent. \\
+    8 & nonce & uint64\_t & Node random nonce, randomly generated every time a {\tt Version} packet is sent. \\
     ~ & ~ & ~ & This nonce is used to detect connections to self.
  \\
     ? & user\_agent & var\_str & User Agent (0x00 if string is 0 bytes long) \\
-    4 & coin\_version & int32\_t & Identifies Bitcoin protocol version being used \\
+    4 & coin\_version & int32\_t & Identifies Bitcoin protocol {\tt Version} being used \\
     4 & start\_height & int32\_t & The last block received by the emitting node \\
     32 & hash public key & uint8\_t[32] & Hash of public key used by the node \\ \hline
     \end{tabular}
@@ -249,14 +252,14 @@ There are two types of Boomerang messages: peer discovery and maintenance messag
 \end{table*}
 
 \subsection{Node Connections}
-To connect to a remote node, the client sends a version message, which contains Bitcoin network information, Boomerang version, and a hash of the client’s public key. If the remote node accepts the information in the version message, it will reply with a verack message that contains the remote node’s public key as well as its own version message.  The client will reply with a verack message, which contains the client public key, if it accepts both messages from the remote node.  Both nodes then add the address, public key, and time in their respective internal databases.
+To connect to a remote node, the client sends a {\tt Version} message, which contains Bitcoin network information, Boomerang version, and a hash of the client's public key. If the remote node accepts the information in the {\tt Version} message, it will reply with a {\tt Verack} message that contains the remote node's public key as well as its own {\tt Version} message.  The client will reply with a {\tt Verack} message, which contains the client public key, if it accepts both messages from the remote node.  Both nodes then add the address, public key, and time in their respective internal databases.
 
 \subsection{Node Validation} \label{sec:validation}
-Boomerang clients draw from a pool of validated addresses for sending Boomerang transactions. If this pool is less than 1,000, Boomerang will begin to use dummy Boomerang messages to validate new addresses. The pool of addresses to be validated is equal to the number of validated addresses needed to reach the 1,000 address cap and is comprised of the most recently active non-validated addresses. If the pool of addresses is too small, Boomerang will begin sending getaddr queries to increase the pool size. An address is considered non-validated if it either has an invalid validation timestamp or a timestamp older than 3 hours. When a remote node’s address is added to the pool of addresses to be validated, the client must check if it has the node’s public key. If the address was added from a relayed addr message, the client must connect to the remote node in order to obtain the public key. If the connection could not be made, then the address is removed from the internal database and pool.
+Boomerang clients draw from a pool of validated addresses for sending Boomerang transactions. If this pool is less than 1,000, Boomerang will begin to use dummy Boomerang messages to validate new addresses. The pool of addresses to be validated is equal to the number of validated addresses needed to reach the 1,000 address cap and is comprised of the most recently active non-validated addresses. If the pool of addresses is too small, Boomerang will begin sending {\tt GetAddr} queries to increase the pool size. An address is considered non-validated if it either has an invalid validation timestamp or a timestamp older than 3 hours. When a remote node's address is added to the pool of addresses to be validated, the client must check if it has the node's public key. If the address was added from a relayed {\tt Addr} message, the client must connect to the remote node in order to obtain the public key. If the connection could not be made, then the address is removed from the internal database and pool.
 
-In order to validate addresses, dummy Boomerang messages will be routed through the addresses chosen from the pool of “addresses to be validated” as well as validated addresses. If the Boomerang message returns to the client and decrypts correctly, the nodes along the message’s route are marked as verified with a second timestamp in the internal database. Both first timestamp, which keeps track of when the node was last seen as active, and the second validation timestamp are updated with the time the message arrived plus a small random number (from 0 to an hour). Boomerang will also update the timestamps if a transaction message sent by the client is heard over the Bitcoin network. Boomerang clients will only relay address information from addresses verified in the last 3 hours and never reveal the validation timestamp.
+In order to validate addresses, dummy Boomerang messages will be routed through the addresses chosen from the pool of “addresses to be validated” as well as validated addresses. If the Boomerang message returns to the client and decrypts correctly, the nodes along the message's route are marked as verified with a second timestamp in the internal database. Both the first timestamp, which keeps track of when the node was last seen as active, and the second validation timestamp are updated with the time the message arrived plus a small random number (from 0 to an hour). Boomerang will also update the timestamps if a transaction message sent by the client is heard over the Bitcoin network. Boomerang clients will only relay address information from addresses verified in the last 3 hours and never reveal the validation timestamp.
 
-\subsection{Cryptographic Primitives}
+\subsection{Cryptographic Primitives} \label{sec:crypto}
 
 Based on the {\sf EncodeTransaction} and {\sf BoomerangMessageHandler} procedures, we require the following cryptographic primitives to support Boomerang messages:
 \begin{enumerate}
@@ -264,7 +267,7 @@ Based on the {\sf EncodeTransaction} and {\sf BoomerangMessageHandler} procedure
 	\item Deterministic PRG whose input is an element in the range specified by the public-key encryption scheme.
 \end{enumerate}
 
-To satisfy the first primitive for public-key encryption and decryption, Boomerang leverages standard public-key elliptic curve cryptosystem over the NIST-recommended field $\mathbb{F}_{p}$, where $|p| = 256$ (the size of prime $p$ in bits) \cite{nist-curves}. The domain parameters for the Boomerang encryption scheme are specified below:
+To satisfy the first primitive for public-key encryption and decryption, Boomerang leverages the standard elliptic curve public-key  encryption cryptosystem over the NIST-recommended field $\mathbb{F}_{p}$, where $|p| = 256$ (the size of prime $p$ in bits) \cite{nist-curves}. The domain parameters for the Boomerang encryption scheme are specified below:
 \begin{itemize}
 	\item $p$ - the prime number defining the finite field over which all elliptic curve operations are performed.
 	\item $a, b$ - the coefficients that define the elliptic curve - $y^2 = x^3 +ax + b \mod p$.
@@ -279,18 +282,18 @@ For completeness, we provide a brief (and modified) description of the setup, ke
 	\item {\sf Enc}($pk, m$): Select a random integer $r$ such that $0 < r < n$, compute $R = r \cdot G$, $S = r \cdot pk$ ($S$ is the ``secret'' mask), $T = m \oplus \mathsf{DPRG}(S)$. Output the ciphertext tuple $(R, T)$.
 	\item {\sf Dec}$(sk, (R, T))$: Compute $S = sk \cdot R = sk \cdot r \cdot G = r \cdot (sk \cdot G) = r \cdot pk$, $m = T \oplus \mathsf{DPRG}(S)$.
 \end{itemize}
-Traditionally, the element $S$ is used to generate a symmetric key used to encrypt some message $m$. In our modified scheme, the element $S$ \emph{is used to generate a one-time pad} of the message $m$ using a deterministic pseudorandom bit generator (DPRG), and $R$ is used to recover the seed to remove this pad. Since $r$ is chosen uniformly at random, the seed to the DPRG is uniformly random, and by definition the encryption $m \oplus DPRG(S)$ is CPA-secure. 
+Traditionally, the element $S$ is used to generate a symmetric key used to encrypt some message $m$. In our modified scheme, the element $S$ \emph{is used to generate a one-time pad} of the message $m$ using a deterministic pseudorandom bit generator (DPRG), and $R$ is used to recover the seed to remove this pad. Since $r$ is chosen uniformly at random, the seed to the DPRG is uniformly random, and by definition the encryption $m \oplus DPRG(S)$ is CPA-secure. Using this encryption scheme, the seed and transaction slots are generated and modified as follows:
+\begin{enumerate}
+	\item $(R_i,S_i) \gets $ random elements in $\mathbb{F}_p$.
+	\item $(R_{i+1},S_{i+1}) \gets E_{pk}(R_i)$.
+	\item Save $R_{i+1}$ in the seed slot.
+	\item $(\bar{ID}_{i+1} || \bar{T_{i+1}}) := (\bar{ID}_i || \bar{T}_i) \oplus \mathsf{DPRG(S_{i+1})}$.
+	\item Save $(\bar{ID}_{i+1} || \bar{T_{i+1}})$ in the transaction slot.
+\end{enumerate}
+Observe that, upon receipt of a Boomerang message, a node at hop $i$ will compute $S_i = sk_i \cdot R_i$, and then using $S_i$ it will compute $\mathsf{DPRG}(S_i)$ to generate the pad to unravel a layer of decryption on the transaction slot. 
 
-To satisfy the second primitive for the PRG, Boomerang leverages the counter mode deterministic pseudorandom bit generator (CTR-DRBG) algorithm as specified in \cite{nist-prng} with AES-128 security strength (there is no security reason why this is chosen over Hash-DRBG or HMAC-DRBG). The CTR-DRBG takes as input a $256$-bit seed to achieve AES-128 security (a seed derivation function could be used, but we omit this from the design). To use CTR-DRBG, a node must instantiate the state of the algorithm by specifying an entropy input, personalization string (fixed), and security strength parameter (optional, but assumed to be AES-128). To pump out pseudorandom bits, the update procedure is invoked using the state of the algorithm and the specified seed, as shown in Figure \ref{fig:ctr_drbg_update}, to produce the required number of output bits $V$ (note that the internal state value for $Key$ is populated when the algorithm is instantiated). 
+To satisfy the second primitive for the PRG, Boomerang leverages the counter mode deterministic pseudorandom bit generator (CTR-DRBG) algorithm as specified in \cite{nist-prng} with AES-128 security strength (there is no security reason why this is chosen over Hash-DRBG or HMAC-DRBG). The CTR-DRBG takes as input a $256$-bit seed to achieve AES-128 security (a seed derivation function could be used, but we omit this from the design). To use CTR-DRBG, a node must instantiate the state of the algorithm by specifying an entropy input, personalization string (fixed), and security strength parameter (optional, but assumed to be AES-128). To pump out pseudorandom bits, the update procedure is invoked using the state of the algorithm and the specified seed to produce the required number of output bits.
 
-\begin{figure}[ht!]
-\begin{center}
-\includegraphics[scale=0.35]{./images/ctr_drbg_update.png}
-\caption{CTR-DRBG update procedure.}
-\label{fig:boomerang_message}
-\end{center}
-\end{figure}
-
-\subsection{Boomerang Congestion Control}
-An obvious downside of the Boomerang design is that improper parameter selection (i.e., cover traffic generation rates, lengthy circuits, etc) can lead to network congestion and self-induced denial of service attacks. To this end, we propose the following congestion control strategy, motivated by the window-based congestion control algorithm in TCP Reno. Each node will maintain a window 
+% \subsection{Boomerang Congestion Control}
+% An obvious downside of the Boomerang design is that improper parameter selection (i.e., cover traffic generation rates, lengthy circuits, etc) can lead to network congestion and self-induced denial of service attacks. To this end, we propose the following congestion control strategy, motivated by the window-based congestion control algorithm in TCP Reno. Each node will maintain a window 
 
