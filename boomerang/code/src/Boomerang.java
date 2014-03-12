@@ -469,7 +469,16 @@ public class Boomerang implements Runnable
 			
 			// Run the simulator
 			Boomerang boom = new Boomerang(config);
-			boom.run();
+			try
+			{
+				boom.run();
+			} 
+			catch (Exception e)
+			{
+				Util.error(e.getMessage());
+			}
+			
+			// Always, always compute the stats
 			boom.computeStats();
 		}
 		catch (FileNotFoundException e)
