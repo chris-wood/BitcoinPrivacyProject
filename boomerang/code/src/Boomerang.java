@@ -25,11 +25,12 @@ public class Boomerang implements Runnable
 	//***5. Node forwarding throughput (messages/s)
 	//***6. #retries
 	public int numMessages;
-	public int numMessagesCompleted;
 	public int numChaffGenerated;
-	public int numChaffCompleted;
 	public int numTxGenerated;
+	public int numMessagesCompleted;
+	public int numChaffCompleted;
 	public int numTxCompleted;
+	public long totalLatency;
 	
 	public ArrayList<Message> completedMessages;
 	public PrintWriter completedMessageWriter;
@@ -66,10 +67,10 @@ public class Boomerang implements Runnable
 		
 		// Stats
 		numMessages = 0;
-		numMessagesCompleted = 0;
 		numChaffGenerated = 0;
-		numChaffCompleted = 0;
 		numTxGenerated = 0;
+		numMessagesCompleted = 0;
+		numChaffCompleted = 0;
 		numTxCompleted = 0;
 		
 		// RNG for random node locations
@@ -114,12 +115,20 @@ public class Boomerang implements Runnable
 	public void computeStats() throws IOException
 	{
 		// 1. compute all stats
-		long totalLatency = 0L;
-		for (Message m : completedMessages)
+		double avgLatency = 0.0;
+		if (config.keepInMemory)
 		{
-			totalLatency += m.latency; 
+			long totalLatency = 0L;
+			for (Message m : completedMessages)
+			{
+				totalLatency += m.latency; 
+			}
+			avgLatency = (double)totalLatency / completedMessages.size();
 		}
-		double avgLatency = (double)totalLatency / completedMessages.size();
+		else
+		{
+			avgLatency = (double)totalLatency / numMessagesCompleted;
+		}
 		
 		int totalChaffComputations = 0;
 		int totalTxComputations = 0;
@@ -409,13 +418,17 @@ public class Boomerang implements Runnable
 		else
 		{
 			completedMessageWriter.println(m.toDataString());
+			numMessagesCompleted++;
+			totalLatency += m.latency;
 			switch (m.type)
 			{
 				case TX:
 					completedTxWriter.println(m.toDataString());
+					numTxCompleted++;
 					break;
 				case COVER:
 					completedChaffWriter.println(m.toDataString());
+					numChaffCompleted++;
 					break;
 			}
 		}
