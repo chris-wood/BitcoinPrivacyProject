@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  11 MAR 2014 14:50
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  13 MAR 2014 17:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -935,6 +935,7 @@ r
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no ” in font ptmr7t!
+** WARNING: Ignoring useless \section in Appendix (line 137).
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -948,13 +949,13 @@ Before submitting the final camera ready copy, remember to:
 
 [11
 
-] [12 <./images/sim1_completedMessage_complete.png> <./images/sim1_completedMes
-sage_tx.png> <./images/sim1_completedMessage_chaff.png>] [13 <./images/sim2_1_c
-omplete.png> <./images/sim2_2_complete.png> <./images/sim2_3_complete.png> <./i
-mages/sim2_4_complete.png> <./images/sim2_5_complete.png> <./images/sim2_6_comp
-lete.png> <./images/sim2_7_complete.png> <./images/sim2_8_complete.png> <./imag
-es/sim2_9_complete.png> <./images/sim2_10_complete.png> <./images/sim2_11_compl
-ete.png> <./images/sim2_12_complete.png>] (./BitcoinBoomerang.aux)
+] [12] [13 <./images/sim1_completedMessage_complete.png> <./images/sim1_complet
+edMessage_tx.png> <./images/sim1_completedMessage_chaff.png>] [14 <./images/sim
+2_1_complete.png> <./images/sim2_2_complete.png> <./images/sim2_3_complete.png>
+ <./images/sim2_4_complete.png> <./images/sim2_5_complete.png> <./images/sim2_6
+_complete.png> <./images/sim2_7_complete.png> <./images/sim2_8_complete.png> <.
+/images/sim2_9_complete.png> <./images/sim2_10_complete.png> <./images/sim2_11_
+complete.png> <./images/sim2_12_complete.png>] (./BitcoinBoomerang.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -963,10 +964,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14134 strings out of 493315
- 256049 string characters out of 6137904
- 326841 words of memory out of 5000000
- 17227 multiletter control sequences out of 15000+600000
+ 14135 strings out of 493315
+ 256071 string characters out of 6137904
+ 331850 words of memory out of 5000000
+ 17228 multiletter control sequences out of 15000+600000
  54630 words of font info for 112 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  63i,15n,57p,1612b,864s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -994,10 +995,10 @@ ype1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/ur
 w/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/ut
 mbi8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
 </usr/local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on BitcoinBoomerang.pdf (13 pages, 2069779 bytes).
+Output written on BitcoinBoomerang.pdf (14 pages, 2076054 bytes).
 PDF statistics:
- 252 PDF objects out of 1000 (max. 8388607)
- 147 compressed objects within 2 object streams
+ 255 PDF objects out of 1000 (max. 8388607)
+ 149 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  113 words of extra memory for PDF output out of 10000 (max. 10000000)
 
